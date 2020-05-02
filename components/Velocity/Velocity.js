@@ -8,8 +8,8 @@ const DEFAULT_SELECTED_KEY = "";
 const DEBUG = false;
 
 export default function Velocity(props) {
-    const DEFAULT_SEARCH_PHRASE = ""; // @todo implement (currently does nothing)
-    const SEARCH_INPUT_PLACEHOLDER = props.search_input_placeholder || "Type to search..."
+    const defaultSearchPhrase = ""; // @todo implement (currently does nothing)
+    const searchInputPlaceholder = props.searchInputPlaceholder || "Type to search..."
 
     const initialDataMemo = useMemo(() => indexData(props.data),[props.data]);
     const [results, setResults] = useState(initialDataMemo);
@@ -29,7 +29,7 @@ export default function Velocity(props) {
     const updateSearch = (phrase) => {
         setSearchPhrase(phrase);
         // only recompute if not clearing search field
-        setResults(DEFAULT_SEARCH_PHRASE === phrase ? initialDataMemo : search(phrase,props.data));
+        setResults(defaultSearchPhrase === phrase ? initialDataMemo : search(phrase,props.data));
 
         // @TODO: instead of this, update selectedIndex based on key here
         updateSelectedTo(DEFAULT_SELECTED_INDEX);
@@ -43,7 +43,7 @@ export default function Velocity(props) {
             inputEl.current.blur();
             updateSelectedTo(DEFAULT_SELECTED_INDEX);
         } else {
-            updateSearch(DEFAULT_SEARCH_PHRASE);
+            updateSearch(defaultSearchPhrase);
             updateSelectedTo(DEFAULT_SELECTED_INDEX);
         }
     };
@@ -88,7 +88,7 @@ export default function Velocity(props) {
             <input
                 onKeyDown={handleKeyDown}
                 onChange={handleChange}
-                placeholder={SEARCH_INPUT_PLACEHOLDER}
+                placeholder={searchInputPlaceholder}
                 ref={inputEl}
                 value={searchPhrase}
             />
