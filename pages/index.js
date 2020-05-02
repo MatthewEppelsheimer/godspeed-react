@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Layout, { siteTitle } from '../components/layout'
 import Velocity from '../components/Velocity/Velocity'
+import DATA from '../components/Velocity/data-mock'
 import utilStyles from '../styles/utils.module.css'
 
 export default function Home() {
@@ -20,7 +21,7 @@ export default function Home() {
       {/* <h2>
         Start <Link href="/posts/first-post"><a>reading my posts</a></Link>
       </h2> */}
-      <Velocity />
+      <Velocity data={DATA} />
     </Layout>
   )
 }

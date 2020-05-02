@@ -1,40 +1,6 @@
 import { Fragment, useMemo, useRef, useState } from 'react'
 import VelocityResultList from './VelocityResultList'
 
-const DATA = [
-    {
-        key: "pandas1", // Unique identifier, use for list key
-        value: "of all animals pandas",
-    },
-    {
-        key: "pandas2",
-        value: "of all animals pandas are",
-    },
-    {
-        key: "pandas3",
-        value: "of all animals pandas are the best",
-    },
-    {
-        key: "pandas4",
-        value: "of all animals pandas are the best absolutely",
-    },
-    {
-        key: "monkeys1",
-        value: "of all animals monkeys",
-    },
-    {
-        key: "monkeys2",
-        value: "of all animals monkeys are",
-    },
-    {
-        key: "monkeys3",
-        value: "of all animals monkeys are okay I guess",
-    },
-    {
-        key: "garbage",
-        value: "allllll animals",
-    },
-];
 
 const DEFAULT_SELECTED_INDEX = -1;
 const DEFAULT_SELECTED_KEY = "";
@@ -63,8 +29,8 @@ const search = (phrase,data) => {
     return indexData(newResults);
 }
 
-export default function Velocity() {
-    const initialDataMemo = useMemo(() => indexData(DATA),[DATA]);
+export default function Velocity(props) {
+    const initialDataMemo = useMemo(() => indexData(props.data),[props.data]);
     const [results, setResults] = useState(initialDataMemo);
     const [searchPhrase, setSearchPhrase] = useState('');
     const [selectedKey, setSelectedKey] = useState(DEFAULT_SELECTED_KEY); // store key of selected element, so it stays selected even when its index changes in response to searchPhrase changes
@@ -82,7 +48,7 @@ export default function Velocity() {
     const updateSearch = (phrase) => {
         setSearchPhrase(phrase);
         // only recompute if not clearing search field
-        setResults(DEFAULT_SEARCH_PHRASE === phrase ? initialDataMemo : search(phrase,DATA));
+        setResults(DEFAULT_SEARCH_PHRASE === phrase ? initialDataMemo : search(phrase,props.data));
 
         // @TODO: instead of this, update selectedIndex based on key here
         updateSelectedTo(DEFAULT_SELECTED_INDEX);
