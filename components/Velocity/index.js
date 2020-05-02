@@ -1,5 +1,3 @@
-import styles from './VelocityResult.module.css'
-
 // return array of all index positions where a phrase is found in a string
 const positions = (needle,haystack,foundSet = []) => {
     const found = haystack.indexOf(needle);
@@ -32,9 +30,9 @@ const mapRelativeOffsetsToCumulative = (set) => {
     return set;
 };
 
-const buildHighlightString = (needle,haystack) => {
+export const buildHighlightString = (needle,haystack,highlightClass) => {
     const startPositionsProto = positions(needle,haystack);
-    const startPositions = mapRelativeOffsetsToCumulative(positions(needle,haystack));
+    const startPositions = mapRelativeOffsetsToCumulative(startPositionsProto);
 
     let highlightRanges = [];
     let collapsedRanges = [];
@@ -114,7 +112,7 @@ const buildHighlightString = (needle,haystack) => {
         <p>
             {fragments.map(fragment => {
                 highlight = !highlight; // toggle first; use old value below
-                return highlight ? fragment : (<span class={styles.highlight}>{fragment}</span>);
+                return highlight ? fragment : (<span class={highlightClass}>{fragment}</span>);
             })}
         </p>
     );
@@ -122,11 +120,3 @@ const buildHighlightString = (needle,haystack) => {
     console.log(construct);
     return construct;
 };
-
-export default function VelocityResult(props) {
-    const {result, selectedResultIndex, searchPhrase} = props;
-
-    const inner = '' === searchPhrase ? result.value : buildHighlightString(searchPhrase,result.value);
-
-    return <li key={result.key} className={result.index === selectedResultIndex ? styles.selected : ""}>{inner}</li>
-}
