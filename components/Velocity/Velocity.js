@@ -4,12 +4,13 @@ import { indexData, search } from './index'
 
 const DEFAULT_SELECTED_INDEX = -1;
 const DEFAULT_SELECTED_KEY = "";
-const DEFAULT_SEARCH_PHRASE = "";
-const SEARCH_INPUT_PLACEHOLDER = "Type to search..."
 
 const DEBUG = false;
 
 export default function Velocity(props) {
+    const DEFAULT_SEARCH_PHRASE = ""; // @todo implement (currently does nothing)
+    const SEARCH_INPUT_PLACEHOLDER = props.search_input_placeholder || "Type to search..."
+
     const initialDataMemo = useMemo(() => indexData(props.data),[props.data]);
     const [results, setResults] = useState(initialDataMemo);
     const [searchPhrase, setSearchPhrase] = useState('');
