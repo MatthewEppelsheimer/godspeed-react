@@ -1,6 +1,6 @@
 import { Fragment, useMemo, useRef, useState } from 'react'
 import VelocityResultList from './VelocityResultList'
-
+import { indexData, search } from './index'
 
 const DEFAULT_SELECTED_INDEX = -1;
 const DEFAULT_SELECTED_KEY = "";
@@ -8,26 +8,6 @@ const DEFAULT_SEARCH_PHRASE = "";
 const SEARCH_INPUT_PLACEHOLDER = "Type to search..."
 
 const DEBUG = false;
-
-// add sequential indices to each member of array `data`
-// used to dynamically index results after they change in response to new search phrase
-const indexData = (data) => {
-    for (let i = 0; i < data.length; i++) {
-        data[i].index = i;
-    }
-
-    return data;
-};
-
-const search = (phrase,data) => {
-    const newResults = data
-        .filter(
-            (item) => item.value.indexOf(phrase) > -1
-        );
-
-    // @TODO refactor indexData() to be chainable; add after .map() two lines above
-    return indexData(newResults);
-}
 
 export default function Velocity(props) {
     const initialDataMemo = useMemo(() => indexData(props.data),[props.data]);
