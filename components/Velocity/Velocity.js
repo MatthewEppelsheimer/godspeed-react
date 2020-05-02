@@ -1,6 +1,7 @@
 import { Fragment, useMemo, useRef, useState } from 'react'
 import VelocityResultList from './VelocityResultList'
 import { indexData, search } from './index'
+import VelocitySearchField from './VelocitySearchField';
 
 const DEFAULT_SELECTED_INDEX = -1;
 const DEFAULT_SELECTED_KEY = "";
@@ -85,12 +86,12 @@ export default function Velocity(props) {
 
     return (
         <Fragment>
-            <input
-                onKeyDown={handleKeyDown}
-                onChange={handleChange}
+            <VelocitySearchField
+                handleKeyDown={handleKeyDown}
+                handleChange={handleChange}
                 placeholder={searchInputPlaceholder}
                 ref={inputEl}
-                value={searchPhrase}
+                searchPhrase={searchPhrase}
             />
             <VelocityResultList
                 results={results}
