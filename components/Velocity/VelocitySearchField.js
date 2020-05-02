@@ -1,18 +1,50 @@
-import { forwardRef } from 'react'
+import { useContext, useRef } from 'react'
+import VelocityContext from './context'
 
-// Forward Ref so we can call blur() from parent
-// Maybe re-form into a basic compoment after refactoring for Context?
-const VelocitySearchField = forwardRef((props, ref) => {
-    const { handleChange, handleKeyDown, placeholder, searchPhrase  } = props;
+export default function VelocitySearchField(props) {
+    const { placeholder } = props;
+
+    const {
+        handleKey,
+        search,
+        selection,
+    } = useContext(VelocityContext);
+    
+    const searchFieldRef = useRef(null);
+
+    // dispatch hotkey handlers
+    const handleKeyDown = (event) => {
+
+        switch (event.key) {
+            case 'ArrowDown':
+                selection.next();
+                break;
+                
+            case 'ArrowUp':
+                selection.previous();
+                break;
+
+            case 'Escape':
+                const { shouldBlurSearchField } = handleKey.escape();
+                if ( shouldBlurSearchField ) {
+                    searchFieldRef.current.blur();
+                }
+                break;
+        }
+    };
+    
+    // update captured component's state when input element value changes
+    const handleChange = (event) => {
+        search.update(event.target.value);
+    };
+
     return (
         <input
             onKeyDown={handleKeyDown}
             onChange={handleChange}
             placeholder={placeholder}
-            ref={ref}
-            value={searchPhrase}
+            ref={searchFieldRef}
+            value={search.phrase}
         />
     );
-});
-
-export default VelocitySearchField;
+}
