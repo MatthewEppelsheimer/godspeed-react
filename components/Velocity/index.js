@@ -131,6 +131,7 @@ export const indexData = (data) => {
     return data;
 };
 
+// @TODO group all search-related functions into their own file
 export const search = (phrase,data) => {
     const newResults = data
         .filter(
