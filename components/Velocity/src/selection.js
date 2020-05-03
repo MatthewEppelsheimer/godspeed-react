@@ -110,7 +110,7 @@ const buildHighlightString = (needle,haystack,highlightClass) => {
         <p>
             {fragments.map(fragment => {
                 highlight = !highlight; // toggle first; use old value below
-                return highlight ? fragment : (<span class={highlightClass}>{fragment}</span>);
+                return highlight ? fragment : (<span className={highlightClass}>{fragment}</span>);
             })}
         </p>
     );
