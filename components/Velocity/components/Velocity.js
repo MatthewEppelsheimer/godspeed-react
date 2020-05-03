@@ -3,7 +3,7 @@ import VelocitySearchField from './VelocitySearchField';
 import VelocityContext, { useVelocityContext } from '../src/context'
 
 export default function Velocity(props) {
-    const { data } = props;
+    const { children, data } = props;
     const defaultSearchPhrase = ""; // @todo implement (currently does nothing)
     const searchInputPlaceholder = props.searchInputPlaceholder || "Type to search..."
 
@@ -11,8 +11,12 @@ export default function Velocity(props) {
 
     return (
         <VelocityContext.Provider value={contextValue}>
-            <VelocitySearchField placeholder={searchInputPlaceholder} />
-            <VelocityResultList />
+            { children ||
+            (<>
+                <VelocitySearchField placeholder={searchInputPlaceholder} />
+                <VelocityResultList />
+            </>)
+            }
         </VelocityContext.Provider>
     )
 }
