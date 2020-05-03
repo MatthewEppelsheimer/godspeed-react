@@ -1,6 +1,6 @@
 import VelocityResultList from './VelocityResultList'
 import VelocitySearchField from './VelocitySearchField';
-import VelocityContext, { useVelocityContext } from './context'
+import VelocityContext, { useVelocityContext } from '../src/context'
 
 export default function Velocity(props) {
     const { data } = props;

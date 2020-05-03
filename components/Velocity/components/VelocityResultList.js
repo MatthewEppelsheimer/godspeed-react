@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import VelocityResult from './VelocityResult';
-import VelocityContext from './context'
+import VelocityContext from '../src/context'
 
 export default function VelocityResultList(props) {
     const {

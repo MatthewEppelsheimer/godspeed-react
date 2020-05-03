@@ -1,2 +1,4 @@
-export const DEFAULT_SELECTED_INDEX = -1;
-export const DEFAULT_SELECTED_KEY = "";
+export default {
+	default_selected_index: -1,
+	default_selected_key: "",
+};

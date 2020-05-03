@@ -1,6 +1,6 @@
 import { createContext, useMemo, useState } from 'react';
-import { DEFAULT_SELECTED_INDEX, DEFAULT_SELECTED_KEY } from './config'
-import { indexData, search } from './index';
+import CONFIG from '../config'
+import { indexData, search } from './search';
 
 const VelocityContext = createContext({
     // @TODO convert to TypeScript interface
@@ -13,28 +13,26 @@ const VelocityContext = createContext({
         update: () => {},
     },
     selection: {
-        index: DEFAULT_SELECTED_INDEX,
+        index: CONFIG.default_selected_index,
         next: () => {},
         previous: () => {},
     }
 });
 VelocityContext.displayName = 'Velocity Context';
 
-export default VelocityContext;
-
 // custom hook to abstract core <Velocity /> functionality
-export const useVelocityContext = (data, defaultSearchPhrase) => {
+const useVelocityContext = (data, defaultSearchPhrase) => {
     const initialDataMemo = useMemo(() => indexData(data),[data]);
     const [searchResults, setSearchResults] = useState(initialDataMemo);
     const [searchPhrase, setSearchPhrase] = useState('');
     // @TODO use selectedKey
-    const [selectionKey, setSelectionKey] = useState(DEFAULT_SELECTED_KEY); // store key of selected element, so it stays selected even when its index changes in response to searchPhrase changes
-    const [selectionIndex, setSelectionIndex] = useState(DEFAULT_SELECTED_INDEX);
+    const [selectionKey, setSelectionKey] = useState(CONFIG.default_selected_key); // store key of selected element, so it stays selected even when its index changes in response to searchPhrase changes
+    const [selectionIndex, setSelectionIndex] = useState(CONFIG.default_selected_index);
 
     // wrap setSelectedResultIndex by updating selectionKey as well first
     const updateSelectedTo = (newValue) => {
         setSelectionIndex(newValue);
-        setSelectionKey(DEFAULT_SELECTED_INDEX === newValue ? "" : searchResults[newValue].key);
+        setSelectionKey(CONFIG.default_selected_index === newValue ? "" : searchResults[newValue].key);
     };
 
     // wrap setSearchPhrase() to also update results
@@ -44,7 +42,7 @@ export const useVelocityContext = (data, defaultSearchPhrase) => {
         setSearchResults(defaultSearchPhrase === phrase ? initialDataMemo : search(phrase,data));
 
         // @TODO: instead of this, update selectedIndex based on key here
-        updateSelectedTo(DEFAULT_SELECTED_INDEX);
+        updateSelectedTo(CONFIG.default_selected_index);
     };
 
     // move selected result down one; don't go further than last result
@@ -54,7 +52,7 @@ export const useVelocityContext = (data, defaultSearchPhrase) => {
 
     // move selected result up one; don't go further than -1, which is none selected
     const selectPrevious = () => {
-        updateSelectedTo(DEFAULT_SELECTED_INDEX === selectionIndex ? selectionIndex : selectionIndex - 1);
+        updateSelectedTo(CONFIG.default_selected_index === selectionIndex ? selectionIndex : selectionIndex - 1);
     };
     
     // Behavior spans across entire Velocity context so this belongs here
@@ -68,13 +66,13 @@ export const useVelocityContext = (data, defaultSearchPhrase) => {
         if ( false ) {
             // @todo implement switch of focus from document editor to search field
         } else if (-1 !== selectionIndex) {
-            updateSelectedTo(DEFAULT_SELECTED_INDEX);
+            updateSelectedTo(CONFIG.default_selected_index);
         } else if ('' === searchPhrase) {
             shouldBlurSearchField = true;
-            updateSelectedTo(DEFAULT_SELECTED_INDEX);
+            updateSelectedTo(CONFIG.default_selected_index);
         } else {
             updateSearch(defaultSearchPhrase);
-            updateSelectedTo(DEFAULT_SELECTED_INDEX);
+            updateSelectedTo(CONFIG.default_selected_index);
         }
 
         return { shouldBlurSearchField };
@@ -98,3 +96,8 @@ export const useVelocityContext = (data, defaultSearchPhrase) => {
 
     return contextValue;
 }
+
+export default VelocityContext;
+export {
+    useVelocityContext
+};

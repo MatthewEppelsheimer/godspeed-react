@@ -1,5 +1,5 @@
 import { useContext, useRef } from 'react'
-import VelocityContext from './context'
+import VelocityContext from '../src/context'
 
 export default function VelocitySearchField(props) {
     const { placeholder } = props;

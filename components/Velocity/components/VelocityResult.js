@@ -1,5 +1,5 @@
 import styles from './VelocityResult.module.css'
-import { buildHighlightString } from './'
+import { buildHighlightString } from '../src/selection'
 
 export default function VelocityResult(props) {
     const {result, selectedResultIndex, searchPhrase} = props;
