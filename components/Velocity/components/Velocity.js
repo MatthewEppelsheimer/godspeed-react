@@ -5,7 +5,7 @@ import VelocityContext, { useVelocityContext } from '../src/context'
 export default function Velocity(props) {
     const { children, data } = props;
     const defaultSearchPhrase = ""; // @todo implement (currently does nothing)
-    const searchInputPlaceholder = props.searchInputPlaceholder || "Type to search..."
+    const searchInputPlaceholder = props.searchInputPlaceholder || "Type to search..." // @todo move default to config
 
     const contextValue = useVelocityContext(data, defaultSearchPhrase);
 

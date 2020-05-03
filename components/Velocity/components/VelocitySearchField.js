@@ -24,6 +24,10 @@ export default function VelocitySearchField(props) {
                 selection.previous();
                 break;
 
+            case 'Enter':
+                handleKey.enter();
+                break;
+
             case 'Escape':
                 const { shouldBlurSearchField } = handleKey.escape();
                 if ( shouldBlurSearchField ) {

@@ -88,7 +88,8 @@ const buildHighlightString = (needle,haystack,highlightClass) => {
 
     let fragments = [];
     let cursor = 0;
-    let highlight = true; // whether we're highlighting toggle; assume yes at beginning
+    // whether we're highlighting toggle, accounting for no range
+    let highlight = collapsedRanges.length ? true : false;
     collapsedRanges.forEach(range => {
         if (0 === cursor && range.start > cursor) {
             highlight = false; // first fragment isn't highlighted
@@ -106,13 +107,20 @@ const buildHighlightString = (needle,haystack,highlightClass) => {
         fragments.push(haystack.substring(cursor));
     }
 
+    // because React needs unique keys for each element procedurally generated from a list
+    let time = new Date().getTime();
+    let spans = [];
+    for (let i = 0; i < fragments.length; i++) {
+        spans.push({text: fragments[i], key: time++});
+    }
+
     let construct = (
-        <p>
-            {fragments.map(fragment => {
+        <>
+            {spans.map(span => {
                 highlight = !highlight; // toggle first; use old value below
-                return highlight ? fragment : (<span className={highlightClass}>{fragment}</span>);
+                return highlight ? (<span key={span.key}>{span.text}</span>) : (<span className={highlightClass} key={span.key}>{span.text}</span>);
             })}
-        </p>
+        </>
     );
 
     return construct;

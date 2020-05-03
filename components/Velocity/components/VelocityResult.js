@@ -6,5 +6,5 @@ export default function VelocityResult(props) {
 
     const inner = '' === searchPhrase ? result.value : buildHighlightString(searchPhrase,result.value,styles.highlight);
 
-    return <li key={result.key} className={result.index === selectedResultIndex ? styles.selected : ""}>{inner}</li>
+    return <li className={result.index === selectedResultIndex ? styles.selected : ""}>{inner}</li>
 }

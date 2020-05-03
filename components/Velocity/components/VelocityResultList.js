@@ -9,7 +9,8 @@ export default function VelocityResultList(props) {
     } = useContext(VelocityContext);
 
     const resultList = search.results.map(
-        (result) => <VelocityResult result={result} searchPhrase={search.phrase} selectedResultIndex={selection.index} />
+        // @todo maybe move these context-provided props down a level?
+        (result) => <VelocityResult key={result.key.toString()} result={result} searchPhrase={search.phrase} selectedResultIndex={selection.index} />
     );
 
     return (

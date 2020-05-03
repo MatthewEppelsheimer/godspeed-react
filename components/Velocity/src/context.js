@@ -1,6 +1,7 @@
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useMemo, useState, useReducer } from 'react';
 import CONFIG from '../config'
 import { indexData, search } from './search';
+import { dataReducer } from './reducers';
 
 const VelocityContext = createContext({
     // @TODO convert to TypeScript interface
@@ -21,9 +22,10 @@ const VelocityContext = createContext({
 VelocityContext.displayName = 'Velocity Context';
 
 // custom hook to abstract core <Velocity /> functionality
-const useVelocityContext = (data, defaultSearchPhrase) => {
-    const initialDataMemo = useMemo(() => indexData(data),[data]);
-    const [searchResults, setSearchResults] = useState(initialDataMemo);
+const useVelocityContext = (dataIn, defaultSearchPhrase) => {
+    const [data, dispatch] = useReducer(dataReducer, indexData(dataIn));
+    // const data = useMemo(() => indexData(data),[data]);
+    const [searchResults, setSearchResults] = useState(data);
     const [searchPhrase, setSearchPhrase] = useState('');
     // @TODO use selectedKey
     const [selectionKey, setSelectionKey] = useState(CONFIG.default_selected_key); // store key of selected element, so it stays selected even when its index changes in response to searchPhrase changes
@@ -32,14 +34,14 @@ const useVelocityContext = (data, defaultSearchPhrase) => {
     // wrap setSelectedResultIndex by updating selectionKey as well first
     const updateSelectedTo = (newValue) => {
         setSelectionIndex(newValue);
-        setSelectionKey(CONFIG.default_selected_index === newValue ? "" : searchResults[newValue].key);
+        // setSelectionKey(CONFIG.default_selected_index === newValue ? "" : searchResults.find(result => newValue === result.index).key);
     };
 
     // wrap setSearchPhrase() to also update results
     const updateSearch = (phrase) => {
         setSearchPhrase(phrase);
         // only recompute if not clearing search field
-        setSearchResults(defaultSearchPhrase === phrase ? initialDataMemo : search(phrase,data));
+        setSearchResults(defaultSearchPhrase === phrase ? data : search(phrase,data));
 
         // @TODO: instead of this, update selectedIndex based on key here
         updateSelectedTo(CONFIG.default_selected_index);
@@ -55,6 +57,37 @@ const useVelocityContext = (data, defaultSearchPhrase) => {
         updateSelectedTo(CONFIG.default_selected_index === selectionIndex ? selectionIndex : selectionIndex - 1);
     };
     
+    const createRecord = (data) => {
+        const type = 'create';
+
+        // create the record
+        const newRecord = {
+            key: new Date().getTime(),
+            value: data.value,
+        };
+        dispatch({
+            type,
+            newRecord,
+        });
+    };
+    
+    const handleKeyEnter = () => {
+        if (CONFIG.default_selected_index !== selectionIndex) {
+            // if something's selected, open it
+            // @TODO
+        } else {
+            // if nothing selected, create new record then select it
+            createRecord({value: searchPhrase});
+            
+            // Necessary to show all again
+            // Alternately we could just search for the newly created one,
+            // but I think this is better UX.
+            // WIP POINT: Bug in the result fragment highlighting
+            setSearchResults(data);
+            updateSelectedTo(0);
+        }
+    }
+
     // Behavior spans across entire Velocity context so this belongs here
     // first blur document editor & focus search,
     //  then clear selected result,
@@ -77,9 +110,10 @@ const useVelocityContext = (data, defaultSearchPhrase) => {
 
         return { shouldBlurSearchField };
     };
-    
+
     const contextValue = {
         handleKey: {
+            enter: handleKeyEnter,
             escape: handleKeyEscape,
         },
         search: {
@@ -88,6 +122,7 @@ const useVelocityContext = (data, defaultSearchPhrase) => {
             update: updateSearch,
         },
         selection: {
+            create: createRecord,
             index: selectionIndex,
             next: selectNext,
             previous: selectPrevious,
