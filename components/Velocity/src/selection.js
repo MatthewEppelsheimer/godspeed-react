@@ -106,8 +106,6 @@ const buildHighlightString = (needle,haystack,highlightClass) => {
         fragments.push(haystack.substring(cursor));
     }
 
-    console.log(fragments);
-
     let construct = (
         <p>
             {fragments.map(fragment => {
