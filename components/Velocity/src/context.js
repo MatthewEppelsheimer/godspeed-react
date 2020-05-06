@@ -22,7 +22,7 @@ const VelocityContext = createContext({
 VelocityContext.displayName = 'Velocity Context';
 
 // custom hook to abstract core <Velocity /> functionality
-const useVelocityContext = (dataIn, defaultSearchPhrase) => {
+const useVelocityContext = (dataIn, dataStore, defaultSearchPhrase) => {
     const [data, dispatch] = useReducer(dataReducer, indexData(dataIn));
     // const data = useMemo(() => indexData(data),[data]);
     const [searchResults, setSearchResults] = useState(data);
@@ -69,6 +69,9 @@ const useVelocityContext = (dataIn, defaultSearchPhrase) => {
             type,
             newRecord,
         });
+
+        // update external data store when there is one
+        dataStore && dataStore.create && dataStore.create(newRecord);
     };
     
     const handleKeyEnter = () => {
