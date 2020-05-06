@@ -82,7 +82,6 @@ const useVelocityContext = (dataIn, defaultSearchPhrase) => {
             // Necessary to show all again
             // Alternately we could just search for the newly created one,
             // but I think this is better UX.
-            // WIP POINT: Bug in the result fragment highlighting
             setSearchResults(data);
             updateSelectedTo(0);
         }
