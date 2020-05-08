@@ -22,26 +22,62 @@ const VelocityContext = createContext({
 VelocityContext.displayName = 'Velocity Context';
 
 // custom hook to abstract core <Velocity /> functionality
-const useVelocityContext = (dataIn, dataStore, defaultSearchPhrase) => {
-    const [data, dispatch] = useReducer(dataReducer, indexData(dataIn));
-    // const data = useMemo(() => indexData(data),[data]);
-    const [searchResults, setSearchResults] = useState(data);
+// @TODO change signature to accept an object w/ keyed input instead of individual params
+const useVelocityContext = (dataIn, dataStore, slotFills, defaultSearchPhrase) => {
+    const initialData = useMemo(() => indexData(dataIn), [dataIn]); // ONLY for setting INITIAL state values
+    const initialState = {
+        records: initialData,
+        displayedRecords: initialData,
+    };
+
+    // @WIP refactor to combine these into the reducer
+    const [state, dispatch] = useReducer(dataReducer, indexData(initialState));
     const [searchPhrase, setSearchPhrase] = useState('');
     // @TODO use selectedKey
-    const [selectionKey, setSelectionKey] = useState(CONFIG.default_selected_key); // store key of selected element, so it stays selected even when its index changes in response to searchPhrase changes
+    // const [selectionKey, setSelectionKey] = useState(CONFIG.default_selected_key); // store key of selected element, so it stays selected even when its index changes in response to searchPhrase changes
     const [selectionIndex, setSelectionIndex] = useState(CONFIG.default_selected_index);
 
     // wrap setSelectedResultIndex by updating selectionKey as well first
     const updateSelectedTo = (newValue) => {
         setSelectionIndex(newValue);
-        // setSelectionKey(CONFIG.default_selected_index === newValue ? "" : searchResults.find(result => newValue === result.index).key);
+        // setSelectionKey(CONFIG.default_selected_index === newValue ? "" : state.records.find(result => newValue === result.index).key);
+    };
+
+    // completely replace records with passed-in state
+    // so far unused
+    const setRecordsTo = (records) => {
+        dispatch({
+            type: 'records.set',
+            records: records
+        })
+    };
+
+    // @TODO, and replace that state
+    // const setSearchPhrase = (phrase) => {
+
+    // };
+
+    // @WIP replacing individual state with this
+    // @TODO; make the reducer wrap in indexData()
+    const setDisplayedRecords = (records) => {
+        dispatch({
+            type: 'displayedRecords.set',
+            records: records,
+        });
     };
 
     // wrap setSearchPhrase() to also update results
     const updateSearch = (phrase) => {
+        phrase = phrase || defaultSearchPhrase;
+
+        console.log('updateSearch called; phrase is', phrase);
         setSearchPhrase(phrase);
         // only recompute if not clearing search field
-        setSearchResults(defaultSearchPhrase === phrase ? data : search(phrase,data));
+        // dispatch({
+        //     type: 'setSearchPhrase',
+        //     phrase: phrase,
+        // });
+        setDisplayedRecords(defaultSearchPhrase === phrase ? state.records : indexData(search(phrase,state.records)));
 
         // @TODO: instead of this, update selectedIndex based on key here
         updateSelectedTo(CONFIG.default_selected_index);
@@ -49,7 +85,7 @@ const useVelocityContext = (dataIn, dataStore, defaultSearchPhrase) => {
 
     // move selected result down one; don't go further than last result
     const selectNext = () => {
-        updateSelectedTo(searchResults.length -1 === selectionIndex ? selectionIndex : selectionIndex + 1);
+        updateSelectedTo(state.displayedRecords.length - 1 === selectionIndex ? selectionIndex : selectionIndex + 1);
     };
 
     // move selected result up one; don't go further than -1, which is none selected
@@ -57,35 +93,53 @@ const useVelocityContext = (dataIn, dataStore, defaultSearchPhrase) => {
         updateSelectedTo(CONFIG.default_selected_index === selectionIndex ? selectionIndex : selectionIndex - 1);
     };
     
-    const createRecord = (data) => {
-        const type = 'create';
-
+    const createRecord = (record) => {
         // create the record
+        const type = 'record.create';
+
         const newRecord = {
             key: new Date().getTime(),
-            value: data.value,
+            value: record.value,
         };
+
         dispatch({
             type,
             newRecord,
         });
 
+        updateSearch();
+
         // update external data store when there is one
+        // @TODO avoid calling this if dispatching the action failed
         dataStore && dataStore.create && dataStore.create(newRecord);
     };
     
+    // Delete a record
+    const deleteRecord = (record) => {
+        // this also removes it from displayedRecords
+        dispatch({
+            type: 'record.delete',
+            key: record.key,
+        });
+
+        console.log('records before updateSearch:',state.records);
+
+        // update external data store when there is one
+        // @TODO avoid calling this if dispatching the action failed
+        dataStore && dataStore.delete && dataStore.delete(record);
+    }
+
     const handleKeyEnter = () => {
         if (CONFIG.default_selected_index !== selectionIndex) {
             // if something's selected, open it
             // @TODO
         } else {
-            // if nothing selected, create new record then select it
+            // if nothing selected:
+            // create new record
             createRecord({value: searchPhrase});
-            
-            // Necessary to show all again
-            // Alternately we could just search for the newly created one,
-            // but I think this is better UX.
-            setSearchResults(data);
+            // show all records (including new one)
+            setDisplayedRecords(state.records);
+            // select the new record
             updateSelectedTo(0);
         }
     }
@@ -120,15 +174,17 @@ const useVelocityContext = (dataIn, dataStore, defaultSearchPhrase) => {
         },
         search: {
             phrase: searchPhrase,
-            results: searchResults,
+            results: state.displayedRecords,
             update: updateSearch,
         },
         selection: {
+            delete: deleteRecord,
             create: createRecord,
             index: selectionIndex,
             next: selectNext,
             previous: selectPrevious,
         },
+        slotFills: slotFills,
     };
 
     return contextValue;

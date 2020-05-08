@@ -11,8 +11,28 @@ const createCallback = (document) => {
   // @TODO return a promise to update optimistic UI after completion
 };
 
+const deleteCallback = (document) => {
+  console.log('dataStore told to delete record:', document);
+  // @TODO return a promise to update optimistic UI after completion
+}
 const dataStoreCrudCallbacks = {
   create: createCallback,
+  read: null,
+  update: null,
+  delete: deleteCallback,
+};
+
+// Mock creating a slotfill
+// Essentially React's Portals pattern but without reliance on ReactDOM
+// Steals terminology from WordPress 
+const resultListItemSlot = (result, ops) => {
+  return (
+    <button className="delete_button" onClick={() => ops.delete(result)}>delete</button>
+  )
+};
+
+const slotfills = {
+  resultListItemSlot,
 };
 
 export default function Home() {
@@ -21,7 +41,10 @@ export default function Home() {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <Velocity data={DATA} dataStore={dataStoreCrudCallbacks} />
+      <Velocity data={DATA} dataStore={dataStoreCrudCallbacks} slotFills={slotfills} />
+      {/* <VelocityResultSlot>
+        <span>HUZZAH</span>;
+      </VelocityResultSlot> */}
     </Layout>
   )
 }
