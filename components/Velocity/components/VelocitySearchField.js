@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { useVelocityContext } from "../src/context";
 
-export default function VelocitySearchField(props) {
+const VelocitySearchField = (props) => {
 	const { placeholder } = props;
 
 	const { handleKey, search, selection } = useVelocityContext();
@@ -48,4 +48,6 @@ export default function VelocitySearchField(props) {
 			value={search.phrase}
 		/>
 	);
-}
+};
+
+export default VelocitySearchField;

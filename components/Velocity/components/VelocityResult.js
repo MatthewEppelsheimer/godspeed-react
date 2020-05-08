@@ -5,7 +5,7 @@ import { buildHighlightString } from "../src/selection";
 import { useVelocityContext } from "../src/context";
 import VelocityDeleteButton from "./VelocityDeleteButton";
 
-export default function VelocityResult(props) {
+const VelocityResult = (props) => {
 	const { result, selectedResultIndex, searchPhrase } = props;
 
 	const { selection, slotFills } = useVelocityContext();
@@ -36,4 +36,6 @@ export default function VelocityResult(props) {
 			{fill}
 		</li>
 	);
-}
+};
+
+export default VelocityResult;

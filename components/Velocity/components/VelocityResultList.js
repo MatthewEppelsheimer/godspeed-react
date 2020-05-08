@@ -3,7 +3,7 @@
 import VelocityResult from "./VelocityResult";
 import { useVelocityContext } from "../src/context";
 
-export default function VelocityResultList(props) {
+const VelocityResultList = () => {
 	const { search, selection } = useVelocityContext();
 
 	const resultList = search.results.map(
@@ -19,4 +19,6 @@ export default function VelocityResultList(props) {
 	);
 
 	return <ul>{resultList}</ul>;
-}
+};
+
+export default VelocityResultList;

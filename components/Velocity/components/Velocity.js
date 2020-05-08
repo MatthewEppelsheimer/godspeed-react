@@ -7,7 +7,7 @@ import {
 	VelocityContextProvider,
 } from "../src/context";
 
-export default function Velocity(props) {
+const Velocity = (props) => {
 	const { children, dataStore, data, slotFills } = props;
 	const defaultSearchPhrase = ""; // @todo implement (currently does nothing)
 	const searchInputPlaceholder =
@@ -30,4 +30,6 @@ export default function Velocity(props) {
 			)}
 		</VelocityContextProvider>
 	);
-}
+};
+
+export default Velocity;
