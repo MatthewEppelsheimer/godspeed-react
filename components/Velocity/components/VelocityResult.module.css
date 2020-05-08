@@ -1,7 +1,9 @@
+/** @format */
+
 .selected {
-    background-color: yellow;
+	background-color: yellow;
 }
 
 .highlight {
-    background-color: lightgray;
+	background-color: lightgray;
 }

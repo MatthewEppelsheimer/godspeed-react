@@ -1,54 +1,51 @@
-import { useContext, useRef } from 'react'
-import VelocityContext from '../src/context'
+/** @format */
+
+import { useContext, useRef } from "react";
+import VelocityContext from "../src/context";
 
 export default function VelocitySearchField(props) {
-    const { placeholder } = props;
+	const { placeholder } = props;
 
-    const {
-        handleKey,
-        search,
-        selection,
-    } = useContext(VelocityContext);
-    
-    const searchFieldRef = useRef(null);
+	const { handleKey, search, selection } = useContext(VelocityContext);
 
-    // dispatch hotkey handlers
-    const handleKeyDown = (event) => {
+	const searchFieldRef = useRef(null);
 
-        switch (event.key) {
-            case 'ArrowDown':
-                selection.next();
-                break;
-                
-            case 'ArrowUp':
-                selection.previous();
-                break;
+	// dispatch hotkey handlers
+	const handleKeyDown = (event) => {
+		switch (event.key) {
+			case "ArrowDown":
+				selection.next();
+				break;
 
-            case 'Enter':
-                handleKey.enter();
-                break;
+			case "ArrowUp":
+				selection.previous();
+				break;
 
-            case 'Escape':
-                const { shouldBlurSearchField } = handleKey.escape();
-                if ( shouldBlurSearchField ) {
-                    searchFieldRef.current.blur();
-                }
-                break;
-        }
-    };
-    
-    // update captured component's state when input element value changes
-    const handleChange = (event) => {
-        search.update(event.target.value);
-    };
+			case "Enter":
+				handleKey.enter();
+				break;
 
-    return (
-        <input
-            onKeyDown={handleKeyDown}
-            onChange={handleChange}
-            placeholder={placeholder}
-            ref={searchFieldRef}
-            value={search.phrase}
-        />
-    );
+			case "Escape":
+				const { shouldBlurSearchField } = handleKey.escape();
+				if (shouldBlurSearchField) {
+					searchFieldRef.current.blur();
+				}
+				break;
+		}
+	};
+
+	// update captured component's state when input element value changes
+	const handleChange = (event) => {
+		search.update(event.target.value);
+	};
+
+	return (
+		<input
+			onKeyDown={handleKeyDown}
+			onChange={handleChange}
+			placeholder={placeholder}
+			ref={searchFieldRef}
+			value={search.phrase}
+		/>
+	);
 }
