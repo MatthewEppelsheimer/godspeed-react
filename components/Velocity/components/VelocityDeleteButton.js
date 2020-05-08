@@ -20,7 +20,7 @@ const VelocityDeleteButton = (props) => {
 };
 VelocityDeleteButton.propTypes = {
 	name: PropTypes.string,
-	record: PropTypes.shape({}),
+	record: PropTypes.shape({}).isRequired,
 };
 
 export default VelocityDeleteButton;
