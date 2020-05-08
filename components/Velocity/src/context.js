@@ -70,7 +70,7 @@ const useVelocityContext = (dataIn, dataStore, slotFills, defaultSearchPhrase) =
     const updateSearch = (phrase) => {
         phrase = phrase || defaultSearchPhrase;
 
-        console.log('updateSearch called; phrase is', phrase);
+        // console.log('updateSearch called; phrase is', phrase);
         setSearchPhrase(phrase);
         // only recompute if not clearing search field
         // dispatch({
@@ -122,7 +122,7 @@ const useVelocityContext = (dataIn, dataStore, slotFills, defaultSearchPhrase) =
             key: record.key,
         });
 
-        console.log('records before updateSearch:',state.records);
+        // console.log('records before updateSearch:',state.records);
 
         // update external data store when there is one
         // @TODO avoid calling this if dispatching the action failed
