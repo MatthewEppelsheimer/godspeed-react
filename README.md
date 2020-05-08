@@ -8,7 +8,6 @@ Note that actual search is severely limited at this point — only phrases that 
 
 # Roadmap
 
--   add context usage guards
 -   add component prop types
 -   null coalescing operator
 -   DEBUG system w/ console logs strategically throughout

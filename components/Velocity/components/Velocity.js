@@ -2,7 +2,10 @@
 
 import VelocityResultList from "./VelocityResultList";
 import VelocitySearchField from "./VelocitySearchField";
-import VelocityContext, { useVelocityContextState } from "../src/context";
+import {
+	useVelocityContextState,
+	VelocityContextProvider,
+} from "../src/context";
 
 export default function Velocity(props) {
 	const { children, dataStore, data, slotFills } = props;
@@ -18,13 +21,13 @@ export default function Velocity(props) {
 	);
 
 	return (
-		<VelocityContext.Provider value={context}>
+		<VelocityContextProvider value={context}>
 			{children || (
 				<>
 					<VelocitySearchField placeholder={searchInputPlaceholder} />
 					<VelocityResultList />
 				</>
 			)}
-		</VelocityContext.Provider>
+		</VelocityContextProvider>
 	);
 }

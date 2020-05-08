@@ -229,5 +229,15 @@ const useVelocityContext = () => {
 	return context;
 };
 
+const VelocityContextProvider = (props) => {
+	const { children, value } = props;
+
+	return (
+		<VelocityContext.Provider value={value}>
+			{children}
+		</VelocityContext.Provider>
+	);
+};
+
 export default VelocityContext;
-export { useVelocityContext, useVelocityContextState };
+export { useVelocityContext, useVelocityContextState, VelocityContextProvider };
