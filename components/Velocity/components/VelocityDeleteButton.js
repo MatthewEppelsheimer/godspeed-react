@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import { useVelocityContext } from "../src/context";
 
 const VelocityDeleteButton = (props) => {
-	const { record } = props;
-	const name = props.name || "delete";
+	const { name, record } = props;
 
 	const { selection } = useVelocityContext();
 
@@ -17,6 +16,9 @@ const VelocityDeleteButton = (props) => {
 			{name}
 		</button>
 	);
+};
+VelocityDeleteButton.defaultProps = {
+	name: "delete",
 };
 VelocityDeleteButton.propTypes = {
 	name: PropTypes.string,

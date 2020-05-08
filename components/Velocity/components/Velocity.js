@@ -9,10 +9,14 @@ import {
 } from "../src/context";
 
 const Velocity = (props) => {
-	const { children, dataStore, data, slotFills } = props;
+	const {
+		children,
+		dataStore,
+		data,
+		searchInputPlaceholder,
+		slotFills,
+	} = props;
 	const defaultSearchPhrase = ""; // @todo implement (currently does nothing)
-	const searchInputPlaceholder =
-		props.searchInputPlaceholder || "Type to search..."; // @todo move default to config
 
 	const context = useVelocityContextState(
 		data,
@@ -31,6 +35,9 @@ const Velocity = (props) => {
 			)}
 		</VelocityContextProvider>
 	);
+};
+Velocity.defaultProps = {
+	searchInputPlaceholder: "Type to search...",
 };
 Velocity.propTypes = {
 	children: PropTypes.element,

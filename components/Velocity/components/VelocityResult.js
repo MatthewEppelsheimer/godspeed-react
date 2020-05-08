@@ -40,6 +40,10 @@ const VelocityResult = (props) => {
 		</li>
 	);
 };
+VelocityResult.defaultProps = {
+	selectedResultIndex: -1,
+	searchPhrase: "",
+};
 VelocityResult.propTypes = {
 	result: PropTypes.shape({}).isRequired,
 	selectedResultIndex: PropTypes.number.isRequired,

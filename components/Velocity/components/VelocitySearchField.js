@@ -50,6 +50,9 @@ const VelocitySearchField = (props) => {
 		/>
 	);
 };
+VelocitySearchField.defaultProps = {
+	placeholder: "",
+};
 VelocitySearchField.propTypes = {
 	placeholder: PropTypes.string,
 };
