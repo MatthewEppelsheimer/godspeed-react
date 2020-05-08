@@ -21,13 +21,10 @@ export default function VelocityResult(props) {
 			  );
 
 	const fill =
-		(slotFills &&
-			slotFills.resultListItemSlot &&
-			slotFills.resultListItemSlot(
-				result,
-				{ delete: selection.delete } // ops object w/ action-firing callbacks
-			)) ||
-		null;
+		slotFills.resultListItemSlot?.(
+			result,
+			{ delete: selection.delete } // ops object w/ action-firing callbacks
+		) || null;
 
 	return (
 		<li

@@ -132,7 +132,7 @@ const useVelocityContext = (
 
 		// update external data store when there is one
 		// @TODO avoid calling this if dispatching the action failed
-		dataStore && dataStore.create && dataStore.create(newRecord);
+		dataStore.create?.(newRecord);
 	};
 
 	// Delete a record
@@ -147,7 +147,7 @@ const useVelocityContext = (
 
 		// update external data store when there is one
 		// @TODO avoid calling this if dispatching the action failed
-		dataStore && dataStore.delete && dataStore.delete(record);
+		dataStore.delete?.(record);
 	};
 
 	const handleKeyEnter = () => {
