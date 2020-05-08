@@ -8,17 +8,33 @@ Note that actual search is severely limited at this point — only phrases that 
 
 # Roadmap
 
--   null coalescing operator
+## MVP
+
 -   DEBUG system w/ console logs strategically throughout
--   basic JSDoc for each component and functions
+-   basic JSDoc for each component and functions, make import style consistent
 -   add tests for reducer
--   add tests for useVelocityContext
--   Read a document in VelocityDocumentEditor, firing a callback (for e.g. logging views)
+-   add tests for `useVelocityContext`
+-   Read a document in `VelocityDocumentEditor`, firing a callback (for e.g. logging views)
 -   Update a document, firing callback
+-   incorporate Draft.js
+-   Rename `useVelocityContextState` and move it to `VelocityContextProvider`, don't export `VelocityContext` - This will encapsulate abstract all context management, so the library won't need to then export `VelocityContext`
+-   Refactor `useVelocityContextState` signature with options object param
+-   Review and resolve all todos
 -   Consider file reorganization
--   helper UI in search field: "Press enter to create record `name of record`"
--   keyboard improvements in general
+-   Typescript
 -   add accessibility considerations
+-   basic keyboard navigation improvements (TBD)
+-   code review entire library
+-   Review/reconsider library API, consider whether to commit to a semver 1.0
+-   rename… perhaps to "Godspeed" (?) - Velocity.js is already taken
+-   Package into own library, incorporated into a proof of concept consumer of the dependency
+-   publish
+
+## Later
+
+-   add tests for all components
+-   backspace key deletes selected record, if record selected (would require blurring search input)
 -   store state history for undo
 -   Optimistic UI w/ promises
 -   Search improvements - case in-sensitive
+-   helper UI in search field: "Press enter to create record `name of record`"
