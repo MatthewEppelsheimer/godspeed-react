@@ -1,11 +1,10 @@
 /** @format */
 
-import { useContext } from "react";
 import VelocityResult from "./VelocityResult";
-import VelocityContext from "../src/context";
+import { useVelocityContext } from "../src/context";
 
 export default function VelocityResultList(props) {
-	const { search, selection } = useContext(VelocityContext);
+	const { search, selection } = useVelocityContext();
 
 	const resultList = search.results.map(
 		// @todo maybe move these context-provided props down a level?

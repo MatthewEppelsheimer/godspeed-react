@@ -1,13 +1,12 @@
 /** @format */
 
-import { useContext } from "react";
-import VelocityContext from "../src/context";
+import { useVelocityContext } from "../src/context";
 
 const VelocityDeleteButton = (props) => {
 	const { record } = props;
 	const name = props.name || "delete";
 
-	const { selection } = useContext(VelocityContext);
+	const { selection } = useVelocityContext();
 
 	return (
 		<button

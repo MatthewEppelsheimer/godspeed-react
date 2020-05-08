@@ -1,12 +1,12 @@
 /** @format */
 
-import { useContext, useRef } from "react";
-import VelocityContext from "../src/context";
+import { useRef } from "react";
+import { useVelocityContext } from "../src/context";
 
 export default function VelocitySearchField(props) {
 	const { placeholder } = props;
 
-	const { handleKey, search, selection } = useContext(VelocityContext);
+	const { handleKey, search, selection } = useVelocityContext();
 
 	const searchFieldRef = useRef(null);
 

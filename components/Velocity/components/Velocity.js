@@ -2,7 +2,7 @@
 
 import VelocityResultList from "./VelocityResultList";
 import VelocitySearchField from "./VelocitySearchField";
-import VelocityContext, { useVelocityContext } from "../src/context";
+import VelocityContext, { useVelocityContextState } from "../src/context";
 
 export default function Velocity(props) {
 	const { children, dataStore, data, slotFills } = props;
@@ -10,7 +10,7 @@ export default function Velocity(props) {
 	const searchInputPlaceholder =
 		props.searchInputPlaceholder || "Type to search..."; // @todo move default to config
 
-	const context = useVelocityContext(
+	const context = useVelocityContextState(
 		data,
 		dataStore,
 		slotFills,

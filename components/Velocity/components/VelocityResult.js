@@ -1,15 +1,14 @@
 /** @format */
 
-import { useContext } from "react";
 import styles from "./VelocityResult.module.css";
 import { buildHighlightString } from "../src/selection";
-import VelocityContext from "../src/context";
+import { useVelocityContext } from "../src/context";
 import VelocityDeleteButton from "./VelocityDeleteButton";
 
 export default function VelocityResult(props) {
 	const { result, selectedResultIndex, searchPhrase } = props;
 
-	const { selection, slotFills } = useContext(VelocityContext);
+	const { selection, slotFills } = useVelocityContext();
 
 	const inner =
 		"" === searchPhrase

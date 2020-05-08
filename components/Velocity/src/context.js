@@ -1,6 +1,12 @@
 /** @format */
 
-import { createContext, useMemo, useState, useReducer } from "react";
+import {
+	createContext,
+	useContext,
+	useMemo,
+	useState,
+	useReducer,
+} from "react";
 import CONFIG from "../config";
 import { indexData, search } from "./search";
 import { dataReducer } from "./reducers";
@@ -23,9 +29,9 @@ const VelocityContext = createContext({
 });
 VelocityContext.displayName = "Velocity Context";
 
-// custom hook to abstract core <Velocity /> functionality
+// custom hook to abstract core <Velocity /> functionality, to provide context from component state
 // @TODO change signature to accept an object w/ keyed input instead of individual params
-const useVelocityContext = (
+const useVelocityContextState = (
 	dataIn,
 	dataStore,
 	slotFills,
@@ -211,5 +217,17 @@ const useVelocityContext = (
 	return contextValue;
 };
 
+// Wrap useContext(VelocityContext) in a check that a provider was found
+const useVelocityContext = () => {
+	const context = useContext(VelocityContext);
+	if (context === undefined) {
+		throw new Error(
+			"useVelocityContext must be used within a VelocityContextProvider, such as the <Velocity> component."
+		);
+	}
+
+	return context;
+};
+
 export default VelocityContext;
-export { useVelocityContext };
+export { useVelocityContext, useVelocityContextState };
