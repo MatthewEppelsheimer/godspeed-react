@@ -4,7 +4,7 @@ import { log } from "./log";
 import { indexData } from "./search";
 
 const dataReducer = (state, action) => {
-	console.log("dataReducer called with state:", state, "action:", action);
+	// console.log("dataReducer called with state:", state, "action:", action);
 	switch (action.type) {
 		// Replace entire set of records set
 		case "records.set":
@@ -21,7 +21,7 @@ const dataReducer = (state, action) => {
 			try {
 				const newState = { ...state };
 				newState.displayedRecords = indexData(action.records);
-				console.log("reducer returning with newState:", newState);
+				// console.log("reducer returning with newState:", newState);
 				return newState;
 			} catch (error) {
 				log(error);
@@ -52,7 +52,7 @@ const dataReducer = (state, action) => {
 				// @TODO stopping after done would be more efficient than always looping through all records
 				newState.records = filter(newState.records);
 				newState.displayedRecords = filter(newState.displayedRecords);
-				console.log("delete case returning with newState:", state);
+				// console.log("delete case returning with newState:", state);
 				return newState;
 			} catch (error) {
 				log(error);
