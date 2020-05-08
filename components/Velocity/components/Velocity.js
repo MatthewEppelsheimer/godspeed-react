@@ -1,5 +1,6 @@
 /** @format */
 
+import PropTypes from "prop-types";
 import VelocityResultList from "./VelocityResultList";
 import VelocitySearchField from "./VelocitySearchField";
 import {
@@ -30,6 +31,20 @@ const Velocity = (props) => {
 			)}
 		</VelocityContextProvider>
 	);
+};
+Velocity.propTypes = {
+	children: PropTypes.element,
+	dataStore: PropTypes.shape({
+		create: PropTypes.func,
+		read: PropTypes.func,
+		update: PropTypes.func,
+		delete: PropTypes.func,
+	}),
+	data: PropTypes.array.isRequired,
+	searchInputPlaceholder: PropTypes.string,
+	slotFills: PropTypes.shape({
+		resultListItemSlot: PropTypes.element,
+	}),
 };
 
 export default Velocity;

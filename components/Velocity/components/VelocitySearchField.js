@@ -1,6 +1,7 @@
 /** @format */
 
 import { useRef } from "react";
+import PropTypes from "prop-types";
 import { useVelocityContext } from "../src/context";
 
 const VelocitySearchField = (props) => {
@@ -48,6 +49,9 @@ const VelocitySearchField = (props) => {
 			value={search.phrase}
 		/>
 	);
+};
+VelocitySearchField.propTypes = {
+	placeholder: PropTypes.string,
 };
 
 export default VelocitySearchField;

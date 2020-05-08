@@ -1,5 +1,6 @@
 /** @format */
 
+import PropTypes from "prop-types";
 import { useVelocityContext } from "../src/context";
 
 const VelocityDeleteButton = (props) => {
@@ -16,6 +17,10 @@ const VelocityDeleteButton = (props) => {
 			{name}
 		</button>
 	);
+};
+VelocityDeleteButton.propTypes = {
+	name: PropTypes.string,
+	record: PropTypes.shape({}),
 };
 
 export default VelocityDeleteButton;
