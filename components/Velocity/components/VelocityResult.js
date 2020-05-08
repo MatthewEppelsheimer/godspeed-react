@@ -8,7 +8,7 @@ import { useVelocityContext } from "../src/context";
 import VelocityDeleteButton from "./VelocityDeleteButton";
 
 const VelocityResult = (props) => {
-	// @todo searchPhrase should come from context
+	// @todo searchPhrase and selectedResultIndex should both come from context
 	const { result, selectedResultIndex, searchPhrase } = props;
 
 	const { selection, slotFills } = useVelocityContext();
