@@ -10,8 +10,13 @@ Note that actual search is severely limited at this point — only phrases that 
 
 ## MVP
 
--   DEBUG system w/ console logs strategically throughout
+-   create user API for specifying data shape, result list template, and editor template
+-   improve useVelocityContextState's signature
+-   consume passed-in data shape
+-   consume passed-in editor template
 -   basic JSDoc for each component and functions, make import style consistent
+-   add tests for all components
+-   Revise to make action verbs and terminology consistent in all state management
 -   add tests for reducer
 -   add tests for `useVelocityContext`
 -   Update a document, firing callback

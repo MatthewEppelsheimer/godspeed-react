@@ -13,6 +13,7 @@ import { dataReducer } from "./reducers";
 
 const VelocityContext = createContext({
 	// @TODO convert to TypeScript interface
+	// @todo update based on what's actually returned
 	handleKey: {
 		escape: () => {},
 	},
@@ -49,6 +50,7 @@ const useVelocityContextState = (
 	const [state, dispatch] = useReducer(dataReducer, indexData(initialState));
 	const [searchPhrase, setSearchPhrase] = useState("");
 	// @TODO use selectedKey
+	// @TODO merge this into `state`
 	// const [selectionKey, setSelectionKey] = useState(CONFIG.default_selected_key); // store key of selected element, so it stays selected even when its index changes in response to searchPhrase changes
 	const [selectionIndex, setSelectionIndex] = useState(
 		CONFIG.default_selected_index

@@ -3,6 +3,7 @@
 import { log } from "./log";
 import { indexData } from "./search";
 
+// @todo define & return newState once, reused by each case
 const dataReducer = (state, action) => {
 	// console.log("dataReducer called with state:", state, "action:", action);
 	switch (action.type) {
