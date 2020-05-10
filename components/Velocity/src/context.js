@@ -22,6 +22,7 @@ const VelocityContext = createContext({
 		update: () => {},
 	},
 	selection: {
+		document: null,
 		index: CONFIG.default_selected_index,
 		next: () => {},
 		previous: () => {},
@@ -39,6 +40,7 @@ const useVelocityContextState = (
 ) => {
 	const initialData = useMemo(() => indexData(dataIn), [dataIn]); // ONLY for setting INITIAL state values
 	const initialState = {
+		activeRecord: null,
 		records: initialData,
 		displayedRecords: initialData,
 	};
@@ -156,10 +158,21 @@ const useVelocityContextState = (
 		dataStore.delete?.(record);
 	};
 
+	// Make a record the actively opened one
+	const openRecordByIndex = (index) => {
+		dispatch({
+			type: "record.setActive",
+			index: index,
+		});
+
+		// update external data store
+		dataStore.read?.(record);
+	};
+
 	const handleKeyEnter = () => {
 		if (CONFIG.default_selected_index !== selectionIndex) {
 			// if something's selected, open it
-			// @TODO
+			openRecordByIndex(selectionIndex);
 		} else {
 			// if nothing selected:
 			// create new record
@@ -206,6 +219,7 @@ const useVelocityContextState = (
 		},
 		selection: {
 			delete: deleteRecord,
+			document: state.activeRecord,
 			create: createRecord,
 			index: selectionIndex,
 			next: selectNext,

@@ -59,6 +59,21 @@ const dataReducer = (state, action) => {
 			}
 			break;
 
+		case "record.setActive":
+			// switch the active document
+			try {
+				const newState = { ...state };
+				const record = state.records.find(
+					(record) => action.index === record.index
+				);
+				newState.activeRecord = record;
+
+				return newState;
+			} catch (error) {
+				log(error);
+			}
+			break;
+
 		default:
 			log(new Error("unrecognized action.type"));
 			return false;

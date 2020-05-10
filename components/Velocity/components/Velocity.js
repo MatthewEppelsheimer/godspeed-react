@@ -1,6 +1,7 @@
 /** @format */
 
 import PropTypes from "prop-types";
+import VelocityDocumentEditor from "./VelocityDocumentEditor";
 import VelocityResultList from "./VelocityResultList";
 import VelocitySearchField from "./VelocitySearchField";
 import {
@@ -31,6 +32,7 @@ const Velocity = (props) => {
 				<>
 					<VelocitySearchField placeholder={searchInputPlaceholder} />
 					<VelocityResultList />
+					<VelocityDocumentEditor />
 				</>
 			)}
 		</VelocityContextProvider>
