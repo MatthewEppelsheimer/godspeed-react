@@ -1,5 +1,3 @@
-/** @format */
-
 // add sequential indices to each member of array `data`
 // used to dynamically index results after they change in response to new search phrase
 const indexData = (data) => {

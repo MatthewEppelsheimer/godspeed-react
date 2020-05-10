@@ -1,5 +1,3 @@
-/** @format */
-
 import Velocity from "./components/Velocity";
 import VelocityDeleteButton from "./components/VelocityDeleteButton";
 import VelocityDocumentEditor from "./components/VelocityDocumentEditor";

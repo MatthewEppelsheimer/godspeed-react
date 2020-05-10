@@ -4,8 +4,6 @@
  * This is a throwaway component for dev prototyping, as use cases can't be
  * standardized into any default worth committing to maintain, and this will
  * quickly be replaced.
- *
- * @format
  */
 import { useVelocityContext } from "../src/context";
 

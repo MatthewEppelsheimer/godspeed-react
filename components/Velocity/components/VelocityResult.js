@@ -1,5 +1,3 @@
-/** @format */
-
 import styles from "./VelocityResult.module.css";
 
 import PropTypes from "prop-types";

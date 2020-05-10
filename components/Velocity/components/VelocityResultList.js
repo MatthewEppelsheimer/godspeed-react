@@ -1,5 +1,3 @@
-/** @format */
-
 import VelocityResult from "./VelocityResult";
 import { useVelocityContext } from "../src/context";
 

@@ -1,5 +1,3 @@
-/** @format */
-
 const log = (error) => {
 	console.log(error);
 };

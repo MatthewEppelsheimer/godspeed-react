@@ -1,5 +1,3 @@
-/** @format */
-
 import { useRef } from "react";
 import PropTypes from "prop-types";
 import { useVelocityContext } from "../src/context";

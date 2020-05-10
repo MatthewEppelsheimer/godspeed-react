@@ -3,8 +3,6 @@
  *
  * This is responsible just for providing a wrapper div with class `document`,
  * and logic to load the correct display template as a child component.
- *
- * @format
  */
 
 import { useVelocityContext } from "../src/context";

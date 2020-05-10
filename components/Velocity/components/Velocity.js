@@ -1,5 +1,3 @@
-/** @format */
-
 import PropTypes from "prop-types";
 import VelocityDocumentEditor from "./VelocityDocumentEditor";
 import VelocityResultList from "./VelocityResultList";

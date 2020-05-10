@@ -1,5 +1,3 @@
-/** @format */
-
 // return array of all index positions where a phrase is found in a string
 const positions = (needle, haystack, foundSet = []) => {
 	const found = haystack.indexOf(needle);

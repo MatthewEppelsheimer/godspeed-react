@@ -1,5 +1,3 @@
-<!-- @format -->
-
 By Matthew Eppelsheimer.
 
 Because Draft.js supports unicode, you must have the following meta tag in the <head></head> block of your HTML file:

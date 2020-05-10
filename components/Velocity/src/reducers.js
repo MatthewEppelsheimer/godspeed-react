@@ -1,5 +1,3 @@
-/** @format */
-
 import { log } from "./log";
 import { indexData } from "./search";
 
