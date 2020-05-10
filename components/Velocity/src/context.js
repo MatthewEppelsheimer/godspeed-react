@@ -126,7 +126,7 @@ const useVelocityContextState = (
 
 		const newRecord = {
 			key: new Date().getTime(),
-			value: record.value,
+			name: record.name,
 		};
 
 		dispatch({
@@ -163,7 +163,7 @@ const useVelocityContextState = (
 		} else {
 			// if nothing selected:
 			// create new record
-			createRecord({ value: searchPhrase });
+			createRecord({ name: searchPhrase });
 			// show all records (including new one)
 			setDisplayedRecords(state.records);
 			// select the new record

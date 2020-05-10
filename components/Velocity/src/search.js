@@ -11,7 +11,7 @@ const indexData = (data) => {
 };
 
 const search = (phrase, data) => {
-	const newResults = data.filter((item) => item.value.indexOf(phrase) > -1);
+	const newResults = data.filter((item) => item.name.indexOf(phrase) > -1);
 
 	// @TODO refactor indexData() to be chainable; add after .map() two lines above
 	return indexData(newResults);

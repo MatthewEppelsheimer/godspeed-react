@@ -15,12 +15,8 @@ const VelocityResult = (props) => {
 
 	const inner =
 		"" === searchPhrase
-			? result.value
-			: buildHighlightString(
-					searchPhrase,
-					result.value,
-					styles.highlight
-			  );
+			? result.name
+			: buildHighlightString(searchPhrase, result.name, styles.highlight);
 
 	const fill =
 		slotFills.resultListItemSlot?.(
