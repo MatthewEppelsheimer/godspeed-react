@@ -14,7 +14,6 @@ Note that actual search is severely limited at this point — only phrases that 
 -   basic JSDoc for each component and functions, make import style consistent
 -   add tests for reducer
 -   add tests for `useVelocityContext`
--   Read a document in `VelocityDocumentEditor`, firing a callback (for e.g. logging views)
 -   Update a document, firing callback
 -   incorporate Draft.js
 -   Rename `useVelocityContextState` and move it to `VelocityContextProvider`, don't export `VelocityContext` - This will encapsulate abstract all context management, so the library won't need to then export `VelocityContext`
