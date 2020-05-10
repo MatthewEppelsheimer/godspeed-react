@@ -228,6 +228,7 @@ const useVelocityContext = () => {
 
 	return context;
 };
+// @todo add defaultProps and propTypes
 
 const VelocityContextProvider = (props) => {
 	const { children, value } = props;
@@ -238,6 +239,7 @@ const VelocityContextProvider = (props) => {
 		</VelocityContext.Provider>
 	);
 };
+// @todo add defaultProps and propTypes
 
 export default VelocityContext;
 export { useVelocityContext, useVelocityContextState, VelocityContextProvider };
