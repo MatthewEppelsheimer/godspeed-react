@@ -31,9 +31,9 @@ const GodspeedContext = createContext({
 GodspeedContext.displayName = "Godspeed Context";
 
 // custom hook to abstract core <Godspeed /> functionality, to provide context from component state
-// @TODO change signature to accept an object w/ keyed input instead of individual params
-const useGodspeed = (dataIn, dataStore, slotFills, defaultSearchPhrase) => {
-	const initialData = useMemo(() => indexData(dataIn), [dataIn]); // ONLY for setting INITIAL state values
+const useGodspeed = (options) => {
+	const { records, dataStore, slotFills, defaultSearchPhrase } = options;
+	const initialData = useMemo(() => indexData(records), [records]); // ONLY for setting INITIAL state values
 	const initialState = {
 		editors: [{ id: "main" }],
 		records: initialData,

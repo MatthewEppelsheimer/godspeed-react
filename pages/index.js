@@ -42,7 +42,7 @@ export default function Home() {
 				<title>{siteTitle}</title>
 			</Head>
 			<Godspeed
-				data={DATA}
+				records={DATA}
 				dataStore={dataStoreCrudCallbacks}
 				slotFills={slotfills}
 			/>

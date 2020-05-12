@@ -16,7 +16,6 @@ Note that actual search is severely limited at this point — only phrases that 
 
 ## MVP
 
--   Refactor `useGodspeedContextState` signature to use options object param and name it `useGodspeed`
 -   Split context into multiple contexts to improve performance of consumers
     -   (currently each completely re-renders whenever any state changes, which is every keystroke)
 -   create user API for specifying data shape, result list template, and editor template
