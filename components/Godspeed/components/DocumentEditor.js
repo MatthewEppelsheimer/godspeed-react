@@ -16,6 +16,8 @@ const DocumentEditor = (props) => {
 	const editor = context.getEditorById(id);
 	const { record } = editor;
 
+	// @todo: Potential performance optimization: Delegate this to
+	// DocumentEditorTemplate, avoid destroying it when no open document.
 	if (!record) {
 		return (
 			<>
