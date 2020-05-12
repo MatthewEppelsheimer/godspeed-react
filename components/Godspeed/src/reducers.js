@@ -2,7 +2,6 @@ import { log } from "./log";
 import { indexData } from "./search";
 
 // @todo define & return newState once, reused by each case
-// @todo alpha-sort switch cases
 const dataReducer = (state, action) => {
 	const getRecordByIndex = (index) => {
 		return state.records.find((record) => index === record.index);
@@ -14,6 +13,18 @@ const dataReducer = (state, action) => {
 
 	// console.log("dataReducer called with state:", state, "action:", action);
 	switch (action.type) {
+		// Replace entire set of displayedRecords
+		case "displayedRecords.set":
+			try {
+				const newState = { ...state };
+				newState.displayedRecords = indexData(action.records);
+				// console.log("reducer returning with newState:", newState);
+				return newState;
+			} catch (error) {
+				log(error);
+			}
+			break;
+
 		// Set an editor's state
 		case "editor.setState":
 			try {
@@ -47,18 +58,6 @@ const dataReducer = (state, action) => {
 			try {
 				state.records = indexData(action.records);
 				return state;
-			} catch (error) {
-				log(error);
-			}
-			break;
-
-		case "displayedRecords.set":
-			// Replace entire set of displayedRecords
-			try {
-				const newState = { ...state };
-				newState.displayedRecords = indexData(action.records);
-				// console.log("reducer returning with newState:", newState);
-				return newState;
 			} catch (error) {
 				log(error);
 			}
