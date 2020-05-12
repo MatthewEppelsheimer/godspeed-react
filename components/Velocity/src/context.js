@@ -182,8 +182,26 @@ const useVelocityContextState = (
 		});
 
 		// update external data store
+		// @todo pretty sure this is broken
 		dataStore.read?.(record);
 	};
+
+	// get an editor state
+	const getEditorState = (editorId) => {
+		const editor = state.editors.find((editor) => editorId === editor.id);
+		return editor.state || null;
+	};
+
+	const setEditorState = (editorId, newEditorState) => {
+		const type = "editor.setState";
+		dispatch({
+			type,
+			editorId,
+			newEditorState,
+		});
+	};
+
+	// @todo to complete support for multiple editors add `createEditor()`
 
 	const handleKeyEnter = () => {
 		if (CONFIG.default_selected_index !== selectionIndex) {
@@ -224,6 +242,10 @@ const useVelocityContextState = (
 	};
 
 	const contextValue = {
+		editorOps: {
+			getState: getEditorState,
+			setState: setEditorState,
+		},
 		editors: state.editors,
 		handleKey: {
 			enter: handleKeyEnter,
