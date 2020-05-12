@@ -2,10 +2,7 @@ import PropTypes from "prop-types";
 import DocumentEditor from "./DocumentEditor";
 import ResultList from "./ResultList";
 import SearchField from "./SearchField";
-import {
-	useGodspeedContextState,
-	GodspeedContextProvider,
-} from "../src/context";
+import { useGodspeed, GodspeedContextProvider } from "../src/context";
 
 const Godspeed = (props) => {
 	const {
@@ -17,7 +14,7 @@ const Godspeed = (props) => {
 	} = props;
 	const defaultSearchPhrase = ""; // @todo implement (currently does nothing)
 
-	const context = useGodspeedContextState(
+	const context = useGodspeed(
 		data,
 		dataStore,
 		slotFills,
