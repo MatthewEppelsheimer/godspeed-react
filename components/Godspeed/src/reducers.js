@@ -94,6 +94,11 @@ const dataReducer = (state, action) => {
 				});
 				break;
 
+			// Set the current selection index
+			case "selectionIndex.set":
+				newState.selectionIndex = action.newIndex;
+				break;
+
 			default:
 				log(new Error("unrecognized action.type"));
 		}

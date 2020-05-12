@@ -14,17 +14,22 @@ const useGodspeed = (options) => {
 		editors: [{ id: "main" }],
 		records: initialData,
 		displayedRecords: initialData,
+		selectionIndex: CONFIG.default_selected_index,
 	};
 
-	// @WIP refactor to combine these into the reducer
 	const [state, dispatch] = useReducer(dataReducer, indexData(initialState));
+
+	// @todo refactor to combine these into the reducer
 	const [searchPhrase, setSearchPhrase] = useState("");
-	// @TODO use selectedKey
-	// @TODO merge this into `state`
-	// const [selectionKey, setSelectionKey] = useState(CONFIG.default_selected_key); // store key of selected element, so it stays selected even when its index changes in response to searchPhrase changes
-	const [selectionIndex, setSelectionIndex] = useState(
-		CONFIG.default_selected_index
-	);
+
+	// get selection index
+	const selectionIndex = () => state.selectionIndex;
+
+	// set selection index
+	const setSelectionIndex = (newIndex) => {
+		const type = "selectionIndex.set";
+		dispatch({ type, newIndex });
+	};
 
 	// wrap setSelectedResultIndex by updating selectionKey as well first
 	const updateSelectedTo = (newValue) => {
@@ -78,19 +83,21 @@ const useGodspeed = (options) => {
 
 	// move selected result down one; don't go further than last result
 	const selectNext = () => {
-		updateSelectedTo(
-			state.displayedRecords.length - 1 === selectionIndex
-				? selectionIndex
-				: selectionIndex + 1
-		);
+		const currentIndex = selectionIndex();
+		const newIndex =
+			state.displayedRecords.length - 1 === currentIndex
+				? currentIndex
+				: currentIndex + 1;
+		updateSelectedTo(newIndex);
 	};
 
 	// move selected result up one; don't go further than -1, which is none selected
 	const selectPrevious = () => {
+		const currentIndex = selectionIndex();
 		updateSelectedTo(
-			CONFIG.default_selected_index === selectionIndex
-				? selectionIndex
-				: selectionIndex - 1
+			CONFIG.default_selected_index === currentIndex
+				? currentIndex
+				: currentIndex - 1
 		);
 	};
 
@@ -197,9 +204,11 @@ const useGodspeed = (options) => {
 	// @todo to complete support for multiple editors add `createEditor()`
 
 	const handleKeyEnter = () => {
-		if (CONFIG.default_selected_index !== selectionIndex) {
+		const currentIndex = selectionIndex();
+		console.log(currentIndex);
+		if (CONFIG.default_selected_index !== currentIndex) {
 			// if something's selected, open it
-			openRecordByIndex(selectionIndex);
+			openRecordByIndex(currentIndex);
 		} else {
 			// if nothing selected:
 			// create new record
@@ -218,10 +227,11 @@ const useGodspeed = (options) => {
 	//  then blur search input
 	const handleKeyEscape = () => {
 		let shouldBlurSearchField = false;
+		const currentIndex = selectionIndex();
 
 		if (false) {
 			// @todo implement switch of focus from document editor to search field
-		} else if (-1 !== selectionIndex) {
+		} else if (-1 !== currentIndex) {
 			updateSelectedTo(CONFIG.default_selected_index);
 		} else if ("" === searchPhrase) {
 			shouldBlurSearchField = true;
@@ -246,7 +256,7 @@ const useGodspeed = (options) => {
 			update: updateSearch,
 		},
 		selection: {
-			index: selectionIndex,
+			index: () => selectionIndex(),
 			next: selectNext,
 			previous: selectPrevious,
 		},
@@ -264,8 +274,8 @@ const useGodspeed = (options) => {
 	};
 
 	const keyController = {
-		enter: handleKeyEnter,
-		escape: handleKeyEscape,
+		enter: () => handleKeyEnter(),
+		escape: () => handleKeyEscape(),
 	};
 
 	return {
