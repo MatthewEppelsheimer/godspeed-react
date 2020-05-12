@@ -12,23 +12,13 @@ import { useVelocityContext } from "../src/context";
 import VelocityDocumentEditor from "./VelocityDocumentEditor";
 
 /**
- * WIP point in progress:
- *
- * - Need to lift up editorState to <Velocity />, so changes are logged to its
- *   `state` and thus propagate down via context, to be passed here to
- *   Editor.editorState prop.
- * - Applications won't always need Draft.js — they may prefer a different
- *   editor or not even need to edit/update text, but just display it
- *   statically — so export a `useDraft` hook that essentially builds in
- *   compatibility with Draft.js, by working w/ EditorState & ContentState
- *   objects
+ * Default Draft.js document editor
  */
 const VelocityDocumentEditorTemplate = (props) => {
 	const { id } = props;
 
 	const context = useVelocityContext();
 	const { setState } = context.editorOps;
-	const { update } = context.recordOps;
 
 	const editor = context.editors.find((editor) => id === editor.id);
 	const document = editor.record;
@@ -44,35 +34,25 @@ const VelocityDocumentEditorTemplate = (props) => {
 		[initialContentState]
 	);
 
-	// !!!! WIP POINT !!!!
-	// below not working; fucking up cursor position
-	//
-
-	// Initialize GS context state on first run
+	// Initialize state on first run
 	let state = editor?.state || false;
-	useEffect(() => {
-		if (!state) {
-			console.log("foo");
-			// queue upstream state change
-			setState(editor.id, initialEditorState);
-			// and support first render
-			state = initialEditorState;
-		}
-	});
-	// and support local state's first render as well
 	if (!state) {
-		// and support first render
 		state = initialEditorState;
 	}
+	// and also push it to context-managed state after first render
+	// @NOTE Features work without this in development; not sure if this is
+	// useful, though it seems like a good idea.
+	useEffect(() => {
+		if (!state) {
+			state = initialEditorState;
+			setState(id, state);
+		}
+	}, []);
 
 	const handleChange = (newState) => {
 		const newPlainText = newState.getCurrentContent().getPlainText();
 
-		setState(newState);
-		// WIP!
-		// PERHAPS IF THIS WERE MERGED INTO THE REDUCER
-		// ; only trigger a single state change for
-		update(document, newPlainText);
+		setState(id, newState, document, newPlainText);
 		console.log(newPlainText);
 	};
 

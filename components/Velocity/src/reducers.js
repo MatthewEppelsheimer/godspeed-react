@@ -26,6 +26,15 @@ const dataReducer = (state, action) => {
 					return editor;
 				});
 
+				if (action.record?.key && action.newRecordBody) {
+					newState.records.map((rec) => {
+						if (action.record.key === rec.key) {
+							rec.body = action.newRecordBody;
+						}
+						return rec;
+					});
+				}
+
 				return newState;
 			} catch (error) {
 				log(error);
@@ -123,7 +132,6 @@ const dataReducer = (state, action) => {
 			// update the active document
 			try {
 				const newState = { ...state };
-				const record = getRecordById(action.key);
 
 				newState.records.map((record) => {
 					if (action.key === record.key) {

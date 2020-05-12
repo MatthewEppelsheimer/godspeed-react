@@ -192,13 +192,35 @@ const useVelocityContextState = (
 		return editor.state || null;
 	};
 
-	const setEditorState = (editorId, newEditorState) => {
+	// set an editor state
+	// possibly also update a record accordingly
+	const setEditorState = (
+		editorId,
+		newEditorState,
+		record = null,
+		newRecordBody = null
+	) => {
 		const type = "editor.setState";
-		dispatch({
+		const action = {
 			type,
 			editorId,
 			newEditorState,
-		});
+		};
+
+		let alsoUpdatingRecord = false;
+		if (record && newRecordBody) {
+			action.record = record;
+			action.newRecordBody = newRecordBody;
+			alsoUpdatingRecord = true;
+		}
+
+		dispatch(action);
+
+		// @todo consider debouncing internally
+		if (alsoUpdatingRecord) {
+			// @TODO avoid calling this if dispatching the action failed
+			dataStore.update?.(record);
+		}
 	};
 
 	// @todo to complete support for multiple editors add `createEditor()`
