@@ -5,14 +5,14 @@ import Result from "./components/Result";
 import ResultList from "./components/ResultList";
 import SearchField from "./components/SearchField";
 import GodspeedContext, {
-	useGodspeedContext,
-	GodspeedContextProvider,
+	useGodspeedContextDEPRECATED,
+	GodspeedContextProviders,
 } from "./src/context";
 
 export {
-	useGodspeedContext,
+	useGodspeedContextDEPRECATED,
 	GodspeedContext,
-	GodspeedContextProvider,
+	GodspeedContextProviders,
 	DeleteButton,
 	DocumentEditor,
 	Result,

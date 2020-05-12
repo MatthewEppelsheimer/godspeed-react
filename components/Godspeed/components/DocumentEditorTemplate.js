@@ -8,7 +8,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { PropTypes } from "prop-types";
 import { ContentState, Editor, EditorState } from "draft-js";
-import { useGodspeedContext } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context";
 import DocumentEditor from "./DocumentEditor";
 
 /**
@@ -17,7 +17,7 @@ import DocumentEditor from "./DocumentEditor";
 const DocumentEditorTemplate = (props) => {
 	const { id } = props;
 
-	const context = useGodspeedContext();
+	const context = useGodspeedContextDEPRECATED();
 	const { setState } = context.editorOps;
 
 	const editor = context.editors.find((editor) => id === editor.id);

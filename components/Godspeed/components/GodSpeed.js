@@ -3,7 +3,7 @@ import DocumentEditor from "./DocumentEditor";
 import ResultList from "./ResultList";
 import SearchField from "./SearchField";
 import { useGodspeed } from "../src/controller";
-import { GodspeedContextProvider } from "../src/context";
+import { GodspeedContextProviders } from "../src/context";
 
 const Godspeed = (props) => {
 	const {
@@ -15,7 +15,7 @@ const Godspeed = (props) => {
 		slotFills,
 	} = props;
 
-	const context = useGodspeed({
+	const [controller] = useGodspeed({
 		defaultSearchPhrase,
 		dataStore,
 		records,
@@ -23,7 +23,7 @@ const Godspeed = (props) => {
 	});
 
 	return (
-		<GodspeedContextProvider value={context}>
+		<GodspeedContextProviders controller={controller}>
 			{children || (
 				<>
 					<SearchField placeholder={searchInputPlaceholder} />
@@ -31,7 +31,7 @@ const Godspeed = (props) => {
 					<DocumentEditor />
 				</>
 			)}
-		</GodspeedContextProvider>
+		</GodspeedContextProviders>
 	);
 };
 Godspeed.defaultProps = {

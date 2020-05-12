@@ -234,7 +234,7 @@ const useGodspeed = (options) => {
 		return { shouldBlurSearchField };
 	};
 
-	const contextValue = {
+	const deprecatedController = {
 		editorOps: {
 			getState: getEditorState,
 			setState: setEditorState,
@@ -262,7 +262,7 @@ const useGodspeed = (options) => {
 		slotFills: slotFills,
 	};
 
-	return contextValue;
+	return [deprecatedController];
 };
 
 export { useGodspeed };

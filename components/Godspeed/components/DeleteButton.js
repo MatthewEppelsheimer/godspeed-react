@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import { useGodspeedContext } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context";
 
 const DeleteButton = (props) => {
 	const { name, record } = props;
 
-	const { recordOps } = useGodspeedContext();
+	const { recordOps } = useGodspeedContextDEPRECATED();
 
 	return (
 		<button

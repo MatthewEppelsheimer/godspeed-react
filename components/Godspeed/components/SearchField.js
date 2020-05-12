@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import PropTypes from "prop-types";
-import { useGodspeedContext } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context";
 
 const SearchField = (props) => {
 	const { placeholder } = props;
 
-	const { handleKey, search, selection } = useGodspeedContext();
+	const { handleKey, search, selection } = useGodspeedContextDEPRECATED();
 
 	const searchFieldRef = useRef(null);
 

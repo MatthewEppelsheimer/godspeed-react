@@ -6,12 +6,12 @@
  */
 
 import PropTypes from "prop-types";
-import { useGodspeedContext } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context";
 import DocumentEditorTemplate from "./DocumentEditorTemplate";
 
 const DocumentEditor = (props) => {
 	const { id } = props;
-	const context = useGodspeedContext();
+	const context = useGodspeedContextDEPRECATED();
 
 	const editor = context?.editors.find((editor) => id === editor.id);
 	const { record } = editor;

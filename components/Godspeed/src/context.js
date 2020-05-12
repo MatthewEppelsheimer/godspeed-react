@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import CONFIG from "../config";
 
-const GodspeedContext = createContext({
+const GodspeedContextDEPRECATED = createContext({
 	// @TODO convert to TypeScript interface
 	// @todo update based on what's actually returned
 	editors: [{ id: "main" }],
@@ -20,14 +20,14 @@ const GodspeedContext = createContext({
 		previous: () => {},
 	},
 });
-GodspeedContext.displayName = "Godspeed Context";
+GodspeedContextDEPRECATED.displayName = "Godspeed Context";
 
-// Wrap useContext(GodspeedContext) in a check that a provider was found
-const useGodspeedContext = () => {
-	const context = useContext(GodspeedContext);
+// Wrap useContext(GodspeedContextDEPRECATED) in a check that a provider was found
+const useGodspeedContextDEPRECATED = () => {
+	const context = useContext(GodspeedContextDEPRECATED);
 	if (context === undefined) {
 		throw new Error(
-			"useGodspeedContext must be used within a GodspeedContextProvider, such as the <Godspeed> component."
+			"useGodspeedContextDEPRECATED must be used within a GodspeedContextDEPRECATEDProvider, such as the <Godspeed> component."
 		);
 	}
 
@@ -35,16 +35,37 @@ const useGodspeedContext = () => {
 };
 // @todo add defaultProps and propTypes
 
-const GodspeedContextProvider = (props) => {
-	const { children, value } = props;
+const GodspeedContextProviders = (props) => {
+	const { children, controller } = props;
+
+	// WIP transitioning away from deprecated provider
+	// decompose to re-compose, to more easily change controller's return shape
+	const {
+		editorOps,
+		editors,
+		handleKey,
+		recordOps,
+		search,
+		selection,
+		slotFills,
+	} = controller;
+	const deprecatedContextValue = {
+		editorOps,
+		editors,
+		handleKey,
+		recordOps,
+		search,
+		selection,
+		slotFills,
+	};
 
 	return (
-		<GodspeedContext.Provider value={value}>
+		<GodspeedContextDEPRECATED.Provider value={deprecatedContextValue}>
 			{children}
-		</GodspeedContext.Provider>
+		</GodspeedContextDEPRECATED.Provider>
 	);
 };
 // @todo add defaultProps and propTypes
 
-export default GodspeedContext;
-export { useGodspeedContext, GodspeedContextProvider };
+export default GodspeedContextDEPRECATED;
+export { useGodspeedContextDEPRECATED, GodspeedContextProviders };

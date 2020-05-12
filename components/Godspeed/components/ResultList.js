@@ -1,8 +1,8 @@
 import Result from "./Result";
-import { useGodspeedContext } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context";
 
 const ResultList = () => {
-	const { search, selection } = useGodspeedContext();
+	const { search, selection } = useGodspeedContextDEPRECATED();
 
 	const resultList = search.results.map(
 		// @todo maybe move these context-provided props down a level?

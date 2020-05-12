@@ -2,14 +2,14 @@ import styles from "./Result.module.css";
 
 import PropTypes from "prop-types";
 import { buildHighlightString } from "../src/selection";
-import { useGodspeedContext } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context";
 import DeleteButton from "./DeleteButton";
 
 const Result = (props) => {
 	// @todo searchPhrase and selectedResultIndex should both come from context
 	const { result, selectedResultIndex, searchPhrase } = props;
 
-	const { selection, slotFills } = useGodspeedContext();
+	const { selection, slotFills } = useGodspeedContextDEPRECATED();
 
 	const inner =
 		"" === searchPhrase
