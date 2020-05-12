@@ -262,7 +262,7 @@ const useGodspeed = (options) => {
 		slotFills: slotFills,
 	};
 
-	return [deprecatedController];
+	return { deprecatedController };
 };
 
 export { useGodspeed };

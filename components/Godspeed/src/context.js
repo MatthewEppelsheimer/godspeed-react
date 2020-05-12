@@ -36,31 +36,12 @@ const useGodspeedContextDEPRECATED = () => {
 // @todo add defaultProps and propTypes
 
 const GodspeedContextProviders = (props) => {
-	const { children, controller } = props;
+	const { children, controllers } = props;
 
-	// WIP transitioning away from deprecated provider
-	// decompose to re-compose, to more easily change controller's return shape
-	const {
-		editorOps,
-		editors,
-		handleKey,
-		recordOps,
-		search,
-		selection,
-		slotFills,
-	} = controller;
-	const deprecatedContextValue = {
-		editorOps,
-		editors,
-		handleKey,
-		recordOps,
-		search,
-		selection,
-		slotFills,
-	};
+	const { deprecatedController } = controllers;
 
 	return (
-		<GodspeedContextDEPRECATED.Provider value={deprecatedContextValue}>
+		<GodspeedContextDEPRECATED.Provider value={deprecatedController}>
 			{children}
 		</GodspeedContextDEPRECATED.Provider>
 	);
