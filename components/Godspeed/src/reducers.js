@@ -11,25 +11,17 @@ const dataReducer = (state, action) => {
 		return state.records.find((record) => id === record.key);
 	};
 
-	// console.log("dataReducer called with state:", state, "action:", action);
-	switch (action.type) {
-		// Replace entire set of displayedRecords
-		case "displayedRecords.set":
-			try {
-				const newState = { ...state };
+	const newState = { ...state };
+
+	try {
+		switch (action.type) {
+			// Replace entire set of displayedRecords
+			case "displayedRecords.set":
 				newState.displayedRecords = indexData(action.records);
-				// console.log("reducer returning with newState:", newState);
-				return newState;
-			} catch (error) {
-				log(error);
-			}
-			break;
+				break;
 
-		// Set an editor's state
-		case "editor.setState":
-			try {
-				const newState = { ...state };
-
+			// Set an editor's state
+			case "editor.setState":
 				newState.editors.map((editor) => {
 					if (action.editorId === editor.id) {
 						editor.state = action.newEditorState;
@@ -45,59 +37,33 @@ const dataReducer = (state, action) => {
 						return rec;
 					});
 				}
+				break;
 
-				return newState;
-			} catch (error) {
-				log(error);
-			}
-			break;
+			// Replace entire set of records set
+			case "records.set":
+				newState.records = indexData(action.records);
+				break;
 
-		// Replace entire set of records set
-		// @todo operate on newState instead of mutating state object
-		case "records.set":
-			try {
-				state.records = indexData(action.records);
-				return state;
-			} catch (error) {
-				log(error);
-			}
-			break;
-
-		case "record.create":
 			// add record to dataset
-			try {
-				const newState = { ...state };
+			case "record.create":
 				newState.records.unshift(action.newRecord);
 				newState.records = indexData(newState.records);
-				return newState;
-			} catch (error) {
-				log(error);
-			}
-			break;
+				break;
 
-		case "record.delete":
 			// delete record from dataset
-			try {
+			case "record.delete":
 				const filter = (records) =>
 					indexData(
 						records.filter((record) => action.key !== record.key)
 					);
-				const newState = { ...state };
 
 				// @TODO stopping after done would be more efficient than always looping through all records
 				newState.records = filter(newState.records);
 				newState.displayedRecords = filter(newState.displayedRecords);
-				// console.log("delete case returning with newState:", state);
-				return newState;
-			} catch (error) {
-				log(error);
-			}
-			break;
+				break;
 
-		case "record.setActive":
 			// switch the active document
-			try {
-				const newState = { ...state };
+			case "record.setActive":
 				const record = getRecordByIndex(action.index);
 				const id = action.editorId;
 
@@ -120,35 +86,26 @@ const dataReducer = (state, action) => {
 				if (uninitialized) {
 					newState.editors.unshift(newEditor);
 				}
+				break;
 
-				return newState;
-			} catch (error) {
-				log(error);
-			}
-			break;
-
-		case "record.update":
 			// update the active document
-			try {
-				const newState = { ...state };
-
+			case "record.update":
 				newState.records.map((record) => {
 					if (action.key === record.key) {
 						record.body = action.body;
 					}
 					return record;
 				});
+				break;
 
-				return newState;
-			} catch (error) {
-				log(error);
-			}
-			break;
-
-		default:
-			log(new Error("unrecognized action.type"));
-			return false;
+			default:
+				log(new Error("unrecognized action.type"));
+		}
+	} catch (error) {
+		log(error);
 	}
+
+	return newState;
 };
 
 export { dataReducer };
