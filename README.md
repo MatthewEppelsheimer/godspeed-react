@@ -6,6 +6,8 @@ Because Draft.js supports unicode, you must have the following meta tag in the <
 <meta charset="utf-8" />
 ```
 
+You'll also need to include `Draft.css`, which you can import from `'draft-js/dist/Draft.css'`. (In a Nextjs app, add `import "draft-js/dist/draft.css"` to `pages/_app.js`.)
+
 Note this uses the `?.` [optional chaining operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining), which is awesome but isn't yet compatible with all browsers. If you need to support all browsers, [@TODO]…
 
 Note that actual search is severely limited at this point — only phrases that exactly match as typed will match. I'll prioritize making this far better after essential UI functionality is working.. Perhaps sooner than that I will introduce a way for you to override the search algorithm so you can replace it with your own search methods.
