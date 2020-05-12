@@ -6,14 +6,14 @@
  */
 
 import PropTypes from "prop-types";
-import { useGodspeedContextDEPRECATED } from "../src/context";
+import { useGodspeedContextEditorsMutable } from "../src/context";
 import DocumentEditorTemplate from "./DocumentEditorTemplate";
 
 const DocumentEditor = (props) => {
 	const { id } = props;
-	const context = useGodspeedContextDEPRECATED();
+	const context = useGodspeedContextEditorsMutable();
 
-	const editor = context?.editors.find((editor) => id === editor.id);
+	const editor = context.getEditorById(id);
 	const { record } = editor;
 
 	if (!record) {
@@ -25,6 +25,7 @@ const DocumentEditor = (props) => {
 		);
 	}
 
+	// @todo actually port template into a context
 	const template = context?.template || <DocumentEditorTemplate id={id} />;
 
 	return <div className="document">{template}</div>;

@@ -1,6 +1,8 @@
 import { createContext, useContext } from "react";
 import CONFIG from "../config";
 
+// @todo add defaultProps and propTypes for all components
+
 const GodspeedContextDEPRECATED = createContext({
 	// @TODO convert to TypeScript interface
 	// @todo update based on what's actually returned
@@ -33,20 +35,57 @@ const useGodspeedContextDEPRECATED = () => {
 
 	return context;
 };
-// @todo add defaultProps and propTypes
+
+const GodspeedContextEditors = createContext({
+	// @todo add initial state
+});
+GodspeedContextEditors.displayName = "Godspeed Editor Context";
+
+const GodspeedContextEditorsMutable = createContext({
+	// @todo add initial state
+});
+GodspeedContextEditorsMutable.displayName = "Godspeed Mutable Editor Context";
+
+const useGodspeedContextEditorsMutable = () => {
+	const context = useContext(GodspeedContextEditorsMutable);
+	if (context === undefined) {
+		throw new Error(
+			"useGodspeedContextEditorsMutable must be used within a GodspeedContextEditorsMutable, such as the <Godspeed> component."
+		);
+	}
+
+	return context;
+};
 
 const GodspeedContextProviders = (props) => {
 	const { children, controllers } = props;
 
-	const { deprecatedController } = controllers;
+	const { deprecatedController, editorController } = controllers;
+
+	const { getEditors } = editorController;
+	const editors = getEditors();
+	const editorMutableContext = {
+		editors: editors,
+		getEditorById: (id) => editors.find((editor) => id === editor.id),
+	};
 
 	return (
 		<GodspeedContextDEPRECATED.Provider value={deprecatedController}>
-			{children}
+			<GodspeedContextEditorsMutable.Provider
+				value={editorMutableContext}
+			>
+				{children}
+			</GodspeedContextEditorsMutable.Provider>
 		</GodspeedContextDEPRECATED.Provider>
 	);
 };
 // @todo add defaultProps and propTypes
 
 export default GodspeedContextDEPRECATED;
-export { useGodspeedContextDEPRECATED, GodspeedContextProviders };
+export {
+	useGodspeedContextDEPRECATED,
+	useGodspeedContextEditorsMutable,
+	GodspeedContextProviders,
+	GodspeedContextEditors,
+	GodspeedContextEditorsMutable,
+};

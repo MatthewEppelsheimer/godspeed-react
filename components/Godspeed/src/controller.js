@@ -262,7 +262,20 @@ const useGodspeed = (options) => {
 		slotFills: slotFills,
 	};
 
-	return { deprecatedController };
+	// okay for each of these to be immutable; these are logical groupings, not
+	// intended to serve as context provider values. For those, see
+	// src/contexts.js
+
+	const editorController = {
+		getEditors: () => state.editors,
+		getState: getEditorState,
+		setState: setEditorState,
+	};
+
+	return {
+		deprecatedController,
+		editorController,
+	};
 };
 
 export { useGodspeed };
