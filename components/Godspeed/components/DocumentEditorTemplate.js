@@ -12,7 +12,6 @@ import {
 	useGodspeedContextEditors,
 	useGodspeedContextEditorsMutable,
 } from "../src/context";
-import DocumentEditor from "./DocumentEditor";
 
 /**
  * Default Draft.js document editor
