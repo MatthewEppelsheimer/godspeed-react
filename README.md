@@ -16,8 +16,12 @@ Note that actual search is severely limited at this point — only phrases that 
 
 ## MVP
 
+-   rename to "Godspeed"
+    -   Velocity.js is already taken
+-   Refactor `useVelocityContextState` signature with options object param
+-   Split context into multiple contexts to improve performance of consumers
+    -   (currently each completely re-renders whenever any state changes, which is every keystroke)
 -   create user API for specifying data shape, result list template, and editor template
--   improve useVelocityContextState's signature
 -   consume passed-in data shape
 -   consume passed-in editor template
 -   basic JSDoc for each component and functions, make import style consistent
@@ -25,18 +29,13 @@ Note that actual search is severely limited at this point — only phrases that 
 -   Revise to make action verbs and terminology consistent in all state management
 -   add tests for reducer
 -   add tests for `useVelocityContext`
--   Update a document, firing callback
--   incorporate Draft.js
--   Rename `useVelocityContextState` and move it to `VelocityContextProvider`, don't export `VelocityContext` - This will encapsulate abstract all context management, so the library won't need to then export `VelocityContext`
--   Refactor `useVelocityContextState` signature with options object param
--   Review and resolve all todos
+-   Review and resolve all pre-MVP todos
 -   Consider file reorganization
 -   Typescript
 -   add accessibility considerations
 -   basic keyboard navigation improvements (TBD)
 -   code review entire library
 -   Review/reconsider library API, consider whether to commit to a semver 1.0
--   rename… perhaps to "Godspeed" (?) - Velocity.js is already taken
 -   Package into own library, incorporated into a proof of concept consumer of the dependency
 -   publish
 
