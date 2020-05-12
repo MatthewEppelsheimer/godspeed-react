@@ -25,13 +25,14 @@ Note that actual search is severely limited at this point — only phrases that 
 -   basic JSDoc for each component and functions, make import style consistent
 -   add tests for all components
 -   Revise to make action verbs and terminology consistent in all state management
--   add tests for reducer
--   add tests for `useVelocityContext`
+-   test reducers
+-   test `useGodspeedContext`/`useGodspeed`
+-   basic keyboard navigation improvements (TBD)
+-   clear editor when its document is deleted
+-   accessibility considerations
+-   Typescript
 -   Review and resolve all pre-MVP todos
 -   Consider file reorganization
--   Typescript
--   add accessibility considerations
--   basic keyboard navigation improvements (TBD)
 -   code review entire library
 -   Review/reconsider library API, consider whether to commit to a semver 1.0
 -   Package into own library, incorporated into a proof of concept consumer of the dependency
