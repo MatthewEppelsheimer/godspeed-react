@@ -71,8 +71,27 @@ const dataReducer = (state, action) => {
 			try {
 				const newState = { ...state };
 				const record = getRecordByIndex(action.index);
+				const id = action.editorId;
 
-				newState.activeRecord = record;
+				const newEditor = {
+					id,
+					record,
+				};
+
+				let uninitialized = true; // assume it doesn't exist yet
+				newState.editors = newState.editors.map((editor) => {
+					if (id === editor.id) {
+						editor = newEditor;
+						uninitialized = false; // it exists
+					}
+
+					return editor;
+				});
+
+				// initialize the editor if needed
+				if (uninitialized) {
+					newState.editors.unshift(newEditor);
+				}
 
 				return newState;
 			} catch (error) {

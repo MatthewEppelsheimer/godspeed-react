@@ -5,9 +5,11 @@
  * standardized into any default worth committing to maintain, and this will
  * quickly be replaced.
  */
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { PropTypes } from "prop-types";
 import { ContentState, Editor, EditorState } from "draft-js";
 import { useVelocityContext } from "../src/context";
+import VelocityDocumentEditor from "./VelocityDocumentEditor";
 
 /**
  * WIP point thoughts:
@@ -22,15 +24,22 @@ import { useVelocityContext } from "../src/context";
  *   objects
  * - **Try writing the non-Draft version first, for the more general case.
  */
-const VelocityDocumentEditorTemplate = () => {
+const VelocityDocumentEditorTemplate = (props) => {
+	const { editor } = props;
+	const document = editor.record;
+	const { body } = document || "";
+
 	const context = useVelocityContext();
-	const { document, update } = context?.selection || false;
-	const initialContentState = ContentState.createFromText(
-		document?.body || ""
+	const { update } = context?.recordOps;
+
+	const initialContentState = useMemo(
+		() => ContentState.createFromText(body),
+		[body]
 	);
 
-	const initialEditorState = EditorState.createWithContent(
-		initialContentState
+	const initialEditorState = useMemo(
+		() => EditorState.createWithContent(initialContentState),
+		[initialContentState]
 	);
 	const [editorState, setEditorState] = useState(initialEditorState);
 
@@ -43,36 +52,9 @@ const VelocityDocumentEditorTemplate = () => {
 	};
 
 	return <Editor editorState={editorState} onChange={handleChange} />;
-
-	// const { body, name } = document || {
-	// 	body: "No document body. Edit to give this document a body.",
-	// 	name: "No document name.",
-	// };
-
-	// return (
-	// 	<>
-	// 		{name ? (
-	// 			<h1 className="document__name">{name}</h1>
-	// 		) : (
-	// 			<h1
-	// 				className="document__name document__name--placeholder"
-	// 				style={{ fontStyle: "italic" }}
-	// 			>
-	// 				No document name yet
-	// 			</h1>
-	// 		)}
-	// 		{body ? (
-	// 			<div className="document__body">{body}</div>
-	// 		) : (
-	// 			<div
-	// 				className="document__body document__body--placeholder"
-	// 				style={{ fontStyle: "italic" }}
-	// 			>
-	// 				Add content to this document
-	// 			</div>
-	// 		)}
-	// 	</>
-	// );
+};
+VelocityDocumentEditorTemplate.propTypes = {
+	editor: PropTypes.shape({}),
 };
 
 export default VelocityDocumentEditorTemplate;

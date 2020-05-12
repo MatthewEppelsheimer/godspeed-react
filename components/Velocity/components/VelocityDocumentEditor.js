@@ -5,14 +5,18 @@
  * and logic to load the correct display template as a child component.
  */
 
+import PropTypes from "prop-types";
 import { useVelocityContext } from "../src/context";
 import VelocityDocumentEditorTemplate from "./VelocityDocumentEditorTemplate";
 
-const VelocityDocumentEditor = () => {
+const VelocityDocumentEditor = (props) => {
+	const { id } = props;
 	const context = useVelocityContext();
-	const { document } = context?.selection || false;
 
-	if (!document) {
+	const editor = context?.editors.find((editor) => id === editor.id);
+	const { record } = editor;
+
+	if (!record) {
 		return (
 			<>
 				<h1>No document selected</h1>
@@ -21,9 +25,17 @@ const VelocityDocumentEditor = () => {
 		);
 	}
 
-	const template = context?.template || <VelocityDocumentEditorTemplate />;
+	const template = context?.template || (
+		<VelocityDocumentEditorTemplate editor={editor} />
+	);
 
 	return <div className="document">{template}</div>;
+};
+VelocityDocumentEditor.defaultProps = {
+	id: "main",
+};
+VelocityDocumentEditor.propTypes = {
+	id: PropTypes.string.isRequired,
 };
 
 export default VelocityDocumentEditor;

@@ -12,6 +12,7 @@ import { dataReducer } from "./reducers";
 const VelocityContext = createContext({
 	// @TODO convert to TypeScript interface
 	// @todo update based on what's actually returned
+	editors: [{ id: "main" }],
 	handleKey: {
 		escape: () => {},
 	},
@@ -39,7 +40,7 @@ const useVelocityContextState = (
 ) => {
 	const initialData = useMemo(() => indexData(dataIn), [dataIn]); // ONLY for setting INITIAL state values
 	const initialState = {
-		activeRecord: null,
+		editors: [{ id: "main" }],
 		records: initialData,
 		displayedRecords: initialData,
 	};
@@ -172,10 +173,12 @@ const useVelocityContextState = (
 	};
 
 	// Make a record the actively opened one
-	const openRecordByIndex = (index) => {
+	const openRecordByIndex = (index, editorId = "main") => {
+		const type = "record.setActive";
 		dispatch({
-			type: "record.setActive",
-			index: index,
+			type,
+			index,
+			editorId,
 		});
 
 		// update external data store
@@ -221,9 +224,15 @@ const useVelocityContextState = (
 	};
 
 	const contextValue = {
+		editors: state.editors,
 		handleKey: {
 			enter: handleKeyEnter,
 			escape: handleKeyEscape,
+		},
+		recordOps: {
+			create: createRecord,
+			delete: deleteRecord,
+			update: updateRecord,
 		},
 		search: {
 			phrase: searchPhrase,
@@ -231,13 +240,9 @@ const useVelocityContextState = (
 			update: updateSearch,
 		},
 		selection: {
-			delete: deleteRecord,
-			document: state.activeRecord,
-			create: createRecord,
 			index: selectionIndex,
 			next: selectNext,
 			previous: selectPrevious,
-			update: updateRecord,
 		},
 		slotFills: slotFills,
 	};

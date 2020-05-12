@@ -4,12 +4,12 @@ import { useVelocityContext } from "../src/context";
 const VelocityDeleteButton = (props) => {
 	const { name, record } = props;
 
-	const { selection } = useVelocityContext();
+	const { recordOps } = useVelocityContext();
 
 	return (
 		<button
 			className="delete_button"
-			onClick={() => selection.delete(record)}
+			onClick={() => recordOps.delete(record)}
 		>
 			{name}
 		</button>
