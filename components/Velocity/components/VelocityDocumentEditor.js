@@ -26,7 +26,7 @@ const VelocityDocumentEditor = (props) => {
 	}
 
 	const template = context?.template || (
-		<VelocityDocumentEditorTemplate editor={editor} />
+		<VelocityDocumentEditorTemplate id={id} />
 	);
 
 	return <div className="document">{template}</div>;

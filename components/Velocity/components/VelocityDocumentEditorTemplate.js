@@ -12,7 +12,7 @@ import { useVelocityContext } from "../src/context";
 import VelocityDocumentEditor from "./VelocityDocumentEditor";
 
 /**
- * WIP point thoughts:
+ * WIP point in progress:
  *
  * - Need to lift up editorState to <Velocity />, so changes are logged to its
  *   `state` and thus propagate down via context, to be passed here to
@@ -22,18 +22,17 @@ import VelocityDocumentEditor from "./VelocityDocumentEditor";
  *   statically — so export a `useDraft` hook that essentially builds in
  *   compatibility with Draft.js, by working w/ EditorState & ContentState
  *   objects
- * - **Try writing the non-Draft version first, for the more general case.
  */
 const VelocityDocumentEditorTemplate = (props) => {
-	// @NOTE!!!!
-	// @todo will using a prop for this cause unnecessary-re-renders? maybe context instead?
-	const { editor } = props;
-	const document = editor.record;
-	const { body } = document || "";
+	const { id } = props;
 
 	const context = useVelocityContext();
 	const { setState } = context.editorOps;
 	const { update } = context.recordOps;
+
+	const editor = context.editors.find((editor) => id === editor.id);
+	const document = editor.record;
+	const { body } = document || "";
 
 	const initialContentState = useMemo(
 		() => ContentState.createFromText(body),
@@ -47,8 +46,7 @@ const VelocityDocumentEditorTemplate = (props) => {
 
 	// !!!! WIP POINT !!!!
 	// below not working; fucking up cursor position
-	// I suspect this is because of passing editor as a prop:
-	// this whole component will constantly re-render, right?
+	//
 
 	// Initialize GS context state on first run
 	let state = editor?.state || false;
@@ -71,6 +69,9 @@ const VelocityDocumentEditorTemplate = (props) => {
 		const newPlainText = newState.getCurrentContent().getPlainText();
 
 		setState(newState);
+		// WIP!
+		// PERHAPS IF THIS WERE MERGED INTO THE REDUCER
+		// ; only trigger a single state change for
 		update(document, newPlainText);
 		console.log(newPlainText);
 	};
@@ -78,7 +79,7 @@ const VelocityDocumentEditorTemplate = (props) => {
 	return <Editor editorState={state} onChange={handleChange} />;
 };
 VelocityDocumentEditorTemplate.propTypes = {
-	editor: PropTypes.shape({}), // EditorState
+	id: PropTypes.string,
 };
 
 export default VelocityDocumentEditorTemplate;
