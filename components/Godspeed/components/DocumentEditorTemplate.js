@@ -8,7 +8,10 @@
 import { useEffect, useState, useMemo } from "react";
 import { PropTypes } from "prop-types";
 import { ContentState, Editor, EditorState } from "draft-js";
-import { useGodspeedContextDEPRECATED } from "../src/context/deprecated";
+import {
+	useGodspeedContextEditors,
+	useGodspeedContextEditorsMutable,
+} from "../src/context";
 import DocumentEditor from "./DocumentEditor";
 
 /**
@@ -17,10 +20,12 @@ import DocumentEditor from "./DocumentEditor";
 const DocumentEditorTemplate = (props) => {
 	const { id } = props;
 
-	const context = useGodspeedContextDEPRECATED();
-	const { setState } = context.editorOps;
+	const contextEditors = useGodspeedContextEditors();
+	const contextEditorsMutable = useGodspeedContextEditorsMutable();
+	const { setState } = contextEditors;
+	const { getEditorById } = contextEditorsMutable;
 
-	const editor = context.editors.find((editor) => id === editor.id);
+	const editor = getEditorById(id);
 	const document = editor.record;
 	const { body } = document || "";
 

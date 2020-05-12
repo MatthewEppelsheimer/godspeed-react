@@ -14,14 +14,15 @@ const GodspeedContextProviders = (props) => {
 	// see {@link https://reactjs.org/docs/context.html#caveats}
 	// closures passed to useState() mean they'll only run on first render
 	const getInitialEditorContext = () => {
-		{
-			getState, setState;
-		}
+		return {
+			getState,
+			setState,
+		};
 	};
 	const [editorContext] = useState(() => getInitialEditorContext());
 
 	// Only recreate mutable context values when their dependencies have changed
-	// See {@link }
+	// See {@link https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback}
 	const prevEditors = useRef({ current: null });
 
 	const editors = getEditors();
@@ -35,8 +36,7 @@ const GodspeedContextProviders = (props) => {
 	const [editorMutableContext, setEditorMutableContext] = useState(() =>
 		generateEditorMutableContext()
 	);
-	if (prevEditors.current !== editors) {
-		console.log("setting editorMutableContext");
+	if (prevEditors.current && prevEditors.current !== editors) {
 		setEditorMutableContext(generateEditorMutableContext());
 	}
 
