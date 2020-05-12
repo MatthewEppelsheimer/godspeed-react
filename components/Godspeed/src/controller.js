@@ -235,11 +235,6 @@ const useGodspeed = (options) => {
 	};
 
 	const deprecatedController = {
-		editorOps: {
-			getState: getEditorState,
-			setState: setEditorState,
-		},
-		editors: state.editors,
 		handleKey: {
 			enter: handleKeyEnter,
 			escape: handleKeyEscape,
