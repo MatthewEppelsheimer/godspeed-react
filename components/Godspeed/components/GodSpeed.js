@@ -3,7 +3,7 @@ import DocumentEditor from "./DocumentEditor";
 import ResultList from "./ResultList";
 import SearchField from "./SearchField";
 import { useGodspeed } from "../src/controller";
-import { GodspeedContextProviders } from "../src/context";
+import GodspeedContextProviders from "./GodspeedContextProviders";
 
 const Godspeed = (props) => {
 	const {

@@ -1,5 +1,5 @@
 import Result from "./Result";
-import { useGodspeedContextDEPRECATED } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context/deprecated";
 
 const ResultList = () => {
 	const { search, selection } = useGodspeedContextDEPRECATED();

@@ -2,7 +2,7 @@ import styles from "./Result.module.css";
 
 import PropTypes from "prop-types";
 import { buildHighlightString } from "../src/selection";
-import { useGodspeedContextDEPRECATED } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context/deprecated";
 import DeleteButton from "./DeleteButton";
 
 const Result = (props) => {

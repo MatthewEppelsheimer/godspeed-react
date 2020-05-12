@@ -8,7 +8,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { PropTypes } from "prop-types";
 import { ContentState, Editor, EditorState } from "draft-js";
-import { useGodspeedContextDEPRECATED } from "../src/context";
+import { useGodspeedContextDEPRECATED } from "../src/context/deprecated";
 import DocumentEditor from "./DocumentEditor";
 
 /**
