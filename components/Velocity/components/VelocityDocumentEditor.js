@@ -6,14 +6,22 @@
  */
 
 import { useVelocityContext } from "../src/context";
-import VelocityDocumentEditorDefaultTemplate from "./VelocityDocumentEditorDefaultTemplate";
+import VelocityDocumentEditorTemplate from "./VelocityDocumentEditorTemplate";
 
 const VelocityDocumentEditor = () => {
 	const context = useVelocityContext();
+	const { document } = context?.selection || false;
 
-	const template = context?.template || (
-		<VelocityDocumentEditorDefaultTemplate />
-	);
+	if (!document) {
+		return (
+			<>
+				<h1>No document selected</h1>
+				<p>Select a document to start editing.</p>
+			</>
+		);
+	}
+
+	const template = context?.template || <VelocityDocumentEditorTemplate />;
 
 	return <div className="document">{template}</div>;
 };

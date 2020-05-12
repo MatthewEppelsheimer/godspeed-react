@@ -3,6 +3,14 @@ import { indexData } from "./search";
 
 // @todo define & return newState once, reused by each case
 const dataReducer = (state, action) => {
+	const getRecordByIndex = (index) => {
+		return state.records.find((record) => index === record.index);
+	};
+
+	const getRecordById = (id) => {
+		return state.records.find((record) => id === record.key);
+	};
+
 	// console.log("dataReducer called with state:", state, "action:", action);
 	switch (action.type) {
 		// Replace entire set of records set
@@ -62,10 +70,28 @@ const dataReducer = (state, action) => {
 			// switch the active document
 			try {
 				const newState = { ...state };
-				const record = state.records.find(
-					(record) => action.index === record.index
-				);
+				const record = getRecordByIndex(action.index);
+
 				newState.activeRecord = record;
+
+				return newState;
+			} catch (error) {
+				log(error);
+			}
+			break;
+
+		case "record.update":
+			// update the active document
+			try {
+				const newState = { ...state };
+				const record = getRecordById(action.key);
+
+				newState.records.map((record) => {
+					if (action.key === record.key) {
+						record.body = action.body;
+					}
+					return record;
+				});
 
 				return newState;
 			} catch (error) {

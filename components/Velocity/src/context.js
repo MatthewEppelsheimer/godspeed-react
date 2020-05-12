@@ -158,6 +158,19 @@ const useVelocityContextState = (
 		dataStore.delete?.(record);
 	};
 
+	// Update a record
+	const updateRecord = (record, newBody) => {
+		dispatch({
+			type: "record.update",
+			key: record.key,
+			body: newBody,
+		});
+
+		// update external data store when there is one
+		// @TODO avoid calling this if dispatching the action failed
+		dataStore.update?.(record);
+	};
+
 	// Make a record the actively opened one
 	const openRecordByIndex = (index) => {
 		dispatch({
@@ -224,6 +237,7 @@ const useVelocityContextState = (
 			index: selectionIndex,
 			next: selectNext,
 			previous: selectPrevious,
+			update: updateRecord,
 		},
 		slotFills: slotFills,
 	};

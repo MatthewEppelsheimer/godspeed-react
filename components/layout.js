@@ -17,7 +17,6 @@ export default function Layout({ children, home }) {
 					name="description"
 					content="Learn how to build a personal website using Next.js"
 				/>
-				<meta charset="utf-8" />
 				<meta
 					property="og:image"
 					content={`https://og-image.now.sh/${encodeURI(

@@ -1,5 +1,3 @@
-/** @format */
-
 export default [
 	{
 		key: "pandas1", // Unique identifier, use for list key
