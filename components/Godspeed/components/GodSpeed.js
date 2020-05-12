@@ -8,11 +8,11 @@ const Godspeed = (props) => {
 	const {
 		children,
 		dataStore,
+		defaultSearchPhrase,
 		records,
 		searchInputPlaceholder,
 		slotFills,
 	} = props;
-	const defaultSearchPhrase = ""; // @todo implement (currently does nothing)
 
 	const context = useGodspeed({
 		defaultSearchPhrase,
@@ -34,6 +34,7 @@ const Godspeed = (props) => {
 	);
 };
 Godspeed.defaultProps = {
+	defaultSearchPhrase: "",
 	searchInputPlaceholder: "Type to search...",
 };
 Godspeed.propTypes = {
