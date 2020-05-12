@@ -1,13 +1,13 @@
-import VelocityResult from "./VelocityResult";
-import { useVelocityContext } from "../src/context";
+import Result from "./Result";
+import { useGodspeedContext } from "../src/context";
 
-const VelocityResultList = () => {
-	const { search, selection } = useVelocityContext();
+const ResultList = () => {
+	const { search, selection } = useGodspeedContext();
 
 	const resultList = search.results.map(
 		// @todo maybe move these context-provided props down a level?
 		(result) => (
-			<VelocityResult
+			<Result
 				key={result.key.toString()}
 				result={result}
 				searchPhrase={search.phrase}
@@ -19,4 +19,4 @@ const VelocityResultList = () => {
 	return <ul>{resultList}</ul>;
 };
 
-export default VelocityResultList;
+export default ResultList;

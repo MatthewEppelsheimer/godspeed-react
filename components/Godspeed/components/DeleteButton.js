@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import { useVelocityContext } from "../src/context";
+import { useGodspeedContext } from "../src/context";
 
-const VelocityDeleteButton = (props) => {
+const DeleteButton = (props) => {
 	const { name, record } = props;
 
-	const { recordOps } = useVelocityContext();
+	const { recordOps } = useGodspeedContext();
 
 	return (
 		<button
@@ -15,12 +15,12 @@ const VelocityDeleteButton = (props) => {
 		</button>
 	);
 };
-VelocityDeleteButton.defaultProps = {
+DeleteButton.defaultProps = {
 	name: "delete",
 };
-VelocityDeleteButton.propTypes = {
+DeleteButton.propTypes = {
 	name: PropTypes.string,
 	record: PropTypes.shape({}).isRequired,
 };
 
-export default VelocityDeleteButton;
+export default DeleteButton;

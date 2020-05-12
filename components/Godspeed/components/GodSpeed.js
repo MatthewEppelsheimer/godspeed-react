@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
-import VelocityDocumentEditor from "./VelocityDocumentEditor";
-import VelocityResultList from "./VelocityResultList";
-import VelocitySearchField from "./VelocitySearchField";
+import DocumentEditor from "./DocumentEditor";
+import ResultList from "./ResultList";
+import SearchField from "./SearchField";
 import {
-	useVelocityContextState,
-	VelocityContextProvider,
+	useGodspeedContextState,
+	GodspeedContextProvider,
 } from "../src/context";
 
-const Velocity = (props) => {
+const Godspeed = (props) => {
 	const {
 		children,
 		dataStore,
@@ -17,7 +17,7 @@ const Velocity = (props) => {
 	} = props;
 	const defaultSearchPhrase = ""; // @todo implement (currently does nothing)
 
-	const context = useVelocityContextState(
+	const context = useGodspeedContextState(
 		data,
 		dataStore,
 		slotFills,
@@ -25,21 +25,21 @@ const Velocity = (props) => {
 	);
 
 	return (
-		<VelocityContextProvider value={context}>
+		<GodspeedContextProvider value={context}>
 			{children || (
 				<>
-					<VelocitySearchField placeholder={searchInputPlaceholder} />
-					<VelocityResultList />
-					<VelocityDocumentEditor />
+					<SearchField placeholder={searchInputPlaceholder} />
+					<ResultList />
+					<DocumentEditor />
 				</>
 			)}
-		</VelocityContextProvider>
+		</GodspeedContextProvider>
 	);
 };
-Velocity.defaultProps = {
+Godspeed.defaultProps = {
 	searchInputPlaceholder: "Type to search...",
 };
-Velocity.propTypes = {
+Godspeed.propTypes = {
 	children: PropTypes.element,
 	dataStore: PropTypes.shape({
 		create: PropTypes.func,
@@ -54,4 +54,4 @@ Velocity.propTypes = {
 	}),
 };
 
-export default Velocity;
+export default Godspeed;

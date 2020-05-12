@@ -9,7 +9,7 @@ import CONFIG from "../config";
 import { indexData, search } from "./search";
 import { dataReducer } from "./reducers";
 
-const VelocityContext = createContext({
+const GodspeedContext = createContext({
 	// @TODO convert to TypeScript interface
 	// @todo update based on what's actually returned
 	editors: [{ id: "main" }],
@@ -28,11 +28,11 @@ const VelocityContext = createContext({
 		previous: () => {},
 	},
 });
-VelocityContext.displayName = "Velocity Context";
+GodspeedContext.displayName = "Godspeed Context";
 
-// custom hook to abstract core <Velocity /> functionality, to provide context from component state
+// custom hook to abstract core <Godspeed /> functionality, to provide context from component state
 // @TODO change signature to accept an object w/ keyed input instead of individual params
-const useVelocityContextState = (
+const useGodspeedContextState = (
 	dataIn,
 	dataStore,
 	slotFills,
@@ -240,7 +240,7 @@ const useVelocityContextState = (
 		}
 	};
 
-	// Behavior spans across entire Velocity context so this belongs here
+	// Behavior spans across entire Godspeed context so this belongs here
 	// first blur document editor & focus search,
 	//  then clear selected result,
 	//  then clear search input,
@@ -294,12 +294,12 @@ const useVelocityContextState = (
 	return contextValue;
 };
 
-// Wrap useContext(VelocityContext) in a check that a provider was found
-const useVelocityContext = () => {
-	const context = useContext(VelocityContext);
+// Wrap useContext(GodspeedContext) in a check that a provider was found
+const useGodspeedContext = () => {
+	const context = useContext(GodspeedContext);
 	if (context === undefined) {
 		throw new Error(
-			"useVelocityContext must be used within a VelocityContextProvider, such as the <Velocity> component."
+			"useGodspeedContext must be used within a GodspeedContextProvider, such as the <Godspeed> component."
 		);
 	}
 
@@ -307,16 +307,16 @@ const useVelocityContext = () => {
 };
 // @todo add defaultProps and propTypes
 
-const VelocityContextProvider = (props) => {
+const GodspeedContextProvider = (props) => {
 	const { children, value } = props;
 
 	return (
-		<VelocityContext.Provider value={value}>
+		<GodspeedContext.Provider value={value}>
 			{children}
-		</VelocityContext.Provider>
+		</GodspeedContext.Provider>
 	);
 };
 // @todo add defaultProps and propTypes
 
-export default VelocityContext;
-export { useVelocityContext, useVelocityContextState, VelocityContextProvider };
+export default GodspeedContext;
+export { useGodspeedContext, useGodspeedContextState, GodspeedContextProvider };

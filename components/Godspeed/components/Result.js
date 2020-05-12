@@ -1,15 +1,15 @@
-import styles from "./VelocityResult.module.css";
+import styles from "./Result.module.css";
 
 import PropTypes from "prop-types";
 import { buildHighlightString } from "../src/selection";
-import { useVelocityContext } from "../src/context";
-import VelocityDeleteButton from "./VelocityDeleteButton";
+import { useGodspeedContext } from "../src/context";
+import DeleteButton from "./DeleteButton";
 
-const VelocityResult = (props) => {
+const Result = (props) => {
 	// @todo searchPhrase and selectedResultIndex should both come from context
 	const { result, selectedResultIndex, searchPhrase } = props;
 
-	const { selection, slotFills } = useVelocityContext();
+	const { selection, slotFills } = useGodspeedContext();
 
 	const inner =
 		"" === searchPhrase
@@ -29,19 +29,19 @@ const VelocityResult = (props) => {
 			}
 		>
 			{inner}
-			<VelocityDeleteButton record={result} />
+			<DeleteButton record={result} />
 			{fill}
 		</li>
 	);
 };
-VelocityResult.defaultProps = {
+Result.defaultProps = {
 	selectedResultIndex: -1,
 	searchPhrase: "",
 };
-VelocityResult.propTypes = {
+Result.propTypes = {
 	result: PropTypes.shape({}).isRequired,
 	selectedResultIndex: PropTypes.number.isRequired,
 	searchPhrase: PropTypes.string.isRequired,
 };
 
-export default VelocityResult;
+export default Result;

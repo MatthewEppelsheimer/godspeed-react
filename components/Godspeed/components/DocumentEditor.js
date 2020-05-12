@@ -6,12 +6,12 @@
  */
 
 import PropTypes from "prop-types";
-import { useVelocityContext } from "../src/context";
-import VelocityDocumentEditorTemplate from "./VelocityDocumentEditorTemplate";
+import { useGodspeedContext } from "../src/context";
+import DocumentEditorTemplate from "./DocumentEditorTemplate";
 
-const VelocityDocumentEditor = (props) => {
+const DocumentEditor = (props) => {
 	const { id } = props;
-	const context = useVelocityContext();
+	const context = useGodspeedContext();
 
 	const editor = context?.editors.find((editor) => id === editor.id);
 	const { record } = editor;
@@ -25,17 +25,15 @@ const VelocityDocumentEditor = (props) => {
 		);
 	}
 
-	const template = context?.template || (
-		<VelocityDocumentEditorTemplate id={id} />
-	);
+	const template = context?.template || <DocumentEditorTemplate id={id} />;
 
 	return <div className="document">{template}</div>;
 };
-VelocityDocumentEditor.defaultProps = {
+DocumentEditor.defaultProps = {
 	id: "main",
 };
-VelocityDocumentEditor.propTypes = {
+DocumentEditor.propTypes = {
 	id: PropTypes.string.isRequired,
 };
 
-export default VelocityDocumentEditor;
+export default DocumentEditor;

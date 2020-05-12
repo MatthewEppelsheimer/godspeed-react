@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Layout, { siteTitle } from "../components/layout";
-import Velocity from "../components/Velocity/components/Velocity";
+import Godspeed from "../components/Godspeed";
 import DATA from "../data-mock";
 import utilStyles from "../styles/utils.module.css";
 
@@ -41,7 +41,7 @@ export default function Home() {
 			<Head>
 				<title>{siteTitle}</title>
 			</Head>
-			<Velocity
+			<Godspeed
 				data={DATA}
 				dataStore={dataStoreCrudCallbacks}
 				slotFills={slotfills}

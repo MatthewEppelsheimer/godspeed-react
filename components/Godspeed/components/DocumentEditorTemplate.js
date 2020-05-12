@@ -8,16 +8,16 @@
 import { useEffect, useState, useMemo } from "react";
 import { PropTypes } from "prop-types";
 import { ContentState, Editor, EditorState } from "draft-js";
-import { useVelocityContext } from "../src/context";
-import VelocityDocumentEditor from "./VelocityDocumentEditor";
+import { useGodspeedContext } from "../src/context";
+import DocumentEditor from "./DocumentEditor";
 
 /**
  * Default Draft.js document editor
  */
-const VelocityDocumentEditorTemplate = (props) => {
+const DocumentEditorTemplate = (props) => {
 	const { id } = props;
 
-	const context = useVelocityContext();
+	const context = useGodspeedContext();
 	const { setState } = context.editorOps;
 
 	const editor = context.editors.find((editor) => id === editor.id);
@@ -58,8 +58,8 @@ const VelocityDocumentEditorTemplate = (props) => {
 
 	return <Editor editorState={state} onChange={handleChange} />;
 };
-VelocityDocumentEditorTemplate.propTypes = {
+DocumentEditorTemplate.propTypes = {
 	id: PropTypes.string,
 };
 
-export default VelocityDocumentEditorTemplate;
+export default DocumentEditorTemplate;

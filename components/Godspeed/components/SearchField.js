@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import PropTypes from "prop-types";
-import { useVelocityContext } from "../src/context";
+import { useGodspeedContext } from "../src/context";
 
-const VelocitySearchField = (props) => {
+const SearchField = (props) => {
 	const { placeholder } = props;
 
-	const { handleKey, search, selection } = useVelocityContext();
+	const { handleKey, search, selection } = useGodspeedContext();
 
 	const searchFieldRef = useRef(null);
 
@@ -48,11 +48,11 @@ const VelocitySearchField = (props) => {
 		/>
 	);
 };
-VelocitySearchField.defaultProps = {
+SearchField.defaultProps = {
 	placeholder: "",
 };
-VelocitySearchField.propTypes = {
+SearchField.propTypes = {
 	placeholder: PropTypes.string,
 };
 
-export default VelocitySearchField;
+export default SearchField;
