@@ -235,10 +235,6 @@ const useGodspeed = (options) => {
 	};
 
 	const deprecatedController = {
-		handleKey: {
-			enter: handleKeyEnter,
-			escape: handleKeyEscape,
-		},
 		recordOps: {
 			create: createRecord,
 			delete: deleteRecord,
@@ -267,9 +263,15 @@ const useGodspeed = (options) => {
 		setState: setEditorState,
 	};
 
+	const keyController = {
+		enter: handleKeyEnter,
+		escape: handleKeyEscape,
+	};
+
 	return {
 		deprecatedController,
 		editorController,
+		keyController,
 	};
 };
 

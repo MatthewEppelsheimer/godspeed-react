@@ -1,11 +1,15 @@
 import { useRef } from "react";
 import PropTypes from "prop-types";
-import { useGodspeedContextDEPRECATED } from "../src/context/deprecated";
+import {
+	useGodspeedContextDEPRECATED,
+	useGodspeedContextKey,
+} from "../src/context";
 
 const SearchField = (props) => {
 	const { placeholder } = props;
 
-	const { handleKey, search, selection } = useGodspeedContextDEPRECATED();
+	const { enter, escape } = useGodspeedContextKey();
+	const { search, selection } = useGodspeedContextDEPRECATED();
 
 	const searchFieldRef = useRef(null);
 
@@ -21,11 +25,11 @@ const SearchField = (props) => {
 				break;
 
 			case "Enter":
-				handleKey.enter();
+				enter();
 				break;
 
 			case "Escape":
-				const { shouldBlurSearchField } = handleKey.escape();
+				const { shouldBlurSearchField } = escape();
 				if (shouldBlurSearchField) {
 					searchFieldRef.current.blur();
 				}

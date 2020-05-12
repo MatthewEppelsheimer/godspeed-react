@@ -2,13 +2,19 @@ import { useState, useRef } from "react";
 import GodspeedContextDEPRECATED, {
 	GodspeedContextEditors,
 	GodspeedContextEditorsMutable,
+	GodspeedContextKey,
 } from "../src/context";
 
 const GodspeedContextProviders = (props) => {
 	const { children, controllers } = props;
 
-	const { deprecatedController, editorController } = controllers;
+	const {
+		deprecatedController,
+		editorController,
+		keyController,
+	} = controllers;
 	const { getEditors, getState, setState } = editorController;
+	const { enter, escape } = keyController;
 
 	// IMMUTABLE CONTEXTS
 	//
@@ -18,11 +24,15 @@ const GodspeedContextProviders = (props) => {
 	const useImmutableContext = (value) => useState(() => value);
 
 	const [editorContext] = useImmutableContext({ getState, setState });
+	const [keyContext] = useImmutableContext({ enter, escape });
 
+	// MUTABLE CONTEXTS
+	//
 	// Only recreate mutable context values when their dependencies have changed
 	// See {@link https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback}
 	const prevEditors = useRef({ current: null });
 
+	// immutable Editors controller
 	const editors = getEditors();
 	const generateEditorMutableContext = () => {
 		prevEditors.current = editors;
@@ -44,7 +54,9 @@ const GodspeedContextProviders = (props) => {
 				value={editorMutableContext}
 			>
 				<GodspeedContextEditors.Provider value={editorContext}>
-					{children}
+					<GodspeedContextKey.Provider value={keyContext}>
+						{children}
+					</GodspeedContextKey.Provider>
 				</GodspeedContextEditors.Provider>
 			</GodspeedContextEditorsMutable.Provider>
 		</GodspeedContextDEPRECATED.Provider>
