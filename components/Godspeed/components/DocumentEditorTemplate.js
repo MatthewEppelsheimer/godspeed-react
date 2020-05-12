@@ -25,8 +25,8 @@ const DocumentEditorTemplate = (props) => {
 	const { getEditorById } = contextEditorsMutable;
 
 	const editor = getEditorById(id);
-	const document = editor.record;
-	const { body } = document || "";
+	const { record } = editor;
+	const body = record?.body || "";
 
 	const initialContentState = useMemo(
 		() => ContentState.createFromText(body),
@@ -56,8 +56,7 @@ const DocumentEditorTemplate = (props) => {
 	const handleChange = (newState) => {
 		const newPlainText = newState.getCurrentContent().getPlainText();
 
-		setState(id, newState, document, newPlainText);
-		console.log(newPlainText);
+		setState(id, newState, record, newPlainText);
 	};
 
 	return <Editor editorState={state} onChange={handleChange} />;
