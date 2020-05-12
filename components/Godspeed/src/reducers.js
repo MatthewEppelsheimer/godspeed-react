@@ -7,10 +7,6 @@ const dataReducer = (state, action) => {
 		return state.records.find((record) => index === record.index);
 	};
 
-	const getRecordById = (id) => {
-		return state.records.find((record) => id === record.key);
-	};
-
 	const newState = { ...state };
 
 	try {
