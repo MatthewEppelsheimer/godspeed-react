@@ -3,6 +3,7 @@ import GodspeedContextDEPRECATED, {
 	GodspeedContextEditors,
 	GodspeedContextEditorsMutable,
 	GodspeedContextKey,
+	GodspeedContextRecord,
 } from "../src/context";
 
 const GodspeedContextProviders = (props) => {
@@ -12,9 +13,11 @@ const GodspeedContextProviders = (props) => {
 		deprecatedController,
 		editorController,
 		keyController,
+		recordController,
 	} = controllers;
 	const { getEditors, getState, setState } = editorController;
 	const { enter, escape } = keyController;
+	const { create, del, update } = recordController;
 
 	// IMMUTABLE CONTEXTS
 	//
@@ -25,6 +28,7 @@ const GodspeedContextProviders = (props) => {
 
 	const [editorContext] = useImmutableContext({ getState, setState });
 	const [keyContext] = useImmutableContext({ enter, escape });
+	const [recordContext] = useImmutableContext({ create, del, update });
 
 	// MUTABLE CONTEXTS
 	//
@@ -55,7 +59,9 @@ const GodspeedContextProviders = (props) => {
 			>
 				<GodspeedContextEditors.Provider value={editorContext}>
 					<GodspeedContextKey.Provider value={keyContext}>
-						{children}
+						<GodspeedContextRecord.Provider value={recordContext}>
+							{children}
+						</GodspeedContextRecord.Provider>
 					</GodspeedContextKey.Provider>
 				</GodspeedContextEditors.Provider>
 			</GodspeedContextEditorsMutable.Provider>

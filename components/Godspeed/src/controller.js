@@ -241,11 +241,6 @@ const useGodspeed = (options) => {
 	};
 
 	const deprecatedController = {
-		recordOps: {
-			create: createRecord,
-			delete: deleteRecord,
-			update: updateRecord,
-		},
 		search: {
 			phrase: searchPhrase,
 			results: state.displayedRecords,
@@ -274,10 +269,18 @@ const useGodspeed = (options) => {
 		escape: () => handleKeyEscape(),
 	};
 
+	const recordController = {
+		create: createRecord,
+		del: deleteRecord,
+		delete: deleteRecord,
+		update: updateRecord,
+	};
+
 	return {
 		deprecatedController,
 		editorController,
 		keyController,
+		recordController,
 	};
 };
 
