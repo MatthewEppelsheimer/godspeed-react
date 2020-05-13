@@ -201,6 +201,8 @@ const useGodspeed = (options) => {
 	// @todo to complete support for multiple editors add `createEditor()`
 
 	const handleKeyEnter = () => {
+		handleKey("enter");
+		return;
 		const currentIndex = selectionIndex();
 		if (CONFIG.default_selected_index !== currentIndex) {
 			// if something's selected, open it
@@ -238,6 +240,12 @@ const useGodspeed = (options) => {
 		}
 
 		return { shouldBlurSearchField };
+	};
+
+	const handleKey = (key) => {
+		dispatch({
+			type: "handleKey." + key,
+		});
 	};
 
 	const deprecatedController = {

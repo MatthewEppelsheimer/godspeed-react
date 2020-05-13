@@ -3,11 +3,35 @@ import { indexData } from "./search";
 
 // @todo define & return newState once, reused by each case
 const dataReducer = (state, action) => {
+	const newState = { ...state };
+
 	const getRecordByIndex = (index) => {
 		return state.records.find((record) => index === record.index);
 	};
 
-	const newState = { ...state };
+	const openRecordInEditor = (record, editorId = "main") => {
+		// editorId param is just to clarify what's happening in the signature
+		const id = editorId;
+		const newEditor = {
+			id,
+			record,
+		};
+
+		let uninitialized = true; // assume the new editor doesn't exist yet
+		newState.editors = newState.editors.map((editor) => {
+			if (editorId === editor.id) {
+				editor = newEditor;
+				uninitialized = false; // it exists
+			}
+
+			return editor;
+		});
+
+		// initialize the editor if needed
+		if (uninitialized) {
+			newState.editors.unshift(newEditor);
+		}
+	};
 
 	try {
 		switch (action.type) {
@@ -35,9 +59,24 @@ const dataReducer = (state, action) => {
 				}
 				break;
 
-			// Replace entire set of records set
-			case "records.set":
-				newState.records = indexData(action.records);
+			//@WIP
+			// handle keypress
+			case "handleKey.enter":
+				if (-1 !== state.selectionIndex) {
+					// If there is a record selected, open it
+					const record = getRecordByIndex(state.selectionIndex);
+
+					// @NOTE this will require adaption for multiple editors
+					openRecordInEditor(record);
+
+					// @todo pass dataStore in so this can work
+					newState?.dataStore?.read?.(record);
+				} else {
+					// nothing is selected, so:
+					// create a new record
+					// show all records, including the new one
+					// select the new record
+				}
 				break;
 
 			// add record to dataset
