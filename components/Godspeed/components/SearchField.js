@@ -1,27 +1,49 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
-	useGodspeedContextDEPRECATED,
-	useGodspeedContextKey,
+	useGodspeedContextImmutable,
+	useGodspeedContextSearch,
 } from "../src/context";
 
+const DEBUG = false;
+
+// @TODO REVISE FOR STATE REFACTOR; where already done is noted
 const SearchField = (props) => {
 	const { placeholder } = props;
 
-	const { enter, escape } = useGodspeedContextKey();
-	const { search, selection } = useGodspeedContextDEPRECATED();
+	const { key, search, selection } = useGodspeedContextImmutable();
+	const { enter, escape } = key;
+	const { blur, focus, updateSearch } = search;
+	const { next, previous } = selection;
+	const { focused, phrase } = useGodspeedContextSearch();
 
+	// Focus or blur search field based on state
 	const searchFieldRef = useRef(null);
+	useEffect(() => {
+		const focusedInState = focused;
+		const focusedInDOM = searchFieldRef.current === document.activeElement;
+		DEBUG &&
+			console.log({
+				focusedInState,
+				focusedInDOM,
+			});
+		if (focusedInState && !focusedInDOM) {
+			// input should focus
+			searchFieldRef.current.focus();
+		} else if (!focusedInState && focusedInDOM) {
+			searchFieldRef.current.blur();
+		}
+	}, [focused]);
 
 	// dispatch hotkey handlers
 	const handleKeyDown = (event) => {
 		switch (event.key) {
 			case "ArrowDown":
-				selection.next();
+				next();
 				break;
 
 			case "ArrowUp":
-				selection.previous();
+				previous();
 				break;
 
 			case "Enter":
@@ -29,26 +51,38 @@ const SearchField = (props) => {
 				break;
 
 			case "Escape":
-				const { shouldBlurSearchField } = escape();
-				if (shouldBlurSearchField) {
-					searchFieldRef.current.blur();
-				}
-				break;
+				escape();
 		}
 	};
 
 	// update captured component's state when input element value changes
 	const handleChange = (event) => {
-		search.update(event.target.value);
+		updateSearch(event.target.value);
+	};
+
+	const handleOnBlur = (event) => {
+		if (focused) {
+			DEBUG && console.log("blur()");
+			blur();
+		}
+	};
+
+	const handleOnFocus = () => {
+		if (!focused) {
+			DEBUG && console.log("focus()");
+			focus();
+		}
 	};
 
 	return (
 		<input
-			onKeyDown={handleKeyDown}
-			onChange={handleChange}
+			onBlur={() => handleOnBlur()}
+			onFocus={() => handleOnFocus()}
+			onKeyDown={(event) => handleKeyDown(event)}
+			onChange={(event) => handleChange(event)}
 			placeholder={placeholder}
 			ref={searchFieldRef}
-			value={search.phrase}
+			value={phrase}
 		/>
 	);
 };

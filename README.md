@@ -16,20 +16,26 @@ Note that actual search is severely limited at this point — only phrases that 
 
 ## MVP
 
--   Split context into multiple contexts to improve performance of consumers
-    -   (currently each completely re-renders whenever any state changes, which is every keystroke)
--   create user API for specifying data shape, result list template, and editor template
--   consume passed-in data shape
+-   focus in/out of document editor
+-   generate record name from body upon record update
+-   clear editor when its document is deleted
+-   super basic editor styling
+-   accessibility considerations
+-   prepare README
+-   extract package
+-   to the github
+
+-   basic JSDoc for each component, make import style consistent
+-   Typescript for controller & reducer
+-   basic JSDoc for all functions
+-   finish specification for user API shape, result list template, and editor template
+-   consume passed-in data shape and templates
 -   consume passed-in editor template
--   basic JSDoc for each component and functions, make import style consistent
 -   add tests for all components
 -   Revise to make action verbs and terminology consistent in all state management
 -   test reducers
 -   test `useGodspeedContext`/`useGodspeed`
 -   basic keyboard navigation improvements (TBD)
--   clear editor when its document is deleted
--   accessibility considerations
--   Typescript
 -   Review and resolve all pre-MVP todos
 -   Consider file reorganization
 -   code review entire library

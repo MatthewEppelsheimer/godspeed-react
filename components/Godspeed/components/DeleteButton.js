@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import { useGodspeedContextRecord } from "../src/context";
+import { useGodspeedContextImmutable } from "../src/context";
 
 const DeleteButton = (props) => {
 	const { name, record } = props;
 
-	const { del } = useGodspeedContextRecord();
+	const { del } = useGodspeedContextImmutable().record;
 
 	return (
 		<button className="delete_button" onClick={() => del(record)}>

@@ -15,7 +15,7 @@ const Godspeed = (props) => {
 		slotFills,
 	} = props;
 
-	const controllers = useGodspeed({
+	const actions = useGodspeed({
 		defaultSearchPhrase,
 		dataStore,
 		records,
@@ -23,7 +23,7 @@ const Godspeed = (props) => {
 	});
 
 	return (
-		<GodspeedContextProviders controllers={controllers}>
+		<GodspeedContextProviders actions={actions}>
 			{children || (
 				<>
 					<SearchField placeholder={searchInputPlaceholder} />

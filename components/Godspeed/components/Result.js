@@ -2,14 +2,15 @@ import styles from "./Result.module.css";
 
 import PropTypes from "prop-types";
 import { buildHighlightString } from "../src/selection";
-import { useGodspeedContextDEPRECATED } from "../src/context/deprecated";
 import DeleteButton from "./DeleteButton";
+import { useGodspeedContextImmutable } from "../src/context";
 
 const Result = (props) => {
 	// @todo searchPhrase and selectedResultIndex should both come from context
 	const { result, selectedResultIndex, searchPhrase } = props;
 
-	const { selection, slotFills } = useGodspeedContextDEPRECATED();
+	const { record, slotFills } = useGodspeedContextImmutable();
+	const { del } = record;
 
 	const inner =
 		"" === searchPhrase
@@ -19,7 +20,7 @@ const Result = (props) => {
 	const fill =
 		slotFills.resultListItemSlot?.(
 			result,
-			{ delete: selection.delete } // ops object w/ action-firing callbacks
+			{ delete: del } // ops object w/ action-firing callbacks
 		) || null;
 
 	return (

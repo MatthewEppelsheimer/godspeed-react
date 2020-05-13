@@ -1,73 +1,143 @@
 import { useState, useRef } from "react";
-import GodspeedContextDEPRECATED, {
-	GodspeedContextEditors,
-	GodspeedContextEditorsMutable,
-	GodspeedContextKey,
-	GodspeedContextRecord,
+import PropTypes from "prop-types";
+import { isEqual } from "lodash";
+import {
+	GodspeedContextEditor,
+	GodspeedContextImmutable,
+	GodspeedContextSearch,
+	GodspeedContextSelection,
 } from "../src/context";
 
 const GodspeedContextProviders = (props) => {
-	const { children, controllers } = props;
+	const { children, actions } = props;
 
+	const { getEditors, getState, setState } = actions.editorAccess;
+	const { enter, escape } = actions.keyAccess;
+	const { create, del } = actions.recordAccess;
+	const updateRecord = actions.recordAccess.update;
 	const {
-		deprecatedController,
-		editorController,
-		keyController,
-		recordController,
-	} = controllers;
-	const { getEditors, getState, setState } = editorController;
-	const { enter, escape } = keyController;
-	const { create, del, update } = recordController;
+		blur,
+		focus,
+		getPhrase,
+		getResults,
+		isSearchFieldFocused,
+	} = actions.searchAccess;
+	const updateSearch = actions.searchAccess.update;
+	const { getIndex, next, previous, setIndex } = actions.selectionAccess;
+	const { slotFills } = actions.slotFillAccess;
 
-	// IMMUTABLE CONTEXTS
+	// IMMUTABLE CONTEXT
 	//
-	// state for context values prevents needless consumer renders
+	// State set only at render timefor context values prevents needless consumer renders
 	// see {@link https://reactjs.org/docs/context.html#caveats}
 	// closures passed to useState() mean they'll only run on first render
-	const useImmutableContext = (value) => useState(() => value);
-
-	const [editorContext] = useImmutableContext({ getState, setState });
-	const [keyContext] = useImmutableContext({ enter, escape });
-	const [recordContext] = useImmutableContext({ create, del, update });
+	const [immutableContext] = useState(() => {
+		return {
+			editor: {
+				getState, // @todo does this perhaps belong in mutable editors?
+				setState,
+			},
+			key: {
+				enter,
+				escape,
+			},
+			record: {
+				create,
+				del,
+				updateRecord,
+			},
+			search: {
+				blur,
+				focus,
+				updateSearch,
+			},
+			selection: {
+				next,
+				previous,
+				setIndex,
+			},
+			slotFills,
+		};
+	});
 
 	// MUTABLE CONTEXTS
 	//
+	// Split these up so consumers only re-render when context they depend on changes
+
 	// Only recreate mutable context values when their dependencies have changed
 	// See {@link https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback}
-	const prevEditors = useRef({ current: null });
+	const useMutableContext = (contextTemplate, dependencies) => {
+		if (!Array.isArray(dependencies)) {
+			dependencies = [dependencies];
+		}
+		const prevDeps = useRef({ current: null });
 
-	// immutable Editors controller
+		const generateContext = () => {
+			prevDeps.current = dependencies;
+			return contextTemplate(dependencies);
+		};
+		const [value, set] = useState(() => generateContext());
+
+		if (!prevDeps.current || !isEqual(prevDeps.current, dependencies)) {
+			set(generateContext());
+		}
+
+		return value;
+	};
+
+	// *** Editor Context ***
+
 	const editors = getEditors();
-	const generateEditorMutableContext = () => {
-		prevEditors.current = editors;
+	const editorContext = useMutableContext(() => {
 		return {
 			editors: editors,
 			getEditorById: (id) => editors.find((editor) => id === editor.id),
 		};
-	};
-	const [editorMutableContext, setEditorMutableContext] = useState(() =>
-		generateEditorMutableContext()
-	);
-	if (prevEditors.current && prevEditors.current !== editors) {
-		setEditorMutableContext(generateEditorMutableContext());
-	}
+	}, editors);
+
+	// *** Search Context ***
+
+	const phrase = getPhrase();
+	const results = getResults();
+	const focused = isSearchFieldFocused();
+	const searchContext = useMutableContext(() => {
+		return {
+			phrase,
+			results,
+			focused,
+		};
+	}, [phrase, results, focused]);
+
+	// *** Selection Context ***
+
+	const index = getIndex();
+	const selectionContext = useMutableContext(() => {
+		return {
+			index,
+		};
+	}, index);
 
 	return (
-		<GodspeedContextDEPRECATED.Provider value={deprecatedController}>
-			<GodspeedContextEditorsMutable.Provider
-				value={editorMutableContext}
-			>
-				<GodspeedContextEditors.Provider value={editorContext}>
-					<GodspeedContextKey.Provider value={keyContext}>
-						<GodspeedContextRecord.Provider value={recordContext}>
-							{children}
-						</GodspeedContextRecord.Provider>
-					</GodspeedContextKey.Provider>
-				</GodspeedContextEditors.Provider>
-			</GodspeedContextEditorsMutable.Provider>
-		</GodspeedContextDEPRECATED.Provider>
+		<GodspeedContextImmutable.Provider value={immutableContext}>
+			<GodspeedContextEditor.Provider value={editorContext}>
+				<GodspeedContextSearch.Provider value={searchContext}>
+					<GodspeedContextSelection.Provider value={selectionContext}>
+						{children}
+					</GodspeedContextSelection.Provider>
+				</GodspeedContextSearch.Provider>
+			</GodspeedContextEditor.Provider>
+		</GodspeedContextImmutable.Provider>
 	);
 };
-// @todo add defaultProps and propTypes
+GodspeedContextProviders.propTypes = {
+	actions: PropTypes.shape({
+		editorAccess: PropTypes.shape({}),
+		keyAccess: PropTypes.shape({}),
+		recordAccess: PropTypes.shape({}),
+		searchAccess: PropTypes.shape({}),
+		selectionAccess: PropTypes.shape({}),
+		slotFillAccess: PropTypes.shape({}),
+	}),
+};
 
 export default GodspeedContextProviders;

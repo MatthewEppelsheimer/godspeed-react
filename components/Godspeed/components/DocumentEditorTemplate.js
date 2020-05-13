@@ -9,8 +9,8 @@ import { useEffect, useState, useMemo } from "react";
 import { PropTypes } from "prop-types";
 import { ContentState, Editor, EditorState } from "draft-js";
 import {
-	useGodspeedContextEditors,
-	useGodspeedContextEditorsMutable,
+	useGodspeedContextEditor,
+	useGodspeedContextImmutable,
 } from "../src/context";
 
 /**
@@ -19,10 +19,8 @@ import {
 const DocumentEditorTemplate = (props) => {
 	const { id } = props;
 
-	const contextEditors = useGodspeedContextEditors();
-	const contextEditorsMutable = useGodspeedContextEditorsMutable();
-	const { setState } = contextEditors;
-	const { getEditorById } = contextEditorsMutable;
+	const { setState } = useGodspeedContextImmutable().editor;
+	const { getEditorById } = useGodspeedContextEditor();
 
 	const editor = getEditorById(id);
 	const { record } = editor;

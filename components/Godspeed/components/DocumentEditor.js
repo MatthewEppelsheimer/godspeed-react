@@ -6,13 +6,12 @@
  */
 
 import PropTypes from "prop-types";
-import { useGodspeedContextEditorsMutable } from "../src/context";
+import { useGodspeedContextEditor } from "../src/context";
 import DocumentEditorTemplate from "./DocumentEditorTemplate";
 
 const DocumentEditor = (props) => {
 	const { id } = props;
-	const context = useGodspeedContextEditorsMutable();
-	const { getEditorById } = context;
+	const { getEditorById } = useGodspeedContextEditor();
 
 	const editor = getEditorById(id);
 	const { record } = editor;
@@ -28,8 +27,8 @@ const DocumentEditor = (props) => {
 		);
 	}
 
-	// @todo actually port template into a context
-	const template = context?.template || <DocumentEditorTemplate id={id} />;
+	// @todo support overriding with a template from context
+	const template = false || <DocumentEditorTemplate id={id} />;
 
 	return <div className="document">{template}</div>;
 };

@@ -1,17 +1,21 @@
 import Result from "./Result";
-import { useGodspeedContextDEPRECATED } from "../src/context/deprecated";
+import {
+	useGodspeedContextSearch,
+	useGodspeedContextSelection,
+} from "../src/context";
 
 const ResultList = () => {
-	const { search, selection } = useGodspeedContextDEPRECATED();
+	const { phrase, results } = useGodspeedContextSearch();
+	const { index } = useGodspeedContextSelection();
 
-	const resultList = search.results.map(
+	const resultList = results.map(
 		// @todo maybe move these context-provided props down a level?
 		(result) => (
 			<Result
 				key={result.key.toString()}
 				result={result}
-				searchPhrase={search.phrase}
-				selectedResultIndex={selection.index}
+				searchPhrase={phrase}
+				selectedResultIndex={index}
 			/>
 		)
 	);
