@@ -58,6 +58,11 @@ const dataReducer = (state, action) => {
 				newState.displayedRecords = filter(newState.displayedRecords);
 				break;
 
+			// Replace entire set of records set
+			case "records.set":
+				newState.records = indexData(action.records);
+				break;
+
 			// switch the active document
 			case "record.setActive":
 				const record = getRecordByIndex(action.index);
@@ -101,6 +106,7 @@ const dataReducer = (state, action) => {
 
 			default:
 				log(new Error("unrecognized action.type"));
+				break;
 		}
 	} catch (error) {
 		log(error);

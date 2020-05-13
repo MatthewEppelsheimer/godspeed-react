@@ -12,8 +12,9 @@ import DocumentEditorTemplate from "./DocumentEditorTemplate";
 const DocumentEditor = (props) => {
 	const { id } = props;
 	const context = useGodspeedContextEditorsMutable();
+	const { getEditorById } = context;
 
-	const editor = context.getEditorById(id);
+	const editor = getEditorById(id);
 	const { record } = editor;
 
 	// @todo: Potential performance optimization: Delegate this to

@@ -64,7 +64,6 @@ const useGodspeed = (options) => {
 	const updateSearch = (phrase) => {
 		phrase = phrase || defaultSearchPhrase;
 
-		// console.log('updateSearch called; phrase is', phrase);
 		setSearchPhrase(phrase);
 		// only recompute if not clearing search field
 		// dispatch({
@@ -129,8 +128,6 @@ const useGodspeed = (options) => {
 			type: "record.delete",
 			key: record.key,
 		});
-
-		// console.log('records before updateSearch:',state.records);
 
 		// update external data store when there is one
 		// @TODO avoid calling this if dispatching the action failed
@@ -205,7 +202,6 @@ const useGodspeed = (options) => {
 
 	const handleKeyEnter = () => {
 		const currentIndex = selectionIndex();
-		console.log(currentIndex);
 		if (CONFIG.default_selected_index !== currentIndex) {
 			// if something's selected, open it
 			openRecordByIndex(currentIndex);
@@ -256,7 +252,7 @@ const useGodspeed = (options) => {
 			update: updateSearch,
 		},
 		selection: {
-			index: () => selectionIndex(),
+			index: selectionIndex(),
 			next: selectNext,
 			previous: selectPrevious,
 		},
