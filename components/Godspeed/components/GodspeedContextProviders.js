@@ -8,6 +8,7 @@ import {
 	GodspeedContextSelection,
 } from "../src/context";
 
+// Considered internal; recommend against implementing this yourself, as it's fundamentally core to Godspeed's logic, and is guaranteed to continue to be backwards compatible
 const GodspeedContextProviders = (props) => {
 	const { children, actions } = props;
 
