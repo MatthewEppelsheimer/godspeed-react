@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import DocumentEditor from "./DocumentEditor";
-import ResultList from "./ResultList";
-import SearchField from "./SearchField";
+import DocumentEditor from "./DocumentEditor.js";
+import ResultList from "./ResultList.js";
+import SearchField from "./SearchField.js";
 import { useGodspeed } from "../src/controller";
-import GodspeedContextProviders from "./GodspeedContextProviders";
+import GodspeedContextProviders from "./GodspeedContextProviders.js";
 
 const Godspeed = (props) => {
 	const {

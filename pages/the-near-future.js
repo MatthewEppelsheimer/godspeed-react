@@ -1,19 +1,22 @@
 /**
  * A page to mock intended developer use of Godspeed.
- * 
+ *
  * Demonstrates how to construct a custom record data structure, with templates
  * for CRUD operations, rendering a search result, and rendering a document.
  */
-import DATA from "../future-data-mock";
-import Godspeed from "../components/Godspeed/components/Godspeed";
-import Result from "../components/Godspeed/components/Result";
-import DocumentEditorTemplate from "../components/Godspeed/components/DocumentEditorTemplate";
-import { search } from "../components//src/search";
-import { GodspeedContextProviders } from "../components/Godspeed";
+import Head from "next/head";
+import Link from "next/link";
+// import DATA from "../future-data-mock";
+import Layout from "../components/layout";
+// import Godspeed from "../components/Godspeed/components/Godspeed";
+// import Result from "../components/Godspeed/components/Result";
+// import DocumentEditorTemplate from "../components/Godspeed/components/DocumentEditorTemplate";
+// import { search } from "../components/Godspeed/src/search";
+// import { GodspeedContextProviders } from "../components/Godspeed";
 
 /**
  * The default "dataConnector". WIP!
- * 
+ *
  * Implements a simple core experience out of the box. Users can override as
  * many or few functions as needed to tailor their experience. This won't
  * appear outside of Godspeed internal files, except in documentation.
@@ -32,43 +35,51 @@ const dataConnectorDefault = {
 	// `input` is the text in the search field
 	create: (input) => {
 		const id = new Date().getTime();
-		const body = input,
+		const body = input;
 
 		return { id, body };
 	},
 
-	// Method GS calls to get a record's data for display. 
+	// Method GS calls to get a record's data for display.
 	// Returns an object formatted with data the also-provided templates need.
 	// Not _actually_ called directly! Only used if one of the three variants
 	// below uses it. Must be broad enough to cover all more specific versions.
-	read: (record) => {{ body: record.body }},
+	read: (record) => {
+		{
+			body: record.body;
+		}
+	},
 
 	// More specific `read` for data needed to display the record in a list of
 	// search results. Defining this in addition to the catch-all `read` is an
 	// optimization to avoid preparing more data than this purpose requires. In
 	// this default case, limit to the first 30 characters.
 	// @TODO but is it an optimization though? It's more work... Research this a bit.
-	readForResultList: (record) => {{ body: record.body.substring(0,30) }},
+	readForResultList: (record) => {
+		{
+			body: record.body.substring(0, 30);
+		}
+	},
 
 	// More specific `read` for data needed to display the record in a read-only
 	// document view. Defining this in addition to the catch-all `read` is an
 	// optimization to avoid preparing more data than this purpose requires.
-	readForDocumentDisplay: this.read,
+	readForDocumentDisplay: null, // this.read,
 
 	// More specific `read` for data needed to display the record in a document
 	// editor view. Defining this in addition to the catch-all `read` is an
 	// optimization to avoid preparing more data than this purpose requires.
-	readForDocumentEdit: this.readForDocumentDisplay,
+	readForDocumentEdit: null, // this.readForDocumentDisplay,
 
 	// @WIP-POINT
 	// @todo
-	update: (record, newState) => {
-		const newRecord 
-		return {
-			id: record.id,
-			body: newState.body,
-		};
-	},
+	// update: (record, newState) => {
+	// 	const newRecord
+	// 	return {
+	// 		id: record.id,
+	// 		body: newState.body,
+	// 	};
+	// },
 
 	// Method to call when deleting a record
 	// @WIP-POINT
@@ -77,7 +88,7 @@ const dataConnectorDefault = {
 
 	// Search algorithm to use. User-overridable.
 	// @TODO actually support this override, figure out function shape, etc.
-	searchAlgorithm: search,
+	// searchAlgorithm: search,
 
 	// A test predicate passed to filter() when searching through records.
 	// Records for whom the test returns false will be excluded from results.
@@ -97,7 +108,7 @@ const dataConnectorDefault = {
 	// NOTE!!!! Function that takes `record` as an input. This allows
 	// flexibility to have a different template depending on some aspect of the
 	// record.
-	templateResultList: (record) => Result,
+	// templateResultList: (record) => Result,
 
 	// Template for displaying a record in a read-only document viewer.
 	// NOTE!!!! Function that takes `record` as an input. This allows
@@ -107,12 +118,12 @@ const dataConnectorDefault = {
 	templateDocumentDisplay: (record) => null,
 
 	// Template for displaying a record in an editor
-	templateDocumentEdit: DocumentEditorTemplate,
+	// templateDocumentEdit: DocumentEditorTemplate,
 };
 
 /**
  * dataConnector override. WIP!
- * 
+ *
  * A WIP exploration of what implementing a custom "dataConnector" will be like
  * to implement an actual nvAlt clone.
  */
@@ -141,7 +152,7 @@ const dataConnector = {
 			key: record.key,
 			body: record.state.body,
 			name: record.state.name,
-		}
+		};
 	},
 
 	readForResultList: (record) => {
@@ -161,32 +172,35 @@ const dataConnector = {
 	// @WIPPOINT...
 };
 
-const idToSearch = 123 // ID of the record we're updating
-const records = [] // our records
-dataShape.update();
+const idToSearch = 123; // ID of the record we're updating
+const records = []; // our records
+// dataShape.update();
 
-export default function NotationalGS() {
+export default function TheNearFuture() {
 	return (
 		<Layout home>
 			<Head>
-				<title>NotationalGS</title>
+				<title>The Future of Godspeed</title>
 				{/* Draft.js requires this */}
 				<meta charset="utf-8" />
 			</Head>
-			<Godspeed
+			<p>This page isn't intended to render.</p>
+			<p>
+				Read the code it prototypes{" "}
+				<Link href="https://github.com/MatthewEppelsheimer/godspeedjs.org/blob/master/pages/the-near-future.js">
+					on Github
+				</Link>
+				.
+			</p>
+			{/* <Godspeed
 				records={DATA}
 				// HERE IT IS! EASY-PEASY.
-				dataStore={dataStoreCrudCallbacks}
+				dataStore={dataConnector}
 			>
 				<GodspeedContextProviders>
-					{
-						/**
-						 * Mix of core and custom interface components go here,
-						 * similar to in <Godspeed>.
-						*/
-					}
+					<p>Mix of core and custom interface components go here, similar to in <Godspeed>.</p>
 				</GodspeedContextProviders>
-			</Godspeed>
+			</Godspeed> */}
 		</Layout>
 	);
 }

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Layout, { siteTitle } from "../components/layout";
-import Godspeed from "../components/Godspeed";
+import Godspeed from "../components/Godspeed/components/GodSpeed";
 import DATA from "../data-mock";
 import utilStyles from "../styles/utils.module.css";
 

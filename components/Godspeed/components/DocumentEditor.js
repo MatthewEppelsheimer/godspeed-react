@@ -7,7 +7,7 @@
 
 import PropTypes from "prop-types";
 import { useGodspeedContextEditor } from "../src/context";
-import DocumentEditorTemplate from "./DocumentEditorTemplate";
+import DocumentEditorTemplate from "./DocumentEditorTemplate.js";
 
 const DocumentEditor = (props) => {
 	const { id } = props;
