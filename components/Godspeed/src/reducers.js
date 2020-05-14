@@ -10,6 +10,23 @@ const dataReducer = (state, action) => {
 	/// UTILITIES
 	///
 	/// **Utilities get data for transformations' use**
+
+	const focusElement = (name) => {
+		// pattern to go toward
+		newState.focusedElement = name;
+
+		// @todo revise away this original shape idea
+		switch (name) {
+			case "editor":
+				newState.searchFieldFocused = false;
+				break;
+
+			case "search":
+				newState.searchFieldFocused = true;
+				break;
+		}
+	};
+
 	const getRecordByIndex = (index) => {
 		DEBUG &&
 			console.log(
@@ -46,6 +63,11 @@ const dataReducer = (state, action) => {
 	};
 
 	// *** Editor Transformations ***
+
+	// Give focus to the editor
+	const editorFocus = () => {
+		focusElement("editor");
+	};
 
 	// update an editor to a new state
 	const editorUpdateState = (id, newEditorState) => {
@@ -183,7 +205,7 @@ const dataReducer = (state, action) => {
 		DEBUG &&
 			console.log("performing transformation searchFieldFocus with:");
 
-		newState.searchFieldFocused = true;
+		focusElement("search");
 	};
 
 	// *** Selection Transformations ***
@@ -231,6 +253,11 @@ const dataReducer = (state, action) => {
 		switch (action.type) {
 			// *** Editor Actions ***
 
+			// give focus to the editor
+			case "editor.gainFocus":
+				editorFocus();
+				break;
+
 			// Set an editor's state
 			case "editor.setState":
 				editorUpdateState(action.editorId, action.newEditorState);
@@ -253,6 +280,7 @@ const dataReducer = (state, action) => {
 					// If there is a record selected, open it
 					const record = getRecordByIndex(state.selectionIndex);
 					recordOpenInEditor(record);
+					focusDocumentEditor;
 				} else if (state.searchFieldFocused) {
 					// Nothing is selected but the search field is in focus
 					// time to create a new record using the search phrase
@@ -264,6 +292,8 @@ const dataReducer = (state, action) => {
 					// open the new record in the editor
 					const newRecord = getRecordByIndex(0);
 					recordOpenInEditor(newRecord);
+					// give the record focus
+					editorFocus();
 					// intentionally NOT updating search phrase
 				}
 				break;

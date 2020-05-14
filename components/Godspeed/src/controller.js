@@ -27,13 +27,20 @@ const useGodspeed = (options) => {
 	// src/contexts.js
 
 	const editorAccess = {
+		focusEditor: () => {
+			dispatch({ type: "editor.gainFocus" });
+		},
+
 		getEditors: () => state.editors,
+
 		getState: (editorId) => {
 			const editor = state.editors.find(
 				(editor) => editorId === editor.id
 			);
 			return editor.state || null;
 		},
+
+		isEditorFocused: () => state.editor,
 
 		setState: (
 			editorId,

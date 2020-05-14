@@ -5,7 +5,7 @@
  * standardized into any default worth committing to maintain, and this will
  * quickly be replaced.
  */
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { PropTypes } from "prop-types";
 import { ContentState, Editor, EditorState } from "draft-js";
 import {
@@ -19,13 +19,19 @@ import {
 const DocumentEditorTemplate = (props) => {
 	const { id } = props;
 
+	const editorRef = useRef();
 	const { setState } = useGodspeedContextImmutable().editor;
-	const { getEditorById } = useGodspeedContextEditor();
+	const {
+		getEditorById,
+		isEditorFocused,
+		registerEditorGainedFocus,
+	} = useGodspeedContextEditor();
 
 	const editor = getEditorById(id);
 	const { record } = editor;
 	const body = record?.body || "";
 
+	// Initialize state on first run
 	const initialContentState = useMemo(
 		() => ContentState.createFromText(body),
 		[body]
@@ -36,12 +42,11 @@ const DocumentEditorTemplate = (props) => {
 		[initialContentState]
 	);
 
-	// Initialize state on first run
 	let state = editor?.state || false;
 	if (!state) {
 		state = initialEditorState;
 	}
-	// and also push it to context-managed state after first render
+	// also push it to context-managed state after first render
 	// @NOTE Features work without this in development; not sure if this is
 	// useful, though it seems like a good idea.
 	useEffect(() => {
@@ -51,13 +56,36 @@ const DocumentEditorTemplate = (props) => {
 		}
 	}, []);
 
+	// Synchronize editor focus with app state
+	const isEditorFocusedInDOM = document.activeElement === editorRef.current;
+	useEffect(() => {
+		if (isEditorFocused && !isEditorFocusedInDOM) {
+			editorRef.current.focus();
+		} else if (!isEditorFocused && isEditorFocusedInDOM) {
+			editorRef.current.blur();
+		}
+	});
+	const handleClick = () => {
+		if (!isEditorFocused) {
+			registerEditorGainedFocus();
+		}
+	};
+
+	// Propagate content changes to app state
 	const handleChange = (newState) => {
 		const newPlainText = newState.getCurrentContent().getPlainText();
 
 		setState(id, newState, record, newPlainText);
 	};
 
-	return <Editor editorState={state} onChange={handleChange} />;
+	return (
+		<Editor
+			editorState={state}
+			onChange={handleChange}
+			onClick={handleClick}
+			ref={editorRef}
+		/>
+	);
 };
 DocumentEditorTemplate.propTypes = {
 	id: PropTypes.string,

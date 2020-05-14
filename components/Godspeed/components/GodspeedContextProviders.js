@@ -11,7 +11,13 @@ import {
 const GodspeedContextProviders = (props) => {
 	const { children, actions } = props;
 
-	const { getEditors, getState, setState } = actions.editorAccess;
+	const {
+		focusEditor,
+		getEditors,
+		isEditorFocused,
+		getState,
+		setState,
+	} = actions.editorAccess;
 	const { enter, escape } = actions.keyAccess;
 	const { create, del } = actions.recordAccess;
 	const updateRecord = actions.recordAccess.update;
@@ -36,6 +42,7 @@ const GodspeedContextProviders = (props) => {
 			editor: {
 				getState, // @todo does this perhaps belong in mutable editors?
 				setState,
+				focusEditor,
 			},
 			key: {
 				enter,
@@ -92,6 +99,7 @@ const GodspeedContextProviders = (props) => {
 		return {
 			editors: editors,
 			getEditorById: (id) => editors.find((editor) => id === editor.id),
+			isEditorFocused: isEditorFocused,
 		};
 	}, editors);
 
