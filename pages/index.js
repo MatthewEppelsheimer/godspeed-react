@@ -36,11 +36,39 @@ const slotfills = {
 };
 
 export default function Home() {
+	const smallFont = { fontSize: "small" };
 	return (
 		<Layout home>
 			<Head>
 				<title>{siteTitle}</title>
 			</Head>
+			<div>
+				<h1>What's this?</h1>
+				<p>
+					👉🏻{" "}
+					<Link href="https://github.com/MatthewEppelsheimer/godspeedjs.org">
+						github.com/MatthewEppelsheimer/godspeedjs.org
+					</Link>{" "}
+					👈🏻 should answer some questions.
+				</p>
+				<p>
+					<strong>
+						Be sure and see the "Development Notes as of 2020-05-13"
+						section of that README.
+					</strong>{" "}
+					😄
+				</p>
+			</div>
+			<h1>👇🏻Godspeed pre-v0.1 Demo 👇🏻</h1>
+			<p>
+				Take the <Link href="">Self-guided Demo</Link>
+			</p>
+			<p style={smallFont}>
+				Type to search. 'Escape' to clear selection, then clear search.
+				Arrow up/down to select. 'Enter' to open document selected
+				document. Or, 'Enter' to create a new document from your search
+				phrase.
+			</p>
 			<Godspeed
 				records={DATA}
 				dataStore={dataStoreCrudCallbacks}
