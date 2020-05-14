@@ -8,17 +8,17 @@ Godspeed is a [Notational Velocity](http://notational.net/)-inspired user interf
 
 # What?
 
-[Notational Velocity](http://notational.net/) was a _truly_ brilliant note taking app that attempted "to loosen the mental blockages to recording information" by unifying the interface for search and note creation into a single search field.
+[Notational Velocity](http://notational.net/) was a brilliant note taking app that attempted "to loosen the mental blockages to recording information" by unifying the interface for search and note creation into a single search field. Its UI featured:
 
--   Mouse-less, keyboard-focused interaction designed for speed
+-   Mouse-less, keyboard-focused interaction for speed
 -   Search isn't a separate mode, but the primary interface
--   Each key you type instantly updates the search
+-   Search results updated instantly with each typed key
 -   Typing "Enter" instantly creates a new record with your search terms as the first line
 -   Modifications take effect immediately (there is no "saving")
 
-I used its successor [nvAlt]() for years, and in that time have fallen in love with its UI paradigm. But nvAlt has fallen into the Pit of Unmaintained Software in recent years. I've limped along for a while with [Simplenote](), which mimics NV's UI — but only kind of, as its stripped-done philosophy is... missing too many spowerful things. NV is such a good paradigm that I not only want it back for my generic notetaking, but I want to use it in all kinds of contexts, beyond even just notetaking.
+I used its successor [nvAlt](https://brettterpstra.com/projects/nvalt/) for years, and in that time have fallen in love with its UI paradigm. But nvAlt has fallen into the Pit of Unmaintained Software in recent years. I've limped along for a while with [Simplenote](https://simplenote.com/), which mimics NV's UI — but only kind of, as its stripped-down philosophy makes it a weak imitation. NV is such a good paradigm that I not only want it back, but I want to use it in all kinds of new contexts beyond note taking.
 
-For all these reasons, I've decided to (deep breath) commit to building and maintaining a truly worthy replacement.
+For all these reasons, I'm building Godspeed as a worthy replacement.
 
 The vision is to go even a bit further with features like:
 
@@ -26,12 +26,11 @@ The vision is to go even a bit further with features like:
 -   Markdown support
 -   multiple open documents
 -   multiple active search views
-
 -   a library for developers to implement custom document structures
--   utterly impeccable developer documentation
--   Commitment to backwards compatibility with Semver
+-   impeccable developer documentation
+-   Commitment to backwards compatibility and semantic versioning
 
-This will make a bunch of my own ideas possible for various web, mobile, and desktop apps, and I also want it to get used elsewhere — because NV really is an amazing UI pattern that would make the world a better place if there was more of it as user-friendly so I'm developing Godspeed from the ground up with all of this in mind
+I'm developing Godspeed from the ground up with all of this in mind, to make a bunch of my own ideas possible for various web, mobile, and desktop apps, and I hope also make it attractive to other developers.
 
 # Self-Guided Tour of the Working Demo
 
@@ -43,11 +42,12 @@ This will make a bunch of my own ideas possible for various web, mobile, and des
 4. Hit 'Escape'. Note your selected row has cleared
 5. Hit 'Escape' again. Note your search phrase is cleared, and results are updated to "all" records
 6. Hit 'Escape' yet a third time. Note the search field has lost focus.
+    - **BROKEN!** Please reload the browser window to re-focus search. 🤦🏻‍♂️
 7. Click the search field with the mouse to focus it again
-    - Caveat: 'Enter' to focus an unfocused search field is a @todo
 8. Type "monkey", and arrow down once or twice to select one of the results.
 9. Type 'Enter'. Note how the selected document is opened below the search results, and the document has focus
-10. Go ahead and make some edits. Then click the search field again (see caveat in #7 again) so you can select a different document, then click search field again and select the document you edited before — and note that your changes have persisted.
+10. Go ahead and make some edits.
+    - If it weren't for the issue in #6 above, you could then: _Then click the search field again (see caveat in #7 again) so you can select a different document, then click search field again and select the document you edited before — and note that your changes have persisted._ But alas.
 11. With the search field focused and cleared, type "Catherine"
 12. Hit "Enter". Note how you've just created and are now editing a new document.
 
@@ -127,12 +127,6 @@ This is a labor of great passion. I'm committed to building this through at leas
 
 **Feature order and release version subject to change, natch.**
 
-## First CR
-
--   README ready for early CR
--   extract package from nextjs
--   to the github
-
 ## Currently in progress
 
 -   JSDoc for reducers.js
@@ -157,6 +151,7 @@ This is a labor of great passion. I'm committed to building this through at leas
 -   basic keyboard navigation improvements (TBD)
 -   review and resolve all MVP todos
 -   move non-MVP todos out of code into this here Roadmap
+-   extract `godspeed-react` package out of `godspeedjs.org`
 
 ## 1.0
 

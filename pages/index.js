@@ -46,9 +46,12 @@ export default function Home() {
 				<h1>What's this?</h1>
 				<p>
 					👉🏻{" "}
-					<Link href="https://github.com/MatthewEppelsheimer/godspeedjs.org">
+					<a
+						href="https://github.com/MatthewEppelsheimer/godspeedjs.org#user-content-godspeed"
+						target="_blank"
+					>
 						github.com/MatthewEppelsheimer/godspeedjs.org
-					</Link>{" "}
+					</a>{" "}
 					👈🏻 should answer some questions.
 				</p>
 				<p>
@@ -61,14 +64,28 @@ export default function Home() {
 			</div>
 			<h1>👇🏻Godspeed pre-v0.1 Demo 👇🏻</h1>
 			<p>
-				Take the <Link href="">Self-guided Demo</Link>
+				Take the{" "}
+				<a
+					href="https://github.com/MatthewEppelsheimer/godspeedjs.org#user-content-self-guided-tour-of-the-working-demo"
+					target="_blank"
+				>
+					Self-guided Demo
+				</a>
 			</p>
 			<p style={smallFont}>
-				Type to search. 'Escape' to clear selection, then clear search.
-				Arrow up/down to select. 'Enter' to open document selected
-				document. Or, 'Enter' to create a new document from your search
-				phrase.
+				Navigation between elements is still a Work in Progress, but you
+				can:
 			</p>
+			<ul style={smallFont}>
+				<li>Type to search.</li>
+				<li>'Escape' to clear selection, then clear search.</li>
+				<li>Arrow up/down to select.</li>
+				<li>'Enter' to open document selected document.</li>
+				<li>
+					Or, 'Enter' to create a new document from your search
+					phrase.
+				</li>
+			</ul>
 			<Godspeed
 				records={DATA}
 				dataStore={dataStoreCrudCallbacks}
