@@ -40,7 +40,7 @@ const useGodspeed = (options) => {
 			return editor.state || null;
 		},
 
-		isEditorFocused: () => state.editor,
+		isEditorFocused: () => "editor" === state.focusedElement,
 
 		setState: (
 			editorId,

@@ -28,9 +28,10 @@ const SearchField = (props) => {
 				focusedInDOM,
 			});
 		if (focusedInState && !focusedInDOM) {
-			// input should focus
+			DEBUG && console.log("input should focus");
 			searchFieldRef.current.focus();
 		} else if (!focusedInState && focusedInDOM) {
+			DEBUG && console.log("input should blur");
 			searchFieldRef.current.blur();
 		}
 	}, [focused]);
@@ -55,6 +56,17 @@ const SearchField = (props) => {
 		}
 	};
 
+	/**
+	 * Handle clicks by grabbing focus if it isn't already focused
+	 */
+	const handleClick = () => {
+		DEBUG && console.log("handleClick()");
+		if (!focused) {
+			DEBUG && console.log("focus()");
+			focus();
+		}
+	};
+
 	// update captured component's state when input element value changes
 	const handleChange = (event) => {
 		updateSearch(event.target.value);
@@ -62,14 +74,14 @@ const SearchField = (props) => {
 
 	const handleOnBlur = (event) => {
 		if (focused) {
-			DEBUG && console.log("blur()");
+			DEBUG && console.log("handleOnBlur() calling blur()");
 			blur();
 		}
 	};
 
 	const handleOnFocus = () => {
 		if (!focused) {
-			DEBUG && console.log("focus()");
+			DEBUG && console.log("handleOnFocus() calling focus()");
 			focus();
 		}
 	};
@@ -77,6 +89,7 @@ const SearchField = (props) => {
 	return (
 		<input
 			onBlur={() => handleOnBlur()}
+			onClick={() => handleClick()}
 			onChange={(event) => handleChange(event)}
 			onFocus={() => handleOnFocus()}
 			onKeyDown={(event) => handleKeyDown(event)}

@@ -13,6 +13,8 @@ import {
 	useGodspeedContextImmutable,
 } from "../src/context";
 
+const DEBUG = false;
+
 /**
  * Default Draft.js document editor
  */
@@ -57,11 +59,19 @@ const DocumentEditorTemplate = (props) => {
 	}, []);
 
 	// Synchronize editor focus with app state
-	const isEditorFocusedInDOM = document.activeElement === editorRef.current;
+	const focusedInState = isEditorFocused();
+	const focusedInDOM = document.activeElement === editorRef.current;
 	useEffect(() => {
-		if (isEditorFocused && !isEditorFocusedInDOM) {
+		DEBUG &&
+			console.log("[focusedInState, focusedInDOM]:", [
+				focusedInState,
+				focusedInDOM,
+			]);
+		if (focusedInState && !focusedInDOM) {
+			DEBUG && console.log("editor should focus");
 			editorRef.current.focus();
-		} else if (!isEditorFocused && isEditorFocusedInDOM) {
+		} else if (!focusedInState && focusedInDOM) {
+			DEBUG && console.log("editor should blur");
 			editorRef.current.blur();
 		}
 	});

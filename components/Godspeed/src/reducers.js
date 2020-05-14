@@ -91,12 +91,25 @@ const dataReducer = (state, action) => {
 
 	// *** Displayed Record Transformations ***
 
-	const focusElement = (name) => {
-		// pattern to go toward
-		newState.focusedElement = name;
+	/**
+	 * Focus an element in state.
+	 *
+	 * Supports "editor", "search", or false.
+	 *
+	 * @param {string|boolean} element Element to focus, or false to clear all focus
+	 */
+	const focusElement = (element = false) => {
+		DEBUG &&
+			console.log(
+				"performing transformation focusElement with:",
+				element
+			);
 
-		// @todo revise away this original shape idea; `focusedElement: string` is much better
-		switch (name) {
+		// pattern to go toward
+		newState.focusedElement = element;
+		element = true;
+		// @todo revise away use of searchFieldFocused, to remove all but the default case
+		switch (element) {
 			case "editor":
 				newState.searchFieldFocused = false;
 				break;
@@ -104,6 +117,17 @@ const dataReducer = (state, action) => {
 			case "search":
 				newState.searchFieldFocused = true;
 				break;
+
+			case false:
+				newState.searchFieldFocused = false;
+				break;
+
+			default:
+				log(
+					"focusElement() called with invalid element parameter:",
+					"warn",
+					element
+				);
 		}
 	};
 
@@ -290,14 +314,8 @@ const dataReducer = (state, action) => {
 		newState.searchPhrase = phrase;
 	};
 
-	const searchFieldBlur = () => {
-		DEBUG && console.log("performing transformation searchFieldBlur with:");
-		newState.searchFieldFocused = false;
-	};
-
 	const searchFieldFocus = () => {
-		DEBUG &&
-			console.log("performing transformation searchFieldFocus with:");
+		DEBUG && console.log("performing transformation searchFieldFocus");
 
 		focusElement("search");
 	};
@@ -376,7 +394,7 @@ const dataReducer = (state, action) => {
 					// If there is a record selected, open it
 					const record = getRecordByIndex(state.selectionIndex);
 					recordOpenInEditor(record);
-					focusDocumentEditor;
+					editorFocus();
 				} else if (state.searchFieldFocused) {
 					// Nothing is selected but the search field is in focus
 					// time to create a new record using the search phrase
@@ -397,7 +415,9 @@ const dataReducer = (state, action) => {
 			// handle "focusing out"
 			// @todo convert to using state.navigationFocus along w/ navigation.focusIn
 			case "navigation.focusOut":
-				if (false) {
+				if ("editor" === state.focusedElement) {
+					DEBUG && console.log("focusing search");
+					focusElement("search");
 					// if document editor is active, switch focus to search field
 					// @todo implement switch of focus from document editor to search field
 				} else if (-1 !== state.selectionIndex) {
@@ -411,7 +431,7 @@ const dataReducer = (state, action) => {
 				} else {
 					// if search field is focused, blur it
 					DEBUG && console.log("blurring searchfield");
-					searchFieldBlur();
+					focusElement(false);
 				}
 				break;
 
@@ -440,7 +460,7 @@ const dataReducer = (state, action) => {
 
 			// blur search field
 			case "search.blurSearchField":
-				searchFieldBlur();
+				focusElement(false);
 				break;
 
 			// focus search field
