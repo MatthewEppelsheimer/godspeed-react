@@ -30,7 +30,17 @@ const DocumentEditor = (props) => {
 	// @todo support overriding with a template from context
 	const template = false || <DocumentEditorTemplate id={id} />;
 
-	return <div className="document">{template}</div>;
+	const editorStyle = {
+		borderStyle: "solid",
+		borderWidth: "1px",
+		padding: "1em .4em",
+	};
+
+	return (
+		<div style={editorStyle} className="document">
+			{template}
+		</div>
+	);
 };
 DocumentEditor.defaultProps = {
 	id: "main",
