@@ -35,7 +35,7 @@ This will make a bunch of my own ideas possible for various web, mobile, and des
 
 # Self-Guided Tour of the Working Demo
 
-**Try this out at [godspeedjs.now.sh/](https://godspeedjs.now.sh/)!**
+**Try this out at [godspeedjs.now.sh](https://godspeedjs.now.sh/)!**
 
 1. Type "pandas" into the search field, one letter at a time
 2. Arrow down a few rows
