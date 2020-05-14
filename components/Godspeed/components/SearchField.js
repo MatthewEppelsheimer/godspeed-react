@@ -77,9 +77,9 @@ const SearchField = (props) => {
 	return (
 		<input
 			onBlur={() => handleOnBlur()}
+			onChange={(event) => handleChange(event)}
 			onFocus={() => handleOnFocus()}
 			onKeyDown={(event) => handleKeyDown(event)}
-			onChange={(event) => handleChange(event)}
 			placeholder={placeholder}
 			ref={searchFieldRef}
 			value={phrase}
