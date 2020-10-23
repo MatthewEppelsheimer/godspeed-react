@@ -4,7 +4,9 @@ _Search, create, and edit your documents like Aphrodite._
 
 Godspeed is a [Notational Velocity](http://notational.net/)-inspired user interface library for [React.js](https://reactjs.org/) by [Matthew Eppelsheimer](http://mattheweppelsheimer.com).
 
-**This is pre 0.1!** Not even fully usable yet, let alone recommendable! See the [Roadmap](#roadmap), below.
+**DO NOT USE IN PRODUCTION!** 
+
+This is pre v0.1, not even fully usable yet and with many known issues. See the [Roadmap](#roadmap), below.
 
 # What?
 
