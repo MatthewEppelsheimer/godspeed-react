@@ -8,6 +8,10 @@ Godspeed is a [Notational Velocity](http://notational.net/)-inspired user interf
 
 This is pre v0.1, not even fully usable yet and with many known issues. See the [Roadmap](#roadmap), below.
 
+## 2023-02 Update
+
+- WIP conversion to TypeScript, with Vite dev environment. Compiles and runs, with broken demo interactions.
+
 # What?
 
 [Notational Velocity](http://notational.net/) was a brilliant note taking app that attempted "to loosen the mental blockages to recording information" by unifying the interface for search and note creation into a single search field. Its UI featured:
@@ -91,7 +95,7 @@ This is super WIP. I'm prioritizing development in this order:
     - I've been waiting for each of the above to be in a good place before starting with tests, out of concern I'd end up having to rewrite a lot of tests after early rewrites.
     - I was hoping to get here by now, but this is still a few weeks away due to other life priorities
 5. Code beauty >>> in-browser rendered beauty
-    - This baby works (sort of) in the browser, but is suuuper ugly. The code/functionality is the most valuable part of Godspeed, so it's getting the priority. And its code aesthetics ain't bad at all. (_and_ demonstrates my abilities better
+    - This baby works (sort of) in the browser, but is suuuper ugly. The code/functionality is the most valuable part of Godspeed, so it's getting the priority. And, its code aesthetics ain't bad at all (_and_ demonstrate my abilities better).
 
 Using libraries:
 
@@ -125,7 +129,7 @@ This uses [Draft.js](https://draftjs.org/), a pretty slick React-based rich text
 
 # Roadmap
 
-This is a labor of great passion. I'm committed to building this through at least 1.6 as specified below.
+This is a labor of passion. I'm committed to building this through at least 1.6 as specified below.
 
 **Feature order and release version subject to change, natch.**
 
