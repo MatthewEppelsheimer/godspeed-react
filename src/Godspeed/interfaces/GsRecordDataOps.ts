@@ -1,9 +1,9 @@
-import GsRecord from "./GsRecord";
+import { GsRecordCreationData, GsRecordUpdateData, Uuid } from "./";
 
 interface GsRecordDataOps {
-	create: (newRecord: GsRecord) => void;
-	update: (record: GsRecord) => void;
-	del: (record: Pick<GsRecord, "uuid">) => void;
+	create: (newRecord: GsRecordCreationData) => void;
+	update: (record: GsRecordUpdateData) => void;
+	del: (recordId: Uuid) => void;
 }
 
 export default GsRecordDataOps;

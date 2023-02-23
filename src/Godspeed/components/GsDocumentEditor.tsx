@@ -5,7 +5,6 @@
  * and logic to load the correct display template as a child component.
  */
 
-import PropTypes from "prop-types";
 import { useGodspeedContextEditor } from "../context";
 import DocumentEditorTemplate from "./DocumentEditorTemplate.js";
 
@@ -13,8 +12,7 @@ interface DocumentEditorProps {
 	id: string;
 }
 
-const DocumentEditor = (props: DocumentEditorProps) => {
-	const { id } = props;
+function GsDocumentEditor({ id }: DocumentEditorProps) {
 	const { getEditorById } = useGodspeedContextEditor();
 
 	const editor = getEditorById(id);
@@ -32,7 +30,7 @@ const DocumentEditor = (props: DocumentEditorProps) => {
 	}
 
 	// @todo support overriding with a template from context
-	const template = false || <DocumentEditorTemplate id={id} />;
+	const template = <DocumentEditorTemplate id={id} />;
 
 	const editorStyle = {
 		borderStyle: "solid",
@@ -45,12 +43,6 @@ const DocumentEditor = (props: DocumentEditorProps) => {
 			{template}
 		</div>
 	);
-};
-DocumentEditor.defaultProps = {
-	id: "main",
-};
-DocumentEditor.propTypes = {
-	id: PropTypes.string.isRequired,
-};
+}
 
-export default DocumentEditor;
+export default GsDocumentEditor;

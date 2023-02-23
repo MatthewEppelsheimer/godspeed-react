@@ -4,19 +4,14 @@ import {
 	GsActionTypes,
 	GsActionEditorGainFocus,
 	GsActionEditorSetState,
-	GsActionNavigationFocusIn,
-	GsActionNavigationFocusOut,
 	GsActionRecordCreate,
 	GsActionRecordDelete,
 	GsActionRecordUpdate,
-	GsActionSearchBlur,
-	GsActionSearchFocus,
 	GsActionSearchUpdate,
-	GsActionSelectionNext,
-	GsActionSelectionPrevious,
 	GsActionSelectionSet,
 } from "./actions";
 import {
+	GsEditorData,
 	GsFocusedElement,
 	GsRecord,
 	GsRecordCreationData,
@@ -25,8 +20,8 @@ import {
 } from "./interfaces";
 import { log } from "./log";
 import { indexData, search } from "./search";
-
-const DEBUG = false;
+import DEBUG from "./debug";
+import { EditorState } from "draft-js";
 
 export type GsDataReducer = Reducer<GsStateData, GsAction>;
 
@@ -185,12 +180,17 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 	/**
 	 * Update an editor to a new state.
 	 */
-	const editorUpdateState = (editorId: string, newEditorState: any) => {
+	const editorUpdateState = (
+		editorId: string,
+		newEditorState: EditorState
+	) => {
 		DEBUG &&
 			console.log(
-				`performing transformation editorUpdateState with editorId ${editorId} and newEditorState ${newEditorState}`
+				`performing transformation editorUpdateState with editorId ${editorId} and newEditorState ${JSON.stringify(
+					newEditorState
+				)}`
 			);
-		newState.editors.map((editor: { id: string; state: any }) => {
+		newState.editors.map((editor: GsEditorData) => {
 			if (editorId === editor.id) {
 				editor.state = newEditorState;
 			}
@@ -215,11 +215,9 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 
 		// Use body if not-empty, else use name if not-empty, else both are blank
 		const body =
-			record?.body && "" !== record.body
-				? record.body
-				: record.name || "";
+			record.body && "" !== record.body ? record.body : record.name || "";
 		const name =
-			record?.body && "" !== record.body
+			record.body && "" !== record.body
 				? record.body.substring(
 						0,
 						record.body.indexOf(`\n`) || record.body.length
@@ -244,7 +242,7 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 		newState.records = indexData(newState.records);
 
 		// @TODO should either of these optional chainings be removed?
-		newState?.dataStore?.create?.(newRecord);
+		newState.dataStore.create(newRecord);
 	};
 
 	/**
@@ -294,10 +292,7 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 	 *
 	 * @todo support dynamic shape with templating — {@link ../README.md} {@tag dynamic-record-shapes}
 	 */
-	const recordOpenInEditor = (
-		record: GsRecord,
-		editorId: string = "main"
-	) => {
+	const recordOpenInEditor = (record: GsRecord, editorId = "main") => {
 		DEBUG &&
 			console.log(
 				`performing transformation recordOpenInEditor with record ${JSON.stringify(
@@ -305,7 +300,7 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 				)} and editorId ${editorId}`
 			);
 
-		const newEditor: { id: string; state: any } = {
+		const newEditor: GsEditorData = {
 			id: editorId,
 			state: record, // @TODO;
 		};

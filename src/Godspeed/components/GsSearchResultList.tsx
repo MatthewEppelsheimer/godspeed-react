@@ -1,17 +1,17 @@
-import Result from "./Result";
+import GsSearchResult from "./GsSearchResult";
 import {
 	useGodspeedContextSearch,
 	useGodspeedContextSelection,
 } from "../context";
 
-const ResultList = () => {
+function GsSearchResultList() {
 	const { results } = useGodspeedContextSearch();
 	const { index } = useGodspeedContextSelection();
 
 	return (
 		<ul>
 			{results.map((result) => (
-				<Result
+				<GsSearchResult
 					key={result.uuid}
 					record={result}
 					selected={index === result.index}
@@ -19,6 +19,6 @@ const ResultList = () => {
 			))}
 		</ul>
 	);
-};
+}
 
-export default ResultList;
+export default GsSearchResultList;

@@ -1,7 +1,7 @@
 import styles from "./Result.module.css";
 
 import { buildHighlightString } from "../selection";
-import DeleteButton from "./DeleteButton.js";
+import DeleteButton from "./GsDeleteButton.js";
 import {
 	useGodspeedContextControlImmutable,
 	useGodspeedContextSearch,
@@ -12,7 +12,8 @@ interface ResultProps {
 	record: GsRecord;
 	selected: boolean;
 }
-const Result = (props: ResultProps) => {
+
+function GsSearchResult(props: ResultProps) {
 	const {
 		record: recordControl,
 		slotFills,
@@ -39,6 +40,6 @@ const Result = (props: ResultProps) => {
 			{fill}
 		</li>
 	);
-};
+}
 
-export default Result;
+export default GsSearchResult;

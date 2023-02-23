@@ -11,12 +11,12 @@
 
 import { GsRecord, GsRecordCreationData, GsRecordState } from "./interfaces";
 
-type DataConnector<
+interface DataConnector<
 	Record extends {},
 	RecordState extends {},
 	RecordCreationData extends {},
 	Id = string
-> = {
+> {
 	// GS calls this to know which member of a record is its unique ID.
 	// In this way, GS internals don't need to know the actual member's name.
 	id: (record: Record) => string;
@@ -94,4 +94,4 @@ type DataConnector<
 
 	// Template for displaying a record in an editor
 	// templateDocumentEdit: DocumentEditorTemplate,
-};
+}

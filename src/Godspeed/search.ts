@@ -15,9 +15,7 @@ const indexData = (data: GsRecord[]): GsRecordIndexed[] => {
 
 const search = (phrase: string, data: GsRecord[]): GsRecord[] => {
 	// @TODO include all record content in search scope with item.state.body instead
-	const newResults = data.filter(
-		(item) => item.state.name.indexOf(phrase) > -1
-	);
+	const newResults = data.filter((item) => item.state.name.includes(phrase));
 
 	// @TODO refactor indexData() to be chainable; add after .filter()
 	return indexData(newResults);

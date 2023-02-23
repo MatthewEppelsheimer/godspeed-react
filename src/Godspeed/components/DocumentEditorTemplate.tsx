@@ -7,12 +7,12 @@
  */
 import { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import { ContentState, Editor, EditorState } from "draft-js";
+
 import {
 	useGodspeedContextEditor,
 	useGodspeedContextControlImmutable,
 } from "../context";
-
-const DEBUG = false;
+import DEBUG from "../debug";
 
 interface DocumentEditorTemplateProps {
 	id: string;
@@ -34,7 +34,8 @@ const DocumentEditorTemplate = (props: DocumentEditorTemplateProps) => {
 
 	const editor = getEditorById(id);
 	const { record } = editor;
-	const body = record?.body || "";
+
+	const body = record?.body ?? "";
 
 	// Initialize state on first run
 	const initialContentState = useMemo(
@@ -47,7 +48,7 @@ const DocumentEditorTemplate = (props: DocumentEditorTemplateProps) => {
 		[initialContentState]
 	);
 
-	let state = editor?.state || false;
+	let state = editor.state ?? false;
 	if (!state) {
 		state = initialEditorState;
 	}
@@ -82,14 +83,13 @@ const DocumentEditorTemplate = (props: DocumentEditorTemplateProps) => {
 		}
 	});
 	const handleClick = () => {
-		if (!isEditorFocused) {
-			// 2023-01: Pretty sure this should be `if (!focusedInState)`, or at least not `!isEditorFocused` because that's callable
+		if (!focusedInState) {
 			registerEditorGainedFocus();
 		}
 	};
 
 	// Propagate content changes to app state
-	const handleChange = (newState: any) => {
+	const handleChange = (newState: EditorState) => {
 		const newPlainText = newState.getCurrentContent().getPlainText();
 
 		setState(id, newState, record, newPlainText);
@@ -99,7 +99,7 @@ const DocumentEditorTemplate = (props: DocumentEditorTemplateProps) => {
 		<Editor
 			editorState={state}
 			onChange={handleChange}
-			// @ts-ignore -- just need to compile during this conversion; moving to lexical.dev
+			// @ts-expect-error -- just need to compile during this conversion; moving to lexical.dev
 			onClick={handleClick}
 			ref={editorRef as MutableRefObject<Editor | null>}
 		/>

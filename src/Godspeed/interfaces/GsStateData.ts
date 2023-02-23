@@ -1,5 +1,9 @@
+import GsEditorData from "./GsEditorData";
+
 import GsRecord from "./GsRecord";
 import GsRecordDataOps from "./GsRecordDataOps";
+import GsSearchPhrase from "./GsSearchPhrase";
+import GsSelectionIndex from "./GsSelectionIndex";
 
 export enum GsFocusedElement {
 	editor = "editor",
@@ -10,11 +14,11 @@ export enum GsFocusedElement {
 interface GsStateData {
 	dataStore: GsRecordDataOps;
 	displayedRecords: GsRecord[]; // @TODO duplicative of lots of data in `.records`; consider storing array of record indices instead
-	editors: Array<{ id: string; state: any }>;
+	editors: GsEditorData[];
 	focusedElement: GsFocusedElement;
 	records: GsRecord[];
-	searchPhrase: string;
-	selectionIndex: number;
+	searchPhrase: GsSearchPhrase;
+	selectionIndex: GsSelectionIndex;
 }
 
 export default GsStateData;

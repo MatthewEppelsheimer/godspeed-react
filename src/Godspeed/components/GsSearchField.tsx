@@ -1,5 +1,4 @@
 import { useRef, useEffect, KeyboardEvent, ChangeEvent } from "react";
-import PropTypes from "prop-types";
 import {
 	useGodspeedContextControlImmutable,
 	useGodspeedContextSearch,
@@ -7,10 +6,12 @@ import {
 
 const DEBUG = false;
 
-// @TODO REVISE FOR STATE REFACTOR; where already done is noted
-const SearchField = (props: { placeholder: string }) => {
-	const { placeholder } = props;
+interface SearchFieldProps {
+	placeholder?: string;
+}
 
+// @TODO REVISE FOR STATE REFACTOR; where already done is noted
+function GsSearchField({ placeholder = "" }: SearchFieldProps) {
 	const { key, search, selection } = useGodspeedContextControlImmutable();
 	const { enter, escape } = key;
 	const { blur, focus, updateSearch } = search;
@@ -98,12 +99,6 @@ const SearchField = (props: { placeholder: string }) => {
 			value={phrase}
 		/>
 	);
-};
-SearchField.defaultProps = {
-	placeholder: "",
-};
-SearchField.propTypes = {
-	placeholder: PropTypes.string,
-};
+}
 
-export default SearchField;
+export default GsSearchField;

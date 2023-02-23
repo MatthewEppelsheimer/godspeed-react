@@ -1,6 +1,9 @@
-// WIP creating real types for these
+import GsEditorData from "./GsEditorData";
+
 interface GsContextEditor {
-	getEditorById: (id: string) => any; // returns an editor
+	// Draft.js related; migrating away soon
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	getEditorById: (id: string) => GsEditorData;
 	isEditorFocused: () => boolean;
 	registerEditorGainedFocus: () => void;
 }

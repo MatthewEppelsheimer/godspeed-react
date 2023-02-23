@@ -1,127 +1,57 @@
-import { isEqual } from "lodash";
-import React, { createContext, useContext, useState, useRef } from "react";
+import React, { createContext, useContext } from "react";
 import {
-	GsContextEditor,
-	GsContextControlImmutable,
-	GsContextSearch,
-	GsContextSelection,
+	GsActions,
+	// GsContextEditor,
+	GsFocusedElement,
+	GsSearchPhrase,
+	GsSelectionIndex,
 } from "./interfaces";
 
-const contextFactory = <T>(
-	initialState: T,
-	displayName: string
-): [React.Context<T>, () => T] => {
-	const context = createContext<T>(initialState);
+function contextFactory<T>(
+	displayName: string,
+	fallback?: T
+): [React.Context<T>, () => T] {
+	const context = createContext<T>(fallback as T);
 	context.displayName = displayName;
-
-	const hook = (): T => {
-		const innerContext = useContext<T>(context);
-		// @TODO rework or cut. From original JS, but messing up contextFactory return type.
-		// if (innerContext === undefined) {
-		// 	throw new Error(
-		// 		`${hookName} must be used within a ${componentName} provider, such as the <Godspeed> component.`
-		// 	);
-		// }
-
-		return innerContext;
-	};
-	return [context, hook];
-};
-
-// Only recreate mutable context values when their dependencies have changed
-// See {@link https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback}
-// @TODO include type parameters
-const useMutableContext = (contextTemplate: any, dependencies: any) => {
-	if (!Array.isArray(dependencies)) {
-		dependencies = [dependencies];
-	}
-	const prevDeps = useRef({ current: null });
-
-	const generateContext = () => {
-		prevDeps.current = dependencies;
-		return contextTemplate(dependencies);
-	};
-	const [value, set] = useState(() => generateContext());
-
-	if (!prevDeps.current || !isEqual(prevDeps.current, dependencies)) {
-		set(generateContext());
+	function useContextHook(): T {
+		return useContext<T>(context);
 	}
 
-	return value;
-};
+	return [context, useContextHook];
+}
 
-const [GodspeedContextEditor, useGodspeedContextEditor] = contextFactory<
-	GsContextEditor
->(
-	{
-		// @TODO confirm these just need to pass type checking because they'll be set later
-		// If so, better way?
-		getEditorById: (id: string) => "",
-		isEditorFocused: () => false,
-		registerEditorGainedFocus: () => {},
-	},
-	"Godspeed Editor Context"
-);
+// const [GodspeedContextEditor, useGodspeedContextEditor] = contextFactory<
+// 	GsContextEditor
+// >("Godspeed Editor Context");
+
+const [GodspeedContextActions, useGodspeedContextActions] = contextFactory<
+	GsActions
+>("Godspeed Actions Context");
+
 const [
-	GodspeedContextControlImmutable,
-	useGodspeedContextControlImmutable,
-] = contextFactory<GsContextControlImmutable>(
-	{
-		editor: {
-			getState: () => {},
-			setState: (id: any, state: any) => {},
-			focusEditor: () => {},
-		},
-		key: {
-			enter: () => {},
-			escape: () => {},
-		},
-		record: {
-			create: () => {},
-			del: (record: any) => {},
-			updateRecord: () => {},
-		},
-		search: {
-			blur: () => {},
-			focus: () => {},
-			updateSearch: (phrase: string) => {},
-		},
-		selection: {
-			next: () => {},
-			previous: () => {},
-			setIndex: () => {},
-		},
-		slotFills: {},
-	},
-	"Godspeed Control Immutable Context"
-);
-const [GodspeedContextSearch, useGodspeedContextSearch] = contextFactory<
-	GsContextSearch
->(
-	{
-		focused: false,
-		phrase: "",
-		results: [],
-	},
-	"Godspeed Search Context"
-);
-const [GodspeedContextSelection, useGodspeedContextSelection] = contextFactory<
-	GsContextSelection
->(
-	{
-		index: -1,
-	},
-	"Godspeed Selection Context"
-);
+	GodspeedContextSearchPhrase,
+	useGodspeedContextSearchPhrase,
+] = contextFactory<GsSearchPhrase>("Godspeed Search Phrase Context");
+
+const [
+	GodspeedContextFocusedElement,
+	useGodspeedContextFocusedElement,
+] = contextFactory<GsFocusedElement>("Godspeed Focused Element Context");
+
+const [
+	GodspeedContextSelectionIndex,
+	useGodspeedContextSelectionIndex,
+] = contextFactory<GsSelectionIndex>("Godspeed Selection Index Context");
 
 export {
-	GodspeedContextEditor,
-	GodspeedContextControlImmutable,
-	GodspeedContextSearch,
-	GodspeedContextSelection,
-	useGodspeedContextControlImmutable,
-	useGodspeedContextEditor,
-	useGodspeedContextSearch,
-	useGodspeedContextSelection,
-	useMutableContext,
+	GodspeedContextActions,
+	// GodspeedContextEditor,
+	GodspeedContextFocusedElement,
+	GodspeedContextSearchPhrase,
+	GodspeedContextSelectionIndex,
+	useGodspeedContextActions,
+	// useGodspeedContextEditor,
+	useGodspeedContextFocusedElement,
+	useGodspeedContextSearchPhrase,
+	useGodspeedContextSelectionIndex,
 };

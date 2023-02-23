@@ -1,51 +1,49 @@
-import DocumentEditor from "./DocumentEditor";
-import ResultList from "./ResultList";
-import SearchField from "./SearchField";
-import { useGodspeed } from "../controller";
-import GsContextProviders from "./GodspeedContextProviders";
-import { GsRecord } from "../interfaces";
+import GsDocumentEditor from "./GsDocumentEditor";
+import GsSearchResultList from "./GsSearchResultList";
+import GsSearchField from "./GsSearchField";
+import { useGodspeed } from "../useGodspeed";
+import GsContextProviders from "./GsContextProviders";
+import {
+	GsRecord,
+	GsRecordDataOps,
+	// GsSlotFills
+} from "../interfaces";
+import { PropsWithChildren } from "react";
 
-interface GodspeedProps {
-	children?: any;
-	dataStore: any;
-	defaultSearchPhrase: any;
+interface GodspeedProps extends PropsWithChildren {
+	dataStore: GsRecordDataOps;
+	defaultSearchPhrase?: string;
 	records: GsRecord[];
-	searchInputPlaceholder: any;
-	slotFills: any;
+	searchInputPlaceholder?: string;
+	// slotFills: GsSlotFills;
 }
 
-const Godspeed = (props: GodspeedProps) => {
-	const {
-		children,
-		dataStore,
-		defaultSearchPhrase,
-		records,
-		searchInputPlaceholder,
-		slotFills,
-	} = props;
-
-	const actions = useGodspeed({
+const Godspeed = ({
+	children,
+	dataStore,
+	defaultSearchPhrase = "",
+	records,
+	searchInputPlaceholder = "Type to search...",
+}: // slotFills,
+GodspeedProps) => {
+	const { actions, state } = useGodspeed({
 		defaultSearchPhrase,
 		dataStore,
-		records,
-		slotFills,
+		recordData: records,
+		// slotFills,
 	});
 
 	return (
-		<GsContextProviders actions={actions}>
-			{children || (
+		<GsContextProviders actions={actions} godspeedState={state}>
+			{children ?? (
 				<>
-					<SearchField placeholder={searchInputPlaceholder} />
-					<ResultList />
-					<DocumentEditor />
+					<GsSearchField placeholder={searchInputPlaceholder} />
+					<GsSearchResultList />
+					<GsDocumentEditor id="godspeed-demo-editor" />
 				</>
 			)}
 		</GsContextProviders>
 	);
-};
-Godspeed.defaultProps = {
-	defaultSearchPhrase: "",
-	searchInputPlaceholder: "Type to search...",
 };
 
 export default Godspeed;

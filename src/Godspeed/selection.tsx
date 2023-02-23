@@ -34,7 +34,10 @@ function mapRelativeOffsetsToCumulative(set: number[]): number[] {
 	return set;
 }
 
-type HighlightRange = { start: number; end: number };
+interface HighlightRange {
+	start: number;
+	end: number;
+}
 
 function buildHighlightString(
 	needle: string,
@@ -44,7 +47,7 @@ function buildHighlightString(
 	const startPositionsProto = positions(needle, haystack);
 	const startPositions = mapRelativeOffsetsToCumulative(startPositionsProto);
 
-	let highlightRanges: HighlightRange[] = [];
+	const highlightRanges: HighlightRange[] = [];
 	let collapsedRanges: HighlightRange[] = [];
 
 	startPositions.forEach((element) => {
@@ -96,7 +99,7 @@ function buildHighlightString(
 		}
 	}
 
-	let fragments = [];
+	const fragments = [];
 	let cursor = 0;
 	// whether we're highlighting toggle, accounting for no range
 	let highlight = collapsedRanges.length ? true : false;
@@ -119,12 +122,12 @@ function buildHighlightString(
 
 	// because React needs unique keys for each element procedurally generated from a list
 	let time = new Date().getTime();
-	let spans = [];
+	const spans = [];
 	for (let i = 0; i < fragments.length; i++) {
 		spans.push({ text: fragments[i], key: time++ });
 	}
 
-	let construct: JSX.Element = (
+	const construct: JSX.Element = (
 		<>
 			{spans.map((span) => {
 				highlight = !highlight; // toggle first; use old value below
