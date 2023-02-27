@@ -1,7 +1,8 @@
 import GsRecordState from "./GsRecordState";
+import Uuid from "./Uuid";
 
 export default interface GsRecord {
-	uuid: string; // @TODO use UUID type
+	uuid: Uuid;
 	state: GsRecordState; // current contents
 	revisions: GsRecordState[];
 	index?: number;

@@ -3,6 +3,7 @@ import {
 	GsActions,
 	// GsContextEditor,
 	GsFocusedElement,
+	GsRecordIdList,
 	GsSearchPhrase,
 	GsSelectionIndex,
 } from "./interfaces";
@@ -29,14 +30,19 @@ const [GodspeedContextActions, useGodspeedContextActions] = contextFactory<
 >("Godspeed Actions Context");
 
 const [
-	GodspeedContextSearchPhrase,
-	useGodspeedContextSearchPhrase,
-] = contextFactory<GsSearchPhrase>("Godspeed Search Phrase Context");
+	GodspeedContextDisplayedRecords,
+	useGodspeedContextDisplayedRecords,
+] = contextFactory<GsRecordIdList>("Godspeed Displayed Records Context");
 
 const [
 	GodspeedContextFocusedElement,
 	useGodspeedContextFocusedElement,
 ] = contextFactory<GsFocusedElement>("Godspeed Focused Element Context");
+
+const [
+	GodspeedContextSearchPhrase,
+	useGodspeedContextSearchPhrase,
+] = contextFactory<GsSearchPhrase>("Godspeed Search Phrase Context");
 
 const [
 	GodspeedContextSelectionIndex,
@@ -45,11 +51,13 @@ const [
 
 export {
 	GodspeedContextActions,
+	GodspeedContextDisplayedRecords,
 	// GodspeedContextEditor,
 	GodspeedContextFocusedElement,
 	GodspeedContextSearchPhrase,
 	GodspeedContextSelectionIndex,
 	useGodspeedContextActions,
+	useGodspeedContextDisplayedRecords,
 	// useGodspeedContextEditor,
 	useGodspeedContextFocusedElement,
 	useGodspeedContextSearchPhrase,

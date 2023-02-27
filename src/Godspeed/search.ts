@@ -1,17 +1,17 @@
-import { GsRecord, GsRecordIndexed } from "./interfaces";
+import { GsRecord, Indexable, WithIndex } from "./interfaces";
 
 // add sequential indices to each member of array `data`
 // used to dynamically index results after they change in response to new search phrase
-const indexData = (data: GsRecord[]): GsRecordIndexed[] => {
+function indexData<T extends object>(data: Indexable<T>[]): WithIndex<T>[] {
 	for (let i = 0; i < data.length; i++) {
 		data[i].index = i;
 	}
 
 	return data.map((d, i) => {
-		d.index = i;
-		return d as GsRecordIndexed;
+		const indexed = { ...d, index: i };
+		return indexed;
 	});
-};
+}
 
 const search = (phrase: string, data: GsRecord[]): GsRecord[] => {
 	// @TODO include all record content in search scope with item.state.body instead

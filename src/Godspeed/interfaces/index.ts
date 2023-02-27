@@ -14,7 +14,9 @@ import GsRecordActions from "./GsRecordActions";
 import GsRecordCreationData from "./GsRecordCreationData";
 import GsRecordDataOps from "./GsRecordDataOps";
 import GsRecordEditorData from "./GsRecordEditorData";
+import GsRecordIdData from "./GsRecordIdData";
 import GsRecordIndexed from "./GsRecordIndexed";
+import GsRecordIdList from "./GsRecordIdList";
 import GsRecordState from "./GsRecordState";
 import GsRecordUpdateData from "./GsRecordUpdateData";
 import GsSearchActions from "./GsSearchActions";
@@ -24,7 +26,9 @@ import GsSelectionIndex from "./GsSelectionIndex";
 import GsSlotfillActions from "./GsSlotfillActions";
 import GsSlotFills from "./GsSlotFills";
 import GsStateData, { GsFocusedElement } from "./GsStateData";
+import Indexable from "./Indexable";
 import Uuid from "./Uuid";
+import WithIndex from "./WithIndex";
 
 export { GsFocusedElement };
 
@@ -45,7 +49,9 @@ export type {
 	GsRecordCreationData,
 	GsRecordDataOps,
 	GsRecordEditorData,
+	GsRecordIdData,
 	GsRecordIndexed,
+	GsRecordIdList,
 	GsRecordState,
 	GsRecordUpdateData,
 	GsSearchActions,
@@ -55,5 +61,7 @@ export type {
 	GsSlotfillActions,
 	GsSlotFills,
 	GsStateData,
+	Indexable,
 	Uuid,
+	WithIndex,
 };

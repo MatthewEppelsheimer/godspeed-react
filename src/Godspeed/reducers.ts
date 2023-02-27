@@ -15,8 +15,10 @@ import {
 	GsFocusedElement,
 	GsRecord,
 	GsRecordCreationData,
+	GsRecordIdData,
 	GsRecordState,
 	GsStateData,
+	Uuid,
 } from "./interfaces";
 import { log } from "./log";
 import { indexData, search } from "./search";
@@ -215,14 +217,14 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 
 		// Use body if not-empty, else use name if not-empty, else both are blank
 		const body =
-			record.body && "" !== record.body ? record.body : record.name || "";
+			record.body && "" !== record.body ? record.body : record.name ?? "";
 		const name =
 			record.body && "" !== record.body
 				? record.body.substring(
 						0,
 						record.body.indexOf(`\n`) || record.body.length
 				  )
-				: record.name || "";
+				: record.name ?? "";
 
 		const date = new Date().getTime();
 
@@ -238,11 +240,10 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 			revisions: [],
 		};
 
-		newState.records.unshift(newRecord);
-		newState.records = indexData(newState.records);
+		newState.records.push(newRecord);
+		newState.records = indexData<GsRecord>(newState.records);
 
-		// @TODO should either of these optional chainings be removed?
-		newState.dataStore.create(newRecord);
+		newState.dataStore.create(newRecord.state);
 	};
 
 	/**
@@ -267,24 +268,23 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 	 *
 	 * @todo support dynamic shape with templating — {@link ../README.md} {@tag dynamic-record-shapes}
 	 */
-	const recordDelete = (record: Pick<GsRecord, "uuid">) => {
+	const recordDelete = (recordId: Uuid) => {
 		DEBUG &&
 			console.log(
-				`performing transformation recordDelete with record ${JSON.stringify(
-					record
-				)}`
+				`performing transformation recordDelete with record ${recordId}`
 			);
 
 		// @todo performance optimization: stop after find one instead of looping through all
-		const filter = (records: GsRecord[]) =>
-			records.filter((rec) => record.uuid !== rec.uuid);
+		function filter<T extends GsRecordIdData>(records: T[]): T[] {
+			return records.filter((rec) => recordId !== rec.uuid);
+		}
 
 		newState.records = indexData(filter(newState.records));
 		newState.displayedRecords = indexData(
-			filter(newState.displayedRecords)
+			filter<GsRecordIdData>(newState.displayedRecords)
 		);
 
-		newState.dataStore.del(record);
+		newState.dataStore.del(recordId);
 	};
 
 	/**
@@ -302,22 +302,22 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 
 		const newEditor: GsEditorData = {
 			id: editorId,
-			state: record, // @TODO;
+			record,
 		};
 
-		let uninitialized = true; // assume the new editor doesn't exist yet
-		newState.editors = newState.editors.map((editor) => {
-			if (editorId === editor.id) {
-				editor = newEditor;
-				uninitialized = false; // it exists
+		let isEditorTrulyNew = true;
+
+		for (let i = 0; i < newState.editors.length; i++) {
+			if (editorId === newState.editors[i].id) {
+				newState.editors[i] = newEditor;
+				isEditorTrulyNew = false;
+				break;
 			}
+		}
 
-			return editor;
-		});
-
-		// initialize the editor if needed
-		if (uninitialized) {
-			newState.editors.unshift(newEditor);
+		if (isEditorTrulyNew) {
+			// it's new, so add it
+			newState.editors.push(newEditor);
 		}
 	};
 
@@ -423,10 +423,14 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 				{
 					const {
 						editorId,
+						// Draft.js-related; migrating away soon
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 						newEditorState,
 						record,
 					} = action as GsActionEditorSetState;
 
+					// Draft.js-related; migrating away soon
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 					editorUpdateState(editorId, newEditorState);
 
 					if (record?.uuid) {
@@ -503,7 +507,7 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 			case GsActionTypes.recordDelete:
 				{
 					const { record } = action as GsActionRecordDelete;
-					recordDelete(record);
+					recordDelete(record.uuid);
 				}
 				break;
 
@@ -523,18 +527,18 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 				searchFieldFocus();
 				break;
 
-			case GsActionTypes.searchUpdate:
+			case GsActionTypes.searchUpdate: {
 				const { newPhrase } = action as GsActionSearchUpdate;
 
 				setSearchPhrase(newPhrase);
 				break;
-
-			case GsActionTypes.selectionSet:
+			}
+			case GsActionTypes.selectionSet: {
 				const { newIndex } = action as GsActionSelectionSet;
 
 				setSelectionIndex(newIndex);
 				break;
-
+			}
 			case GsActionTypes.selectionNext:
 				selectNext();
 				break;
@@ -572,9 +576,9 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 	) {
 		let stillInFoundSet = false;
 
-		const selectedRecord = state.displayedRecords.find((record) => {
-			state.selectionIndex === record.index;
-		});
+		const selectedRecord = state.displayedRecords.find(
+			(record) => state.selectionIndex === record.index
+		);
 
 		if (selectedRecord) {
 			const record = newState.displayedRecords.find(
@@ -582,9 +586,6 @@ const dataReducer: GsDataReducer = (state: GsStateData, action: GsAction) => {
 			);
 
 			if (record !== undefined) {
-				if (undefined === record.index) {
-					throw new Error("selected record is missing index");
-				}
 				stillInFoundSet = true;
 				setSelectionIndex(record.index);
 			}

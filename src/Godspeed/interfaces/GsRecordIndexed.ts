@@ -1,5 +1,5 @@
-import GsRecord from "./GsRecord";
+import { GsRecord, WithIndex } from "./";
 
-type GsRecordIndexed = Required<GsRecord>;
+type GsRecordIndexed = WithIndex<GsRecord>;
 
 export default GsRecordIndexed;

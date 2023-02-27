@@ -4,7 +4,7 @@ import GsRecordEditorData from "./GsRecordEditorData";
 interface GsEditorData {
 	id: string;
 	record?: GsRecordEditorData;
-	state: EditorState;
+	state?: EditorState;
 }
 
 export default GsEditorData;
